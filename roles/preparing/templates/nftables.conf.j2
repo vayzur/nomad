@@ -45,7 +45,7 @@ table inet mangle {
 {% if dscp %}
 {% if firewall_config.udp_port_access is defined %}
 {% for port in firewall_config.udp_port_access %}
-        udp sport {{ port }} ip dscp set {% if 'internal-network' in group_names %}0x0{% else %}0x2e{% endif %}  
+        udp sport {{ port }} ip dscp set {% if inventory_hostname == 'internal-network' %}0x0{% else %}0x2e{% endif %}  
 {% endfor %}
 {% endif %}
 {% endif %}
