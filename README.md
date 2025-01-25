@@ -91,7 +91,7 @@ cp .env.example .env
 <your-favorite-editor> .env
 ```
 
-Export varibale in your current shell
+Export variables in your current shell
 ```bash
 set -o allexport
 source .env
@@ -306,7 +306,7 @@ cp .env.example .env
 <your-favorite-editor> .env
 ```
 
-Export varibale in your current shell
+Export variables in your current shell
 ```bash
 set -o allexport
 source .env
