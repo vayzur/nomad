@@ -73,7 +73,7 @@
     owner: root
     group: root
     mode: "0644"
-  when: client_config_file.stat.exists and "'internal-network' in group_names"
+  when: server_config_file.stat.exists and inventory_hostname == 'internal-network'
 
 - name: Copy Xray custom config to external network
   copy:
@@ -82,7 +82,7 @@
     owner: root
     group: root
     mode: "0644"
-  when: server_config_file.stat.exists and "'external-network' in group_names"
+  when: server_config_file.stat.exists and inventory_hostname == 'external-network'
 
 - name: Restart Xray service
   systemd:
