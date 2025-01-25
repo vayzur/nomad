@@ -61,7 +61,7 @@ firewall_config:
 
 # packet dscp configuration
 # https://en.wikipedia.org/wiki/Differentiated_services
-dscp: false
+dscp: true
 
 # fail2ban configuration
 fail2ban:

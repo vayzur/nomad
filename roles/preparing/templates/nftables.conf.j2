@@ -18,43 +18,37 @@ table inet mangle {
         tcp flags fin,syn,psh,urg / fin,syn,rst,psh,ack,urg drop
         tcp flags fin,syn,rst,ack,urg / fin,syn,rst,psh,ack,urg drop
 
-        {% if dscp %}
-        {% if firewall_config.udp_port_access is defined %}
-        {% for port in firewall_config.udp_port_access %}
+{% if dscp %}
+{% if firewall_config.udp_port_access is defined %}
+{% for port in firewall_config.udp_port_access %}
         udp dport {{ port }} ip dscp set 0x2e
-        {% endfor %}
-        {% endif %}
-        {% if firewall_config.tcp_port_access is defined %}
-        {% for port in firewall_config.tcp_port_access %}
-        tcp dport {{ port }} ip dscp set 0x2e
-        {% endfor %}
-        {% endif %}
-        {% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
     }
+
     chain input {
         type filter hook prerouting priority mangle; policy accept;
     }
+
     chain forward {
         type filter hook prerouting priority mangle; policy accept;
     }
+
     chain output {
         type filter hook prerouting priority mangle; policy accept;
     }
+
     chain postrouting {
         type filter hook prerouting priority mangle; policy accept;
 
-        {% if dscp %}
-        {% if firewall_config.udp_port_access is defined %}
-        {% for port in firewall_config.udp_port_access %}
-        udp dport {{ port }} ip dscp set 0x2e
-        {% endfor %}
-        {% endif %}
-        {% if firewall_config.tcp_port_access is defined %}
-        {% for port in firewall_config.tcp_port_access %}
-        tcp dport {{ port }} ip dscp set 0x2e
-        {% endfor %}
-        {% endif %}
-        {% endif %}
+{% if dscp %}
+{% if firewall_config.udp_port_access is defined %}
+{% for port in firewall_config.udp_port_access %}
+        udp sport {{ port }} ip dscp set {% if 'internal-network' in group_names %}0x0{% else %}0x2e{% endif %}  
+{% endfor %}
+{% endif %}
+{% endif %}
     }
 }
 
@@ -63,55 +57,57 @@ table inet filter {
         type filter hook input priority filter; policy drop;
 
         ct state established,related accept
+        ct state invalid drop
 
-        {% if firewall_config.network_adapter_access is defined %}
-        {% for adapter in firewall_config.network_adapter_access %}
+{% if firewall_config.network_adapter_access is defined %}
+{% for adapter in firewall_config.network_adapter_access %}
         iifname "{{ adapter }}" accept
-        {% endfor %}
-        {% endif %}
+{% endfor %}
+{% endif %}
 
         meta l4proto icmp accept
 
         tcp dport {{ sshd_config.Port | default('22') }} accept
 
-        {% if firewall_config.trusted_range is defined %}
-        {% for cidr in firewall_config.trusted_range %}
+{% if firewall_config.trusted_range is defined %}
+{% for cidr in firewall_config.trusted_range %}
         ip saddr {{ cidr }} accept
-        {% endfor %}
-        {% endif %}
+{% endfor %}
+{% endif %}
 
-        {% if firewall_config.tcp_port_access is defined %}
-        {% for port in firewall_config.tcp_port_access %}
+{% if firewall_config.tcp_port_access is defined %}
+{% for port in firewall_config.tcp_port_access %}
         tcp dport {{ port }} accept
-        {% endfor %}
-        {% endif %}
+{% endfor %}
+{% endif %}
 
-        {% if firewall_config.udp_port_access is defined %}
-        {% for port in firewall_config.udp_port_access %}
+{% if firewall_config.udp_port_access is defined %}
+{% for port in firewall_config.udp_port_access %}
         udp dport {{ port }} accept
-        {% endfor %}
-        {% endif %}
-
+{% endfor %}
+{% endif %}
     }
 
-	chain forward {
-		type filter hook forward priority filter; policy drop;
-	}
+    chain forward {
+        type filter hook forward priority filter; policy drop;
+    }
 
     chain output {
         type filter hook output priority filter; policy accept;
 
         ct state established,related accept
+        ct state invalid drop
 
         oifname "lo" accept
 
         meta l4proto icmp accept
 
-        {% if firewall_config.trusted_range is defined %}
-        {% for cidr in firewall_config.trusted_range %}
+{% if firewall_config.trusted_range is defined %}
+{% for cidr in firewall_config.trusted_range %}
         ip daddr {{ cidr }} accept
-        {% endfor %}
-        {% endif %}
+{% endfor %}
+{% endif %}
+
         tcp dport { 80, 443, 53 } accept
         udp dport 53 accept
     }

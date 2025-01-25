@@ -20,3 +20,6 @@ enable_xray: false
 
 ## Set to true to install the 3x-ui panel
 enable_xui: true
+
+## Tunneling
+reverse: true

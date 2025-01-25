@@ -52,8 +52,39 @@
     daemon_reload: true
     enabled: true
 
+- name: Check if client.json exists
+  become: false
+  stat:
+    path: "{{ role_path }}/files/client.json"
+  register: client_config_file
+  delegate_to: localhost
+
+- name: Check if server.json exists
+  become: false
+  stat:
+    path: "{{ role_path }}/files/server.json"
+  register: server_config_file
+  delegate_to: localhost
+
+- name: Copy Xray custom config to internal network
+  copy:
+    src: files/client.json
+    dest: "{{ xray_dir }}/config.json"
+    owner: root
+    group: root
+    mode: "0644"
+  when: client_config_file.stat.exists and "'internal-network' in group_names"
+
+- name: Copy Xray custom config to external network
+  copy:
+    src: files/server.json
+    dest: "{{ xray_dir }}/config.json"
+    owner: root
+    group: root
+    mode: "0644"
+  when: server_config_file.stat.exists and "'external-network' in group_names"
+
 - name: Restart Xray service
   systemd:
     name: xray
     state: restarted
-    daemon_reload: true
