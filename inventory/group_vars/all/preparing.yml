@@ -5,12 +5,7 @@ packages:
 - vim
 - bash-completion
 - curl
-- htop
-- iftop
 - ca-certificates
-- sqlite3
-- jq
-- ncdu
 - unzip
 - net-tools
 - dnsutils
@@ -18,14 +13,12 @@ packages:
 #- ntp
 - fail2ban
 - software-properties-common
-- apache2-utils
 - tcpdump
 - iptables-persistent
 - nftables
 - auditd
 - libpwquality-common
 - cracklib-runtime
-- python3-requests
 
 # sshd configuration
 sshd_config:
