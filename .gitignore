@@ -3,3 +3,5 @@ hosts.yml
 .venv/
 .venv
 config.json
+server.json
+client.json
