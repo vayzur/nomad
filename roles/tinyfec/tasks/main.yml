@@ -19,13 +19,13 @@
   template:
     src: "{{ 'server.service.j2' if reverse else 'client.service.j2' }}"
     dest: "/etc/systemd/system/tinyfec.service"
-  when: "'internal-network' in group_names"
+  when: inventory_hostname == 'internal-network'
 
 - name: Setup TinyFEC service for external network
   template:
     src: "{{ 'client.service.j2' if reverse else 'server.service.j2' }}"
     dest: "/etc/systemd/system/tinyfec.service"
-  when: "'external-network' in group_names"
+  when: inventory_hostname == 'external-network'
 
 - name: Enable TinyFEC service
   systemd:
