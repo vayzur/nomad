@@ -35,10 +35,10 @@ We recommend changing the default SSH port for better security when setting up y
 To change the SSH port, connect to your server and run the following command:  
 
 ```bash
-sed -i 's/#Port 22/Port 3022/g' /etc/ssh/sshd_config && systemctl restart sshd
+sed -i 's/#Port 22/Port 3122/g' /etc/ssh/sshd_config && systemctl restart sshd
 ```  
 
-This one-liner will update the SSH configuration to use port `3022` and restart the SSH service to apply the changes.  
+This one-liner will update the SSH configuration to use port `3122` and restart the SSH service to apply the changes.  
 
 > [!NOTE]
 > Make sure to update your firewall rules to allow the new SSH port before running this command, so you don't accidentally lock yourself out.  
@@ -47,11 +47,11 @@ This one-liner will update the SSH configuration to use port `3022` and restart 
 
 ## Firewall Configuration
 
-By default, the firewall blocks all traffic except the ports and IP ranges you specify in `inventory/group_vars/all/preparing.yml`. Wanna open or close a port? Easy, just edit the `iptables` section like this:
+By default, the firewall blocks all traffic except the ports and IP ranges you specify in `inventory/group_vars/all/preparing.yml`. Wanna open or close a port? Easy, just edit the `firewall_config` section like this:
 
 ```yml
-# iptables configuration
-iptables:
+# firewall configuration
+firewall_config:
   network_adapter_access:
     - lo
   tcp_port_access:
@@ -70,7 +70,7 @@ iptables:
 After editing, run the following command to update the firewall rules:
 
 ```bash
-ansible-playbook -i inventory/hosts.yml vpn.yml --tags iptables
+ansible-playbook -i inventory/hosts.yml vpn.yml --tags firewall
 ```
 
 ---
@@ -91,6 +91,13 @@ cp .env.example .env
 <your-favorite-editor> .env
 ```
 
+Export varibale in your current shell
+```bash
+set -o allexport
+source .env
+set +o allexport
+```
+
 Set your username and password for 3x-UI. If you’re not using it, skip this step.
 
 #### Step 2: Create the Inventory File
@@ -101,16 +108,14 @@ Tell Ansible where to work by creating the `hosts.yml` file:
 all:
   hosts:
     internal-network:
-      ansible_host: <external-network>
-      ansible_port: 3022
+      ansible_host: <your-internal-server-ip>
+      ansible_port: 3122
       ansible_user: root
     external-network:
-      ansible_host: <internal-network>
-      ansible_port: 3022
+      ansible_host: <your-external-server-ip>
+      ansible_port: 3122
       ansible_user: root
 ```
-
-For reverse tunneling, swap the IPs of `internal-network` and `external-network`.
 
 #### Step 3: Update the Config Files
 
@@ -132,6 +137,12 @@ Set `enable_easytier` to `true` in `all.yml`:
 ```yml
 ## Set to true to enable the EasyTier service
 enable_easytier: true
+```
+
+By default tunneling method is reversed
+```yml
+## Tunneling
+reverse: true
 ```
 
 Then configure EasyTier in `easytier.yml`. For example:
@@ -238,7 +249,7 @@ all:
   hosts:
     vpn:
       ansible_host: <server-ip>
-      ansible_port: 3022
+      ansible_port: 3122
       ansible_user: root
 ```
 
@@ -257,11 +268,14 @@ For installing Xray Core:
 enable_xray: true
 ```
 
-2. Use the default config or replace it:
+2. Use the default config or replace it with your custom Xray config:
+
+> [!WARNING]
+> The name of config files for client must be: `client.json` for server: `server.json`
 
 ```bash
-cp /path/config.json roles/client/files/config.json
-cp /path/config.json roles/server/files/config.json
+cp /path/client.json roles/xray/files/client.json
+cp /path/server.json roles/xray/files/server.json
 ```
 
 Run the playbook:
@@ -290,6 +304,13 @@ You’ll need to configure the `.env` file first:
 cp .env.example .env
 
 <your-favorite-editor> .env
+```
+
+Export varibale in your current shell
+```bash
+set -o allexport
+source .env
+set +o allexport
 ```
 
 Enable 3x-UI by setting `enable_xui` to `true` in `all.yml`:
