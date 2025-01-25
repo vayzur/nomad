@@ -2,12 +2,11 @@
 - name: Preparing tasks for every playbooks
   import_playbook: preparing.yml
 
+- name: Gathering facts
+  import_playbook: facts.yml
+
 - hosts: internal-network,external-network
   become: true
-  tasks:
-    - name: Determine peer host based on reverse flag
-      set_fact:
-        peer_host: "{{ hostvars['external-network'].ansible_host if reverse else hostvars['internal-network'].ansible_host }}"
   roles:
     - { role: ../roles/easytier, tags: easytier, when: enable_easytier }
     - { role: ../roles/tinyfec, tags: tinyfec, when: enable_tinyfec }
