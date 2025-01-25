@@ -3,7 +3,7 @@
   tasks:
     - name: Determine peer host based on reverse flag
       set_fact:
-        peer_host: "{{ hostvars['external-network'].ansible_host if reverse else hostvars['internal-network'].ansible_host }}"
+        peer_host: "{{ hostvars['internal-network'].ansible_host if reverse else hostvars['external-network'].ansible_host }}"
       run_once: true
       delegate_to: localhost
       when: inventory_hostname == 'internal-network' or inventory_hostname == 'external-network'
