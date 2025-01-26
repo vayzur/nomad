@@ -15,13 +15,11 @@
 -A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,PSH,URG -j DROP
 -A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,PSH,URG -j DROP
 -A PREROUTING -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,ACK,URG -j DROP
-{% if dscp %}
-{% if firewall_config.udp_port_access is defined %}
+{% if dscp and firewall_config.udp_port_access is defined %}
 {% for port in firewall_config.udp_port_access %}
 -A PREROUTING -p udp -m udp --dport {{ port }} -j DSCP --set-dscp 46
 -A POSTROUTING -p udp -m udp --sport {{ port }} -j DSCP --set-dscp {% if inventory_hostname == 'internal-network' %}0{% else %}46{% endif %}
 {% endfor %}
-{% endif %}
 {% endif %}
 COMMIT
 
