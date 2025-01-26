@@ -2,6 +2,5 @@
 hosts.yml
 .venv/
 .venv
-config.json
-server.json
-client.json
+external.json
+internal.json
