@@ -37,20 +37,6 @@
         }
     ],
     "transport": null,
-    "policy": {
-        "levels": {
-            "0": {
-                "statsUserDownlink": true,
-                "statsUserUplink": true
-            }
-        },
-        "system": {
-            "statsInboundDownlink": true,
-            "statsInboundUplink": true,
-            "statsOutboundDownlink": true,
-            "statsOutboundUplink": true
-        }
-    },
     "stats": {},
     "reverse": null,
     "fakedns": null,

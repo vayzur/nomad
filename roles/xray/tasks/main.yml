@@ -68,7 +68,7 @@
 
 - name: Copy Xray custom config to internal network
   copy:
-    src: files/client.json
+    src: files/internal.json
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
@@ -77,7 +77,7 @@
 
 - name: Copy Xray custom config to external network
   copy:
-    src: files/server.json
+    src: files/external.json
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
