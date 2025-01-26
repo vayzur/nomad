@@ -1,0 +1,18 @@
+---
+- name: Add the sch_cake module
+  community.general.modprobe:
+    name: sch_cake
+    state: present
+
+- name: Apply CAKE qdisc to {{ public_interface }}
+  command: "tc qdisc replace dev {{ public_interface }} root cake diffserv4 bandwidth {{ bandwidth }} rtt {{ rtt }}"
+
+- name: Configure TSO for {{ public_interface }}
+  command: ethtool -K {{ public_interface }} tso {{ 'on' if tso else 'off' }}
+
+- name: Configure GSO for {{ public_interface }}
+  command: ethtool -K {{ public_interface }} gso {{ 'on' if gso else 'off' }}
+
+- name: Configure GRO for {{ public_interface }}
+  command: ethtool -K {{ public_interface }} gro {{ 'on' if gro else 'off' }}
+
