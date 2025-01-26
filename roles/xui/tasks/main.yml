@@ -15,6 +15,8 @@
     /usr/local/x-ui/x-ui setting -listenIP {{ xui_listen }} -port {{ xui_port }} -username {{ xui_username }} -password {{ xui_password }} -webBasePath {{ xui_web_path }} && /usr/local/x-ui/x-ui migrate
   args:
     executable: /bin/bash
-  notify: 
-    - restart x-ui
 
+- name: Restart 3x-UI service
+  systemd:
+    name: x-ui
+    state: restarted
