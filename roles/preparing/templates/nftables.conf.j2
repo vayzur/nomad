@@ -56,8 +56,7 @@ table inet filter {
     chain input {
         type filter hook input priority filter; policy drop;
 
-        ct state established,related accept
-        ct state invalid drop
+        ct state vmap { established : accept, related : accept, invalid : drop }
 
 {% if firewall_config.network_adapter_access is defined %}
 {% for adapter in firewall_config.network_adapter_access %}
@@ -94,22 +93,6 @@ table inet filter {
 
     chain output {
         type filter hook output priority filter; policy accept;
-
-        ct state established,related accept
-        ct state invalid drop
-
-        oifname "lo" accept
-
-        meta l4proto icmp accept
-
-{% if firewall_config.trusted_range is defined %}
-{% for cidr in firewall_config.trusted_range %}
-        ip daddr {{ cidr }} accept
-{% endfor %}
-{% endif %}
-
-        tcp dport { 80, 443, 53 } accept
-        udp dport 53 accept
     }
 }
 

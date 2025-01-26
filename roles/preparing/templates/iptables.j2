@@ -19,28 +19,14 @@
 {% if firewall_config.udp_port_access is defined %}
 {% for port in firewall_config.udp_port_access %}
 -A PREROUTING -p udp -m udp --dport {{ port }} -j DSCP --set-dscp 46
-{% endfor %}
-{% endif %}
-{% if firewall_config.udp_port_access is defined %}
-{% for port in firewall_config.udp_port_access %}
--A POSTROUTING -p udp -m udp --sport {{ port }} -j DSCP --set-dscp 46
-{% endfor %}
-{% endif %}
-{% if firewall_config.tcp_port_access is defined %}
-{% for port in firewall_config.tcp_port_access %}
--A PREROUTING -p udp -m tcp --dport {{ port }} -j DSCP --set-dscp 46
-{% endfor %}
-{% endif %}
-{% if firewall_config.tcp_port_access is defined %}
-{% for port in firewall_config.tcp_port_access %}
--A POSTROUTING -p udp -m tcp --sport {{ port }} -j DSCP --set-dscp 46
+-A POSTROUTING -p udp -m udp --sport {{ port }} -j DSCP --set-dscp {% if inventory_hostname == 'internal-network' %}0{% else %}46{% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
 COMMIT
 
 *filter
-:INPUT ACCEPT [0:0]
+:INPUT DROP [0:0]
 :FORWARD DROP  [0:0]
 :OUTPUT ACCEPT [0:0]
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT -m comment --comment "Allow incoming related and established connections."
@@ -50,6 +36,7 @@ COMMIT
 {% endfor %}
 {% endif %}
 -A INPUT -p icmp -j ACCEPT -m comment --comment "Allow icmp packets."
+-A INPUT -p tcp -m tcp --dport {{ sshd_config.Port | default('22') }} -j ACCEPT -m comment --comment "Accept SSH connections."
 {% if firewall_config.trusted_range is defined %}
 {% for cidr in firewall_config.trusted_range %}
 -A INPUT -s {{ cidr }} -j ACCEPT -m comment --comment "Allow incoming packets from trusted range."
@@ -64,17 +51,4 @@ COMMIT
 -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT -m comment --comment "Allow incoming udp packets on {{ port }}"
 {% endfor %}
 {% endif %}
--A INPUT -p tcp -m tcp --dport {{ sshd_config.Port | default('22') }} -j ACCEPT -m comment --comment "Accept SSH connections."
--A INPUT -j DROP -m comment --comment "Drop all other packets."
--A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT -m comment --comment "Allow all outgoing related and established connections."
--A OUTPUT -o lo -j ACCEPT -m comment --comment "Allow outgoing lo interface packets."
--A OUTPUT -p icmp -j ACCEPT -m comment --comment "Allow outgoing icmp packets."
-{% for cidr in firewall_config.trusted_range %}
--A OUTPUT -d {{ cidr }} -j ACCEPT -m comment --comment "Allow outgoing packets to trusted range."
-{% endfor %}
-{% endif %}
--A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT -m comment --comment "Allow outgoing HTTP packets."
--A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT -m comment --comment "Allow outgoing HTTPS packets."
--A OUTPUT -p tcp -m tcp --dport 53 -j ACCEPT -m comment --comment "Allow outging dns over tcp packets."
--A OUTPUT -p udp -m udp --dport 53 -j ACCEPT -m comment --comment "Allow outging dns over udp packets."
 COMMIT
