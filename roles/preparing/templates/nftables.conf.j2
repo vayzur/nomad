@@ -6,93 +6,58 @@ table inet mangle {
     chain prerouting {
         type filter hook prerouting priority mangle; policy accept;
 
-        tcp flags ! fin,syn,rst,psh,ack,urg drop
-        tcp flags fin,syn / fin,syn drop
-        tcp flags syn,rst / syn,rst drop
-        tcp flags fin,rst / fin,rst drop
-        tcp flags fin / fin,ack drop
-        tcp flags urg / ack,urg drop
-        tcp flags psh / psh,ack drop
-        tcp flags ! fin,syn,rst,psh,ack,urg drop
-        tcp flags fin,psh,urg / fin,syn,rst,psh,ack,urg drop
-        tcp flags fin,syn,psh,urg / fin,syn,rst,psh,ack,urg drop
-        tcp flags fin,syn,rst,ack,urg / fin,syn,rst,psh,ack,urg drop
+        {% if dscp and firewall_config.udp_port_access %}udp dport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set 0x2e{% endif %}
 
-{% if dscp %}
-{% if firewall_config.udp_port_access is defined %}
-{% for port in firewall_config.udp_port_access %}
-        udp dport {{ port }} ip dscp set 0x2e
-{% endfor %}
-{% endif %}
-{% endif %}
-    }
-
-    chain input {
-        type filter hook prerouting priority mangle; policy accept;
-    }
-
-    chain forward {
-        type filter hook prerouting priority mangle; policy accept;
-    }
-
-    chain output {
-        type filter hook prerouting priority mangle; policy accept;
     }
 
     chain postrouting {
-        type filter hook prerouting priority mangle; policy accept;
+        type filter hook postrouting priority mangle; policy accept;
 
-{% if dscp %}
-{% if firewall_config.udp_port_access is defined %}
-{% for port in firewall_config.udp_port_access %}
-        udp sport {{ port }} ip dscp set {% if inventory_hostname == 'internal-network' %}0x0{% else %}0x2e{% endif %}  
-{% endfor %}
-{% endif %}
-{% endif %}
+        {% if dscp and firewall_config.udp_port_access %}udp sport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set {% if inventory_hostname == 'internal-network' %}0x0{% else %}0x2e{% endif %}{% endif %}
+
     }
 }
 
 table inet filter {
+    set TRUSTED_IPS {
+        type ipv4_addr
+        flags interval
+        elements = { {% if firewall_config.trusted_range is defined %}{{ firewall_config.trusted_range | join(', ') }}{% endif %} }
+    }
+
+    set TCP_PORTS {
+        type inet_service
+        elements = { {{ sshd_config.Port | default('22') }}{% if firewall_config.tcp_port_access is defined %}, {{ firewall_config.tcp_port_access | join(', ') }}{% endif %} }
+    }
+
+    set UDP_PORTS {
+        type inet_service
+        elements = { {% if firewall_config.udp_port_access is defined %}{{ firewall_config.udp_port_access | join(', ') }}{% endif %} }
+    }
+
+    set NETWORK_ADAPTERS {
+        type ifname
+        elements = { {% if firewall_config.network_adapter_access is defined %}{{ firewall_config.network_adapter_access | join(', ') }}{% endif %} }
+    }
+
     chain input {
         type filter hook input priority filter; policy drop;
 
         ct state vmap { established : accept, related : accept, invalid : drop }
-
-{% if firewall_config.network_adapter_access is defined %}
-{% for adapter in firewall_config.network_adapter_access %}
-        iifname "{{ adapter }}" accept
-{% endfor %}
-{% endif %}
-
-        meta l4proto icmp accept
-
-        tcp dport {{ sshd_config.Port | default('22') }} accept
-
-{% if firewall_config.trusted_range is defined %}
-{% for cidr in firewall_config.trusted_range %}
-        ip saddr {{ cidr }} accept
-{% endfor %}
-{% endif %}
-
-{% if firewall_config.tcp_port_access is defined %}
-{% for port in firewall_config.tcp_port_access %}
-        tcp dport {{ port }} accept
-{% endfor %}
-{% endif %}
-
-{% if firewall_config.udp_port_access is defined %}
-{% for port in firewall_config.udp_port_access %}
-        udp dport {{ port }} accept
-{% endfor %}
-{% endif %}
+        ip saddr @TRUSTED_IPS accept
+        meta l4proto { icmp, icmpv6 } accept
+        iifname @NETWORK_ADAPTERS accept
+        tcp dport @TCP_PORTS accept
+        udp dport @UDP_PORTS accept
     }
 
     chain forward {
         type filter hook forward priority filter; policy drop;
     }
-
-    chain output {
-        type filter hook output priority filter; policy accept;
-    }
 }
 
+table netdev filter {
+    chain ingress {
+        type filter hook ingress device {{ ansible_default_ipv4.interface }} priority -500; policy accept;
+    }
+}
