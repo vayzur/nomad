@@ -52,14 +52,14 @@
     daemon_reload: true
     enabled: true
 
-- name: Check if client.json exists
+- name: Check if internal.json exists
   become: false
   stat:
     path: "{{ role_path }}/files/client.json"
   register: client_config_file
   delegate_to: localhost
 
-- name: Check if server.json exists
+- name: Check if external.json exists
   become: false
   stat:
     path: "{{ role_path }}/files/server.json"
