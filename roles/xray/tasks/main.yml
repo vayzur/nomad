@@ -55,14 +55,14 @@
 - name: Check if internal.json exists
   become: false
   stat:
-    path: "{{ role_path }}/files/client.json"
+    path: "{{ role_path }}/files/internal.json"
   register: client_config_file
   delegate_to: localhost
 
 - name: Check if external.json exists
   become: false
   stat:
-    path: "{{ role_path }}/files/server.json"
+    path: "{{ role_path }}/files/internal.json"
   register: server_config_file
   delegate_to: localhost
 
