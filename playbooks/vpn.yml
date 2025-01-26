@@ -9,7 +9,6 @@
   become: true
   roles:
     - { role: ../roles/easytier, tags: easytier, when: enable_easytier }
-    - { role: ../roles/tinyfec, tags: tinyfec, when: enable_tinyfec }
 
 - hosts: all
   become: true
