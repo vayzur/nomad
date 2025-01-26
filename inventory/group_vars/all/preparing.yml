@@ -19,6 +19,7 @@ packages:
 - auditd
 - libpwquality-common
 - cracklib-runtime
+- ethtool
 
 # sshd configuration
 sshd_config:
@@ -52,7 +53,7 @@ firewall_config:
     - "{{ hostvars['internal-network'].ansible_host }}/32"
 
 
-# packet dscp configuration
+# packet DSCP configuration
 # https://en.wikipedia.org/wiki/Differentiated_services
 dscp: true
 
@@ -103,6 +104,18 @@ limit_nproc_soft: 10000
 # mbit, gbit, unlimited
 bandwidth: 900mbit
 rtt: 100ms
+
+# network interface card configuration
+# resources for more information:
+# https://www.kernel.org/doc/Documentation/networking/segmentation-offloads.txt
+# https://en.wikipedia.org/wiki/TCP_offload_engine
+# the variables below can be set to true/false:
+#  - true: enable the feature
+#  - false: disable the feature
+# control whether the network card should offload segmentation or reception tasks.
+tso: false   # TCP Segmentation Offload
+gso: false   # Generic Segmentation Offload
+gro: false   # Generic Receive Offload
 
 # sysctl configuration variables
 sysctl_config:
