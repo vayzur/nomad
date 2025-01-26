@@ -21,7 +21,6 @@ Here’s a quick list of what Nomad can do for you:
 ### Supported Methods:
 - **Tunneling between 2 servers:**
   - EasyTier
-  - tinyfecVPN
 - **Xray Core**
 - **3x-UI**
 
@@ -193,53 +192,6 @@ Expected output:
 
 ---
 
-### TinyFecVPN
-
-> [!WARNING]
-> TinyFecVPN is supported only on `x86_64` or `amd64` architectures.
-
-Setup is similar to EasyTier:
-
-1. Edit `all.yml` and set `enable_tinyfec` to `true`:
-
-```yml
-enable_tinyfec: true
-```
-
-2. Configure options in `tinyfec.yml`:
-
-```yml
-fec: "20:10"
-```
-
-Run the playbook:
-
-```bash
-ansible-playbook -i inventory/hosts.yml vpn.yml
-```
-
-Verify:
-
-```bash
-systemctl status tinyfec
-```
-
-```bash
-ip addr
-```
-Expected output:
-
-```bash
-3: tinyfec: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 500
-    link/none 
-    inet 10.22.22.1 peer 10.22.22.2/32 scope global tinyfec
-       valid_lft forever preferred_lft forever
-    inet6 fe80::906c:9f4e:59f:1522/64 scope link stable-privacy 
-       valid_lft forever preferred_lft forever
-```
-
----
-
 ## Without Tunneling Inventory
 
 If you’re skipping tunneling, use a single server:
@@ -271,11 +223,11 @@ enable_xray: true
 2. Use the default config or replace it with your custom Xray config:
 
 > [!WARNING]
-> The name of config files for client must be: `client.json` for server: `server.json`
-
+> The name of config files for internal-network must be: `internal.json` for external-network: `external.json`
+> For one server only use `default.json`
 ```bash
-cp /path/client.json roles/xray/files/client.json
-cp /path/server.json roles/xray/files/server.json
+cp /path/internal.json roles/xray/files/internal.json
+cp /path/external.json roles/xray/files/external.json
 ```
 
 Run the playbook:
@@ -352,5 +304,4 @@ http://localhost:8080
 
 - [EasyTier](https://github.com/EasyTier/EasyTier)
 - [Xray](https://github.com/XTLS/Xray-core)
-- [tinyfecVPN](https://github.com/wangyu-/tinyfecVPN)
 - [3x-UI](https://github.com/MHSanaei/3x-ui)
