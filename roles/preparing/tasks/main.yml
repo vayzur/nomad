@@ -4,8 +4,9 @@
   tags: packages
 
 - name: Configure network interfaces
-  import_tasks: tc.yml
-  tags: tc
+  import_tasks: nic.yml
+  when: public_interface is defined
+  tags: nic
 
 - name: Change limits.conf
   import_tasks: limits.yml
