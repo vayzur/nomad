@@ -5,15 +5,13 @@ flush ruleset
 table inet mangle {
     chain prerouting {
         type filter hook prerouting priority mangle; policy accept;
-
-        {% if dscp and firewall_config.udp_port_access is defined %}udp dport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set 0x2e{% endif %}
+        {% if dscp and firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}udp dport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set 0x2e{% endif %}
 
     }
 
     chain postrouting {
         type filter hook postrouting priority mangle; policy accept;
-
-        {% if dscp and firewall_config.udp_port_access is defined %}udp sport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set {% if inventory_hostname == 'internal-network' %}0x0{% else %}0x2e{% endif %}{% endif %}
+        {% if dscp and firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}udp sport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set {% if inventory_hostname == 'internal-network' %}0x0{% else %}0x2e{% endif %}{% endif %}
 
     }
 }
@@ -22,22 +20,28 @@ table inet filter {
     set TRUSTED_IPS {
         type ipv4_addr
         flags interval
-        elements = { {% if firewall_config.trusted_range is defined %}{{ firewall_config.trusted_range | join(', ') }}{% endif %} }
+{% if firewall_config.trusted_range is defined and firewall_config.trusted_range | length > 0 %}
+        elements = { {{ firewall_config.trusted_range | join(', ') }} }
+{% endif %}
     }
 
     set TCP_PORTS {
         type inet_service
-        elements = { {{ sshd_config.Port | default('22') }}{% if firewall_config.tcp_port_access is defined %}, {{ firewall_config.tcp_port_access | join(', ') }}{% endif %} }
+        elements = { {{ sshd_config.Port | default('22') }}{% if firewall_config.tcp_port_access is defined and firewall_config.tcp_port_access | length > 0 %}, {{ firewall_config.tcp_port_access | join(', ') }}{% endif %} }
     }
 
     set UDP_PORTS {
         type inet_service
-        elements = { {% if firewall_config.udp_port_access is defined %}{{ firewall_config.udp_port_access | join(', ') }}{% endif %} }
+{% if firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}
+        elements = { {{ firewall_config.udp_port_access | join(', ') }} }
+{% endif %}
     }
 
     set NETWORK_ADAPTERS {
         type ifname
-        elements = { {% if firewall_config.network_adapter_access is defined %}{{ firewall_config.network_adapter_access | join(', ') }}{% endif %} }
+{% if firewall_config.network_adapter_access is defined and firewall_config.network_adapter_access | length > 0 %}
+        elements = { {{ firewall_config.network_adapter_access | join(', ') }} }
+{% endif %}
     }
 
     chain input {
