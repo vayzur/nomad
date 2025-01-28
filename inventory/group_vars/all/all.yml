@@ -1,25 +1,23 @@
 ---
+## Nomad configuration directory
 config_dir: /opt/nomad
 
 ##
 ## Define which services should run on your servers.
 ## Set `true` to enable a service or `false` to disable it.
 ##
-## If both `enable_tinyfec` and `enable_easytier` are set to `true`,
-## both services will be deployed and started on the servers.
-##
 
-## Set to true to enable the tinyFEC service (Only X86_64)
-enable_tinyfec: false
-
-## Set to true to enable the EasyTier service
+## Set to true to setup the EasyTier tunnel
 enable_easytier: true
 
-## Set to true to install the xray core (Only X86_64)
+## Set to true to setup the SIT (6to4) tunnel
+enable_sit: false
+
+## Set to true to setup the IP6GRE tunnel
+enable_ip6gre: false
+
+## Set to true to install the Xray core (Only X86_64)
 enable_xray: false
 
-## Set to true to install the 3x-ui panel
+## Set to true to install the 3x-UI panel
 enable_xui: true
-
-## Tunneling
-reverse: true
