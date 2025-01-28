@@ -8,8 +8,9 @@ easytier_port: 4097
 ## Supported protocols: udp, tcp, ws, wss
 easytier_protocol: udp
 
-easytier_server_local_ip: 10.44.44.1
-easytier_client_local_ip: 10.44.44.2
+## Static IP configuration
+easytier_internal_network_private_ipv4: 10.44.44.1
+easytier_external_network_private_ipv4: 10.44.44.2
 
 ## Generate a random secret: `openssl rand -hex 6``
 easytier_secret: 5f67777d658f
@@ -20,3 +21,4 @@ easytier_multithread: true
 
 easytier_ipv6: false
 
+easytier_reverse: true

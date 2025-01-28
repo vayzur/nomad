@@ -50,13 +50,13 @@
 
 - name: Setup EasyTier service for internal network
   template:
-    src: "{{ 'server.service.j2' if reverse else 'client.service.j2' }}"
+    src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'internal-network'
 
 - name: Setup EasyTier service for external network
   template:
-    src: "{{ 'client.service.j2' if reverse else 'server.service.j2' }}"
+    src: "{{ 'client.service.j2' if easytier_reverse else 'server.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'external-network'
 
