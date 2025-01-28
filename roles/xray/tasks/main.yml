@@ -62,7 +62,7 @@
 - name: Check if external.json exists
   become: false
   stat:
-    path: "{{ role_path }}/files/internal.json"
+    path: "{{ role_path }}/files/external.json"
   register: server_config_file
   delegate_to: localhost
 
@@ -73,7 +73,7 @@
     owner: root
     group: root
     mode: "0644"
-  when: server_config_file.stat.exists and inventory_hostname == 'internal-network'
+  when: client_config_file.stat.exists and inventory_hostname == 'internal-network'
 
 - name: Copy Xray custom config to external network
   copy:
