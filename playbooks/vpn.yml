@@ -9,6 +9,8 @@
   become: true
   roles:
     - { role: ../roles/easytier, tags: easytier, when: enable_easytier }
+    - { role: ../roles/sit, tags: sit, when: enable_sit }
+    - { role: ../roles/ip6gre, tags: ip6gre, when: enable_ip6gre }
 
 - hosts: all
   become: true
