@@ -2,10 +2,10 @@
 - name: Setup IP6GRE tunnel on internal network
   shell: |
     ip tunnel add {{ ip6gre_dev }} mode ip6gre remote {{ sit_external_network_private_ipv6 }} local {{ sit_internal_network_private_ipv6 }} ttl {{ ip6gre_ttl }}
-    ip addr add {{ ip6gre_internal_network_private_ipv4 }} dev {{ ip6gre_dev }}
+    ip addr replace {{ ip6gre_internal_network_private_ipv4 }} dev {{ ip6gre_dev }}
     ip link set dev {{ ip6gre_dev }} mtu {{ ip6gre_mtu }}
     ip link set {{ ip6gre_dev }} up
-    ip route add {{ ip6gre_subnet }} dev {{ ip6gre_dev }}
+    ip route replace {{ ip6gre_subnet }} dev {{ ip6gre_dev }}
   args:
     executable: /bin/bash
   ignore_errors: true
@@ -14,10 +14,10 @@
 - name: Setup IP6GRE tunnel on external network
   shell: |
     ip tunnel add {{ ip6gre_dev }} mode ip6gre remote {{ sit_internal_network_private_ipv6 }} local {{ sit_external_network_private_ipv6 }} ttl {{ ip6gre_ttl }}
-    ip addr add {{ ip6gre_external_network_private_ipv4 }} dev {{ ip6gre_dev }}
+    ip addr replace {{ ip6gre_external_network_private_ipv4 }} dev {{ ip6gre_dev }}
     ip link set dev {{ ip6gre_dev }} mtu {{ ip6gre_mtu }}
     ip link set {{ ip6gre_dev }} up
-    ip route add {{ ip6gre_subnet }} dev {{ ip6gre_dev }}
+    ip route replace {{ ip6gre_subnet }} dev {{ ip6gre_dev }}
   args:
     executable: /bin/bash
   ignore_errors: true
