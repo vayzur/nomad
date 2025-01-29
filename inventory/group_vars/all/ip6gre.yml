@@ -4,8 +4,8 @@ ip6gre_external_network_private_ipv4: 192.168.99.2
 ip6gre_subnet: /30
 
 ip6gre_dev: ip6gre01
-ip6gre_mtu: 1336
+ip6gre_mtu: 1420
 ip6gre_ttl: 255
 
-## forward all traffic to the 10.9.99.2 except SSH
+## forward all traffic to the 192.168.99.2 except SSH
 ip6gre_nat: true

@@ -4,5 +4,5 @@ sit_external_network_private_ipv6: fd00:2::1
 sit_subnet: /64
 
 sit_dev: sit01
-sit_mtu: 1380
-sit_ttl: 64
+sit_mtu: 1480
+sit_ttl: 255
