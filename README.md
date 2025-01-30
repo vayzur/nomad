@@ -60,7 +60,6 @@ firewall_config:
     - 8084
     - 8082
   trusted_range:
-    - 10.22.22.0/24
     - 10.44.44.0/24
     - "{{ hostvars['external-network'].ansible_host }}/32"
     - "{{ hostvars['internal-network'].ansible_host }}/32"
@@ -122,8 +121,9 @@ Edit the following files to match your requirements:
 
 ```bash
 <your-favorite-editor> inventory/group_vars/all/all.yml
+<your-favorite-editor> inventory/group_vars/all/ip6gre.yml
+<your-favorite-editor> inventory/group_vars/all/sit.yml
 <your-favorite-editor> inventory/group_vars/all/preparing.yml
-<your-favorite-editor> inventory/group_vars/all/tinyfec.yml
 <your-favorite-editor> inventory/group_vars/all/easytier.yml
 <your-favorite-editor> inventory/group_vars/all/xray.yml
 <your-favorite-editor> inventory/group_vars/all/xui.yml
@@ -138,10 +138,10 @@ Set `enable_easytier` to `true` in `all.yml`:
 enable_easytier: true
 ```
 
-By default tunneling method is reversed
+By default tunneling method is reversed in `easytier.yml`
 ```yml
 ## Tunneling
-reverse: true
+easytier_reverse: true
 ```
 
 Then configure EasyTier in `easytier.yml`. For example:
