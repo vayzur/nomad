@@ -47,7 +47,6 @@ COMMIT
 -A INPUT -i {{ adapter }} -j ACCEPT -m comment --comment "Allow {{ adapter }} interface packets."
 {% endfor %}
 {% endif %}
--A INPUT -p icmp -j ACCEPT -m comment --comment "Allow icmp packets."
 -A INPUT -p tcp -m tcp --dport {{ sshd_config.Port | default('22') }} -j ACCEPT -m comment --comment "Accept SSH connections."
 -A INPUT -p 41 -j ACCEPT
 -A INPUT -p 47 -j ACCEPT

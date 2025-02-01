@@ -70,7 +70,6 @@ table inet filter {
 
         ct state vmap { established : accept, related : accept, invalid : drop }
         ip saddr @TRUSTED_IPS accept
-        meta l4proto { icmp, icmpv6 } accept
         ip protocol { 41, 47 } accept
         iifname @NETWORK_ADAPTERS accept
         tcp dport @TCP_PORTS accept
