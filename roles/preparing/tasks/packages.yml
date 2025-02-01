@@ -1,5 +1,5 @@
 ---
-- name: Update and upgrade apt packages
+- name: Update repositories
   apt:
     update_cache: true
     upgrade: false
@@ -9,6 +9,5 @@
   apt:
     name: "{{ packages }}"
     state: present
-    # force_apt_get: true
     update_cache: true
 
