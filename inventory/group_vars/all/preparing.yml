@@ -99,7 +99,7 @@ limit_nproc_soft: 10000
 ## CAKE
 ## mbit, gbit, unlimited
 bandwidth: 1gbit
-rtt: 100ms
+rtt: 1ms
 
 ## network interface card configuration
 ##
