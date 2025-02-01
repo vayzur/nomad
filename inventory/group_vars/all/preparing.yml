@@ -121,6 +121,11 @@ sysctl_config:
   net.ipv4.tcp_sack: 1
   net.ipv4.tcp_window_scaling: 1
   net.ipv4.tcp_mtu_probing: 1
+  net.ipv4.tcp_slow_start_after_idle: 0
+  net.ipv4.tcp_max_tw_buckets: 80000
+  net.ipv4.tcp_timestamps: 1
+  net.ipv4.tcp_syncookies: 1
+  net.ipv4.tcp_tw_reuse: 1
   net.ipv4.tcp_max_syn_backlog: 8192
   net.ipv4.tcp_rmem: "8192 87380 16777216"
   net.ipv4.tcp_wmem: "8192 65536 16777216"
@@ -145,11 +150,9 @@ sysctl_config:
   net.ipv6.conf.all.forwarding: 1
   vm.max_map_count: 262144
   fs.file-max: 1500000
-  net.ipv4.tcp_tw_reuse: 1
   net.netfilter.nf_conntrack_tcp_timeout_established: 900
   net.netfilter.nf_conntrack_tcp_timeout_close_wait: 10
   net.netfilter.nf_conntrack_tcp_timeout_syn_recv: 30
   net.netfilter.nf_conntrack_max: 262144
-  net.ipv4.tcp_syncookies: 1
   net.ipv4.conf.default.rp_filter: 1
   net.ipv4.conf.all.rp_filter: 1
