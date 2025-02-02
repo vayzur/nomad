@@ -112,34 +112,37 @@ gro: false   # Generic Receive Offload
 
 ## sysctl configuration variables
 sysctl_config:
-  net.core.somaxconn: 65535
+  net.core.somaxconn: 512
   net.ipv4.tcp_fin_timeout: 10
   net.ipv4.tcp_keepalive_time: 120
   net.ipv4.tcp_ecn: 1
   net.ipv4.tcp_keepalive_intvl: 20
   net.ipv4.tcp_keepalive_probes: 3
   net.ipv4.tcp_sack: 1
+  net.ipv4.tcp_max_orphans: 2048
+  net.ipv4.tcp_retries2: 3
+  net.ipv4.tcp_synack_retries: 2
   net.ipv4.tcp_window_scaling: 1
   net.ipv4.tcp_mtu_probing: 1
-  net.ipv4.tcp_slow_start_after_idle: 0
-  net.ipv4.tcp_max_tw_buckets: 80000
+  net.ipv4.tcp_slow_start_after_idle: 1
+  net.ipv4.tcp_max_tw_buckets: 2048
   net.ipv4.tcp_timestamps: 1
   net.ipv4.tcp_syncookies: 1
   net.ipv4.tcp_tw_reuse: 1
-  net.ipv4.tcp_max_syn_backlog: 8192
-  net.ipv4.tcp_rmem: "8192 87380 16777216"
-  net.ipv4.tcp_wmem: "8192 65536 16777216"
+  net.ipv4.tcp_max_syn_backlog: 512
+  net.ipv4.tcp_rmem: "2048 4096 8192"
+  net.ipv4.tcp_wmem: "2048 4096 8192"
   net.ipv4.tcp_low_latency: 1
   net.ipv4.tcp_fastopen: 3
-  net.core.rmem_default: 262144
-  net.core.wmem_default: 262144
-  net.core.rmem_max: 16777216
-  net.core.wmem_max: 16777216
-  net.core.netdev_max_backlog: 65535
-  net.core.optmem_max: 131072
-  net.unix.max_dgram_qlen: 65535
-  net.ipv4.udp_rmem_min: 8192
-  net.ipv4.udp_wmem_min: 8192
+  net.core.rmem_default: 2048
+  net.core.wmem_default: 2048
+  net.core.rmem_max: 131072
+  net.core.wmem_max: 131072
+  net.core.netdev_max_backlog: 500
+  net.core.optmem_max: 65536
+  net.unix.max_dgram_qlen: 500
+  net.ipv4.udp_rmem_min: 1024
+  net.ipv4.udp_wmem_min: 1024
   net.ipv4.udp_l3mdev_accept: 1
   net.ipv4.ip_default_ttl: 64
   net.core.default_qdisc: cake
