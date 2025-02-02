@@ -35,6 +35,12 @@
 -A POSTROUTING -p udp -m udp --sport {{ port }} -j DSCP --set-dscp {% if inventory_hostname == 'internal-network' %}0{% else %}32{% endif %}
 {% endfor %}
 {% endif %}
+{% if dscp and firewall_config.tcp_port_access is defined %}
+{% for port in firewall_config.tcp_port_access %}
+-A PREROUTING -p tcp -m tcp --dport {{ port }} -j DSCP --set-dscp 10
+-A POSTROUTING -p tcp -m tcp --sport {{ port }} -j DSCP --set-dscp {% if inventory_hostname == 'internal-network' %}0{% else %}10{% endif %}
+{% endfor %}
+{% endif %}
 COMMIT
 
 *filter
