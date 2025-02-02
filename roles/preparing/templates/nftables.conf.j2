@@ -26,13 +26,13 @@ table ip nat {
 table netdev filter {
     chain ingress {
         type filter hook ingress device {{ ansible_default_ipv4.interface }} priority filter;
-        {% if dscp and firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}udp dport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set 46{% endif %}
+        {% if dscp and firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}udp dport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set 32{% endif %}
 
     }
 
     chain egress {
         type filter hook egress device {{ ansible_default_ipv4.interface }} priority filter;
-        {% if dscp and firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}udp sport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set {% if inventory_hostname == 'internal-network' %}0{% else %}46{% endif %}{% endif %}
+        {% if dscp and firewall_config.udp_port_access is defined and firewall_config.udp_port_access | length > 0 %}udp sport { {{ firewall_config.udp_port_access | join(', ') }} } ip dscp set {% if inventory_hostname == 'internal-network' %}0{% else %}32{% endif %}{% endif %}
 
     }
 }
