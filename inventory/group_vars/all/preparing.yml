@@ -112,6 +112,8 @@ gro: false   # Generic Receive Offload
 
 ## sysctl configuration variables
 sysctl_config:
+  net.core.busy_read: 10
+  net.core.busy_poll: 10
   net.core.somaxconn: 512
   net.ipv4.tcp_fin_timeout: 10
   net.ipv4.tcp_keepalive_time: 120
@@ -152,6 +154,10 @@ sysctl_config:
   net.ipv4.conf.all.forwarding: 1
   net.ipv6.conf.all.forwarding: 1
   vm.max_map_count: 262144
+  vm.swappiness: 0
+  vm.compaction_proactiveness: 0
+  vm.dirty_ratio: 5
+  vm.dirty_background_ratio: 5
   fs.file-max: 1500000
   net.netfilter.nf_conntrack_tcp_timeout_established: 900
   net.netfilter.nf_conntrack_tcp_timeout_close_wait: 10
