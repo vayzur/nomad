@@ -10,4 +10,3 @@
     name: "{{ packages }}"
     state: present
     update_cache: true
-
