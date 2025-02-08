@@ -1,8 +1,7 @@
 ---
-- name: Preparing tasks for every playbooks
-  import_playbook: preparing.yml
-
-- hosts: all
+- name: Install Xray core OR 3x-UI
+  hosts: all
   become: true
   roles:
     - { role: ../roles/xray, tags: xray, when: enable_xray }
+    - { role: ../roles/xui, tags: xui, when: enable_xui }
