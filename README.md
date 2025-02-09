@@ -21,6 +21,8 @@ Here’s a quick list of what Nomad can do for you:
 ### Supported Methods:
 - **Tunneling between 2 servers:**
   - EasyTier
+  - SIT (6to4)
+  - IP6GRE
 - **Xray Core**
 - **3x-UI**
 
