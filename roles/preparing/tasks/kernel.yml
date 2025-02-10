@@ -15,7 +15,7 @@
   lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
-    line: "GRUB_CMDLINE_LINUX_DEFAULT=\"{{ ansible_facts['grub_cmdline_linux_default'] | default('') }} preempt=full {% if ansible_processor_cores > 1 %} nohz_full=1-{{ ansible_processor_cores - 1 }} isolcpus=1-{{ ansible_processor_cores - 1 }} rcu_nocbs=1-{{ ansible_processor_cores - 1 }}{% endif %} threadirqs quiet\""
+    line: "GRUB_CMDLINE_LINUX_DEFAULT=\"{{ ansible_facts['grub_cmdline_linux_default'] | default('') }} preempt=full threadirqs quiet\""
 
 - name: Update GRUB configuration
   command: update-grub
