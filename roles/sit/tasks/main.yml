@@ -2,10 +2,10 @@
 - name: Setup SIT (6to4) tunnel on internal network
   shell: |
     ip tunnel add {{ sit_dev }} mode sit remote {{ hostvars['external-network'].ansible_host }} local {{ hostvars['internal-network'].ansible_host }} ttl {{ sit_ttl }}
-    ip addr replace {{ sit_internal_network_private_ipv6 }}{{ sit_subnet }} dev {{ sit_dev }}
+    ip addr replace {{ sit_internal_network_private_ipv6 }}{{ sit_netmask }} dev {{ sit_dev }}
     ip link set dev {{ sit_dev }} mtu {{ sit_mtu }}
     ip link set {{ sit_dev }} up
-    ip route replace {{ sit_external_network_private_ipv6 }}{{ sit_subnet }} dev {{ sit_dev }}
+    ip route replace {{ sit_external_network_private_ipv6 }}{{ sit_netmask }} dev {{ sit_dev }}
   args:
     executable: /bin/bash
   ignore_errors: true
@@ -14,10 +14,10 @@
 - name: Setup SIT (6to4) tunnel on external network
   shell: |
     ip tunnel add {{ sit_dev }} mode sit remote {{ hostvars['internal-network'].ansible_host }} local {{ hostvars['external-network'].ansible_host }} ttl {{ sit_ttl }}
-    ip addr replace {{ sit_external_network_private_ipv6 }}{{ sit_subnet }} dev {{ sit_dev }}
+    ip addr replace {{ sit_external_network_private_ipv6 }}{{ sit_netmask }} dev {{ sit_dev }}
     ip link set dev {{ sit_dev }} mtu {{ sit_mtu }}
     ip link set {{ sit_dev }} up
-    ip route replace {{ sit_internal_network_private_ipv6 }}{{ sit_subnet }} dev {{ sit_dev }}
+    ip route replace {{ sit_internal_network_private_ipv6 }}{{ sit_netmask }} dev {{ sit_dev }}
   args:
     executable: /bin/bash
   ignore_errors: true
