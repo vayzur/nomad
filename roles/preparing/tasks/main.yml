@@ -12,32 +12,24 @@
   import_tasks: nic.yml
   tags: nic
 
+- name: Configure logging
+  import_tasks: logging.yml
+  tags: logging
+
 - name: Change limits.conf
   import_tasks: limits.yml
   tags: hardening
 
-- name: Configure sshd, firewall and ...
+- name: Configure sshd
   import_tasks: hardening.yml
-  tags: hardening, firewall
-
-- name: tcp wrappers configure
-  import_tasks: tcpwrappers.yml
   tags: hardening
 
-- name: Confiugre audit log
-  import_tasks: auditd.yml
-  tags: hardening
-
-- name: Change fstab
-  import_tasks: fstab.yml
-  tags: hardening
+- name: Configure firewall
+  import_tasks: firewall.yml
+  tags: firewall
 
 - name: Confiugre resolved.conf
   import_tasks: resolved.yml
-  tags: hardening
-
-- name: Confiugre logging
-  import_tasks: logging.yml
   tags: hardening
 
 - name: Change sysctl.conf
