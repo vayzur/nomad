@@ -13,27 +13,11 @@
     name: nftables
     state: restarted
 
-- name: Restart fail2ban
-  systemd:
-    name: fail2ban
-    state: restarted
-
-- name: Restart ntp
-  systemd:
-    name: ntp
-    state: restarted
-
-- name: Restart auditd
-  systemd:
-    name: auditd
-    state: restarted
-
-- name: Generate auditd
-  command: augenrules
-
 - name: Reload systemd
   systemd:
     daemon_reload: true
 
-- name: Update cracklib debian
-  command: update-cracklib
+- name: Reload journald
+  systemd:
+    name: systemd-journald
+    state: reloaded
