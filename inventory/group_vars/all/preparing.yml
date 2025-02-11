@@ -1,7 +1,5 @@
 ## basic package list for installation
 packages:
-- wget
-- git
 - vim
 - bash-completion
 - curl
@@ -9,16 +7,7 @@ packages:
 - unzip
 - net-tools
 - dnsutils
-- sudo
-#- ntp
-- fail2ban
-- software-properties-common
 - tcpdump
-- iptables-persistent
-- nftables
-- auditd
-- libpwquality-common
-- cracklib-runtime
 - ethtool
 
 ## sshd configuration
@@ -48,34 +37,12 @@ firewall_config:
     - "{{ hostvars['external-network'].ansible_host }}/32"
     - "{{ hostvars['internal-network'].ansible_host }}/32"
 
-
 ## packet DSCP configuration
 ## https://en.wikipedia.org/wiki/Differentiated_services
 dscp: true
 
-## fail2ban configuration
-fail2ban:
-  bantime: 10m
-  findtime: 10m
-  maxretry: 5
-
 ## session timeout setting (seconds)
 timeout_time: 600
-
-## auditd vars
-auditd_apply_audit_rules: yes
-auditd_action_mail_acct: root
-auditd_admin_space_left_action: suspend
-auditd_disk_error_action: suspend
-auditd_disk_full_action: suspend
-auditd_max_log_file: 8
-auditd_max_log_file_action: keep_logs
-auditd_mode: 1
-auditd_num_logs: 5
-auditd_space_left: 75
-auditd_space_left_action: email
-grub_audit_backlog_cmdline: audit_backlog_limit=8192
-grub_audit_cmdline: audit=1
 
 ## resolv.conf name servers
 dns_v4: 1.1.1.1
@@ -163,5 +130,5 @@ sysctl_config:
   net.netfilter.nf_conntrack_tcp_timeout_close_wait: 10
   net.netfilter.nf_conntrack_tcp_timeout_syn_recv: 30
   net.netfilter.nf_conntrack_max: 262144
-  net.ipv4.conf.default.rp_filter: 1
-  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 0
+  net.ipv4.conf.all.rp_filter: 0
