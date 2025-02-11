@@ -16,3 +16,8 @@
 - name: Configure GRO for {{ ansible_default_ipv4.interface }}
   command: ethtool -K {{ ansible_default_ipv4.interface }} gro {{ 'on' if gro else 'off' }}
 
+- name: Configure rx-usecs and tx-usecs
+  command: ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs 0 tx-usecs 0
+
+- name: Configure TX and RX
+  command: ethtool -K {{ ansible_default_ipv4.interface }} tx off rx off
