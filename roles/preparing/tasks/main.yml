@@ -3,11 +3,6 @@
   import_tasks: packages.yml
   tags: packages
 
-- name: Install RT kernel
-  import_tasks: kernel.yml
-  tags: rt-kernel
-  when: is_rt_kernel_valid
-
 - name: Configure network interfaces
   import_tasks: nic.yml
   tags: nic
@@ -35,3 +30,8 @@
 - name: Change sysctl.conf
   import_tasks: sysctl.yml
   tags: sysctl
+
+- name: Install RT kernel
+  import_tasks: kernel.yml
+  tags: rt-kernel
+  when: is_rt_kernel_valid
