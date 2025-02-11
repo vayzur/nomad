@@ -13,21 +13,21 @@
   systemd:
     name: rsyslog
     state: stopped
-    enabled: no
+    enabled: false
   ignore_errors: true
 
 - name: Disable logrotate
   systemd:
     name: logrotate
     state: stopped
-    enabled: no
+    enabled: false
   ignore_errors: true
 
 - name: Disable auditd service
   systemd:
     name: auditd
     state: stopped
-    enabled: no
+    enabled: false
   ignore_errors: true
 
 - name: Remove cron daily logrotate
