@@ -9,7 +9,7 @@
     name: tcp_bbr
     state: present
 
-- name: Change various sysctl-settings
+- name: Change sysctl-settings
   sysctl:
     name: "{{ item.key }}"
     state: present
@@ -18,4 +18,3 @@
     reload: true
     ignoreerrors: true
   with_dict: "{{ sysctl_config }}"
-
