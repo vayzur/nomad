@@ -4,11 +4,6 @@
     name: br_netfilter
     state: present
 
-- name: Add the tcp_bbr module
-  community.general.modprobe:
-    name: tcp_bbr
-    state: present
-
 - name: Change sysctl-settings
   sysctl:
     name: "{{ item.key }}"
