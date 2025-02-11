@@ -1,0 +1,41 @@
+---
+- name: Install nftables
+  apt:
+    update_cache: true
+    name: nftables
+    state: present
+
+- name: Disable iptables service
+  systemd:
+    name: iptables
+    enabled: false
+    state: stopped
+  ignore_errors: true
+
+- name: Unload iptables
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: absent
+    loop:
+      - ip_tables
+      - x_tables
+
+- name: Enable nftables service
+  systemd:
+    name: nftables
+    enabled: true
+    state: started
+  ignore_errors: true
+
+- name: Make nftables configuration file
+  template:
+    src: nftables.conf.j2
+    dest: /etc/nftables.conf
+  tags: nftables
+
+- name: Restore nftables state
+  shell: nft -f /etc/nftables.conf
+  async: 45
+  poll: 15
+  ignore_errors: true
+  tags: nftables
