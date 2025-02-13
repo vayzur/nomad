@@ -1,0 +1,9 @@
+#!/bin/bash
+
+tc qdisc replace dev {{ ansible_default_ipv4.interface }} root fq_codel target {{ fq_codel_target }} interval {{ fq_codel_interval }} noecn limit {{ fq_codel_limit }} flows {{ fq_codel_flows }} quantum {{ fq_codel_quantum }}
+
+ethtool -K {{ ansible_default_ipv4.interface }} tso {{ 'on' if tso else 'off' }}
+ethtool -K {{ ansible_default_ipv4.interface }} gso {{ 'on' if gso else 'off' }}
+ethtool -K {{ ansible_default_ipv4.interface }} gro {{ 'on' if gro else 'off' }}
+ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx-usecs }} tx-usecs {{ tx-usecs }}
+ethtool -K {{ ansible_default_ipv4.interface }} tx off rx off

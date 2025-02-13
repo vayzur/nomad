@@ -1,0 +1,11 @@
+[Unit]
+Description=Configure Network Interface Settings
+After=network.target
+
+[Service]
+ExecStart=/bin/bash {{ config_dir }}/nic.sh
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
