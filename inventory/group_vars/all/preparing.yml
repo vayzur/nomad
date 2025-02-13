@@ -19,8 +19,9 @@ sshd_config:
   AllowUsers: root
   AllowGroups: root
 
-## firewall system: nftables or iptables
-firewall: nftables
+## firewall system
+## supported: nftables, iptables, none
+firewall: none
 
 ## firewall configuration
 firewall_config:
@@ -62,13 +63,14 @@ limit_nofile_soft: 1000000
 limit_nproc_hard: 10000
 limit_nproc_soft: 10000
 
-## traffic control variables
-## CAKE
-## mbit, gbit, unlimited
-bandwidth: 1gbit
-rtt: 1ms
+## qdisc configuration
+fq_codel_target: 500us
+fq_codel_interval: 10ms
+fq_codel_limit: 1024
+fq_codel_flows: 1024
+fq_codel_quantum: 256
 
-## network interface card configuration
+## NIC configuration
 ##
 ## https://www.kernel.org/doc/Documentation/networking/segmentation-offloads.txt
 ## https://en.wikipedia.org/wiki/TCP_offload_engine
@@ -77,10 +79,14 @@ tso: false   # TCP Segmentation Offload
 gso: false   # Generic Segmentation Offload
 gro: false   # Generic Receive Offload
 
+## RX/TX queue polling interval
+rx-usecs: 0
+tx-usecs: 0
+
 ## sysctl configuration variables
 sysctl_config:
-  net.core.busy_read: 10
-  net.core.busy_poll: 10
+  net.core.busy_read: 100
+  net.core.busy_poll: 100
   net.core.somaxconn: 512
   net.ipv4.tcp_fin_timeout: 10
   net.ipv4.tcp_keepalive_time: 120
@@ -114,7 +120,7 @@ sysctl_config:
   net.ipv4.udp_wmem_min: 16384
   net.ipv4.udp_l3mdev_accept: 1
   net.ipv4.ip_default_ttl: 64
-  net.core.default_qdisc: cake
+  net.core.default_qdisc: fq_codel
   net.ipv4.tcp_congestion_control: cubic
   net.ipv4.icmp_echo_ignore_all: 0
   net.ipv4.ip_forward: 1
@@ -126,9 +132,11 @@ sysctl_config:
   vm.dirty_ratio: 5
   vm.dirty_background_ratio: 5
   fs.file-max: 1500000
-  net.netfilter.nf_conntrack_tcp_timeout_established: 900
-  net.netfilter.nf_conntrack_tcp_timeout_close_wait: 10
-  net.netfilter.nf_conntrack_tcp_timeout_syn_recv: 30
-  net.netfilter.nf_conntrack_max: 262144
   net.ipv4.conf.default.rp_filter: 0
   net.ipv4.conf.all.rp_filter: 0
+  net.bridge.bridge-nf-call-iptables: 0
+  net.bridge.bridge-nf-call-ip6tables: 0
+  net.netfilter.nf_conntrack_max: "{{ '0' if firewall == 'none' else '262144' }}"
+  net.netfilter.nf_conntrack_tcp_timeout_established: "{{ '0' if firewall == 'none' else '900' }}"
+  net.netfilter.nf_conntrack_tcp_timeout_close_wait: "{{ '0' if firewall == 'none' else '10' }}"
+  net.netfilter.nf_conntrack_tcp_timeout_syn_recv: "{{ '0' if firewall == 'none' else '30' }}"
