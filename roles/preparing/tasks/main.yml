@@ -3,10 +3,6 @@
   import_tasks: packages.yml
   tags: packages
 
-- name: Configure network interfaces
-  import_tasks: nic.yml
-  tags: nic
-
 - name: Configure logging
   import_tasks: logging.yml
   tags: logging
@@ -19,6 +15,19 @@
   import_tasks: hardening.yml
   tags: hardening
 
+- name: Confiugre DNS
+  import_tasks: dns.yml
+  tags: dns
+
+- name: Configure network interfaces
+  import_tasks: nic.yml
+  tags: nic
+
+- name: Disable the netfilter
+  import_tasks: netfilter.yml
+  tags: disable-netfilter
+  when: firewall == 'none'
+
 - name: Configure nftables
   import_tasks: nftables.yml
   tags: nftables
@@ -29,15 +38,10 @@
   tags: iptables
   when: firewall == 'iptables'
 
-- name: Confiugre DNS
-  import_tasks: dns.yml
-  tags: dns
-
-- name: Change sysctl settings
+- name: Apply sysctl settings
   import_tasks: sysctl.yml
   tags: sysctl
 
-- name: Install RT kernel
+- name: Configure Kernel
   import_tasks: kernel.yml
-  tags: rt-kernel
-  when: is_rt_kernel_valid
+  tags: kernel
