@@ -1,28 +1,15 @@
 ---
-- name: Install real-time kernel
-  apt:
-    update_cache: true
-    name: "{{ rt_kernel_package }}"
-    state: present
-    
-- name: Set default kernel to RT
-  lineinfile:
-    path: /etc/default/grub
-    regexp: '^GRUB_DEFAULT'
-    line: 'GRUB_DEFAULT="1>0"' # grep menuentry /boot/grub/grub.cfg
-
-- name: Configure GRUB kernel options
+- name: Configure GRUB
   lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
-    line: "GRUB_CMDLINE_LINUX_DEFAULT=\"{{ ansible_facts['grub_cmdline_linux_default'] | default('') }} preempt=full threadirqs quiet\""
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet audit=0 mitigations=off"'
 
 - name: Update GRUB configuration
   command: update-grub
 
 - name: Reboot the system
   reboot:
-    msg: "Rebooting to apply the new kernel"
     test_command: uname -r
     reboot_timeout: 600
     pre_reboot_delay: 5
