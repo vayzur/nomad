@@ -21,3 +21,6 @@
   systemd:
     name: systemd-journald
     state: reloaded
+
+- name: Reload sysctl
+  command: sysctl -p
