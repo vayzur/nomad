@@ -70,7 +70,11 @@ firewall_config:
 After editing, run the following command to update the firewall rules:
 
 ```bash
-ansible-playbook -i inventory/hosts.yml vpn.yml --tags firewall
+# if using nftables
+ansible-playbook -i inventory/hosts.yml vpn.yml --tags nftables
+
+# if using iptables
+ansible-playbook -i inventory/hosts.yml vpn.yml --tags iptables
 ```
 
 ---
