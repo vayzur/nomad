@@ -1,24 +1,14 @@
 ---
+- name: Remove netfilter blacklist if exists
+  file:
+    path: /etc/modprobe.d/disable-netfilter.conf
+    state: absent
+
 - name: Install nftables
   apt:
     update_cache: true
     name: nftables
     state: present
-
-- name: Disable iptables service
-  systemd:
-    name: iptables
-    enabled: false
-    state: stopped
-  ignore_errors: true
-
-- name: Unload iptables
-  community.general.modprobe:
-    name: "{{ item }}"
-    state: absent
-    loop:
-      - ip_tables
-      - x_tables
 
 - name: Enable nftables service
   systemd:
