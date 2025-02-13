@@ -5,5 +5,5 @@ tc qdisc replace dev {{ ansible_default_ipv4.interface }} root fq_codel target {
 ethtool -K {{ ansible_default_ipv4.interface }} tso {{ 'on' if tso else 'off' }}
 ethtool -K {{ ansible_default_ipv4.interface }} gso {{ 'on' if gso else 'off' }}
 ethtool -K {{ ansible_default_ipv4.interface }} gro {{ 'on' if gro else 'off' }}
-ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx-usecs }} tx-usecs {{ tx-usecs }}
+ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }} tx-usecs {{ tx_usecs }}
 ethtool -K {{ ansible_default_ipv4.interface }} tx off rx off

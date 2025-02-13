@@ -80,8 +80,8 @@ gso: false   # Generic Segmentation Offload
 gro: false   # Generic Receive Offload
 
 ## RX/TX queue polling interval
-rx-usecs: 0
-tx-usecs: 0
+rx_usecs: 0
+tx_usecs: 0
 
 ## sysctl configuration variables
 sysctl_config:
