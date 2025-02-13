@@ -1,12 +1,4 @@
 ---
-- hosts: all
-  tasks:
-    - name: Set RT kernel package name and validation flag
-      set_fact:
-        rt_kernel_package: "{{ 'linux-image-rt-' ~ (ansible_architecture | regex_replace('x86_64', 'amd64') | regex_replace('aarch64', 'arm64')) }}"
-        is_rt_kernel_valid: "{{ ansible_architecture in ['x86_64', 'aarch64'] }}"
-      when: ansible_distribution == "Debian"
-
 - name: Apply optimizations and hardening
   hosts: all
   become: true
