@@ -23,4 +23,4 @@
     state: reloaded
 
 - name: Reload sysctl
-  command: sysctl -p
+  command: sysctl -e -p
