@@ -1,4 +1,12 @@
 ---
+- name: Create Nomad directory
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Make NIC configuration script
   template:
     src: nic.sh.j2
