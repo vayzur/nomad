@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tc qdisc replace dev easytier root fq_codel target {{ fq_codel_target }} interval {{ fq_codel_interval }} noecn limit {{ fq_codel_limit }} flows {{ fq_codel_flows }} quantum {{ fq_codel_quantum }}

@@ -75,7 +75,28 @@
 
 - name: Wait for EasyTier interface to be available
   pause:
-    seconds: 10
+    seconds: 3
 
-- name: Apply CAKE qdisc to the EasyTier interface
-  command: "tc qdisc replace dev easytier root cake diffserv4 bandwidth {{ bandwidth }} rtt {{ rtt }}"
+- name: Make EasyTier TUN script
+  template:
+    src: easytier-tun.sh.j2
+    dest: "{{ easytier_dir }}/easytier-tun.sh"
+    mode: 0744
+    owner: root
+    group: root
+
+- name: Make EasyTier TUN systemd service
+  template:
+    src: easytier-tun.service.j2
+    dest: /etc/systemd/system/easytier-tun.service
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Enable and start EasyTier TUN service
+  systemd:
+    name: easytier-tun
+    enabled: true
+    state: started
+    daemon_reload: true
+  ignore_errors: true

@@ -1,0 +1,11 @@
+[Unit]
+Description=Configure EasyTier Interface Settings
+After=network.target
+
+[Service]
+ExecStart=/bin/bash {{ easytier_dir }}/easytier-tun.sh
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
