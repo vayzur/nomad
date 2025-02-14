@@ -9,6 +9,14 @@
   notify:
     - Reload journald
 
+- name: Disable syslog logging
+  lineinfile:
+    path: /etc/rsyslog.conf
+    regexp: '^*.*'
+    line: "*.*  /dev/null"
+    state: present
+  ignore_errors: true
+
 - name: Disable rsyslog service
   systemd:
     name: rsyslog
@@ -42,11 +50,4 @@
     value: "3 4 1 3"
     state: present
     reload: true
-  ignore_errors: true
-
-- name: Disable iptables logging
-  lineinfile:
-    path: /etc/rsyslog.d/iptables.conf
-    line: "*.*  /dev/null"
-    state: present
   ignore_errors: true
