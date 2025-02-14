@@ -9,14 +9,6 @@
   notify:
     - Reload journald
 
-- name: Disable syslog logging
-  lineinfile:
-    path: /etc/rsyslog.conf
-    regexp: '^*.*'
-    line: "*.*  /dev/null"
-    state: present
-  ignore_errors: true
-
 - name: Disable rsyslog service
   systemd:
     name: rsyslog
@@ -44,10 +36,3 @@
     state: absent
   ignore_errors: true
 
-- name: Disable kernel logging
-  sysctl:
-    name: kernel.printk
-    value: "3 4 1 3"
-    state: present
-    reload: true
-  ignore_errors: true
