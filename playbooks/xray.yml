@@ -1,7 +1,6 @@
 ---
-- name: Install Xray core OR 3x-UI
+- name: Install Xray core
   hosts: all
   become: true
   roles:
     - { role: ../roles/xray, tags: xray, when: enable_xray }
-    - { role: ../roles/xui, tags: xui, when: enable_xui }
