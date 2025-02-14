@@ -20,7 +20,7 @@
 - name: Reload journald
   systemd:
     name: systemd-journald
-    state: reloaded
+    state: restarted
 
 - name: Reload sysctl
   command: sysctl -e -p
