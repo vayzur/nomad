@@ -48,6 +48,12 @@
     path: "{{ easytier_temp_dir }}"
     state: absent
 
+- name: Determine peer host based on reverse flag
+  set_fact:
+    peer_host: "{{ hostvars['internal-network'].ansible_host if easytier_reverse else hostvars['external-network'].ansible_host }}"
+  delegate_to: localhost
+  when: enable_easytier and inventory_hostname == 'internal-network' or inventory_hostname == 'external-network'
+
 - name: Setup EasyTier service for internal network
   template:
     src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
@@ -75,7 +81,7 @@
 
 - name: Wait for EasyTier interface to be available
   pause:
-    seconds: 3
+    seconds: 2
 
 - name: Make EasyTier TUN script
   template:

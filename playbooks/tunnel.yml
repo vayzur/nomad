@@ -1,14 +1,4 @@
 ---
-- name: Set tunnel facts
-  hosts: internal-network,external-network
-  tasks:
-    - name: Determine peer host based on reverse flag
-      set_fact:
-        peer_host: "{{ hostvars['internal-network'].ansible_host if easytier_reverse else hostvars['external-network'].ansible_host }}"
-      run_once: true
-      delegate_to: localhost
-      when: enable_easytier and inventory_hostname == 'internal-network' or inventory_hostname == 'external-network'
-
 - name: Setup tunnels
   hosts: internal-network,external-network
   become: true
