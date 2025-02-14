@@ -18,6 +18,3 @@ enable_ip6gre: false
 
 ## Set to true to install the Xray core (Only X86_64)
 enable_xray: false
-
-## Set to true to install the 3x-UI panel
-enable_xui: false
