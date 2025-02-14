@@ -13,7 +13,6 @@ Here’s a quick list of what Nomad can do for you:
 - **SSH Hardening:** Locks down SSH settings for better security.
 - **Firewall Configuration:** Sets up firewall rules to protect servers and secure network traffic.
 - **Xray Core:** Installs and configures the Xray core for advanced VPN capabilities.
-- **3x-UI Panel Installation:** Makes VPN management a breeze with the 3x-UI panel.
 - **Tunnel Configuration:** Sets up a VPN tunnel using supported methods to optimize performance.
 
 ---
@@ -24,7 +23,6 @@ Here’s a quick list of what Nomad can do for you:
   - SIT (6to4)
   - IP6GRE
 - **Xray Core**
-- **3x-UI**
 
 Alright, let’s roll and get started with Nomad! 🛠️
 
@@ -85,26 +83,7 @@ ansible-playbook -i inventory/hosts.yml vpn.yml --tags iptables
 
 **Heads up!** Tunneling needs two servers—one in the internal network and one in the external network. Let’s set up EasyTier with the reverse tunneling method, which we recommend.
 
-#### Step 1: Configure the `.env` File
-
-If you’re using 3x-UI, you’ll need to configure the `.env` file first:
-
-```bash
-cp .env.example .env
-
-<your-favorite-editor> .env
-```
-
-Export variables in your current shell
-```bash
-set -o allexport
-source .env
-set +o allexport
-```
-
-Set your username and password for 3x-UI. If you’re not using it, skip this step.
-
-#### Step 2: Create the Inventory File
+#### Step 1: Create the Inventory File
 
 Tell Ansible where to work by creating the `hosts.yml` file:
 
@@ -254,60 +233,7 @@ ss -tulpn
 
 ---
 
-## 3x-UI
-
-You’ll need to configure the `.env` file first:
-
-```bash
-cp .env.example .env
-
-<your-favorite-editor> .env
-```
-
-Export variables in your current shell
-```bash
-set -o allexport
-source .env
-set +o allexport
-```
-
-Enable 3x-UI by setting `enable_xui` to `true` in `all.yml`:
-
-```yml
-enable_xui: true
-```
-
-Configure options in `xui.yml`. Default settings:
-
-```yml
-xui_listen: 127.0.0.1
-xui_port: 2053
-xui_web_path: /
-```
-
-> [!WARNING]
-> For the security reasons, we blocked all public traffic to panels
-
-After installation, access the panel by creating an SSH tunnel:
-
-```bash
-ssh -L 8080:127.0.0.1:2053 user@ip
-```
-
-> [!NOTE]
-> To be able to do SSH port forwarding, you must allow tcp forwarding `AllowTcpForwarding yes` in `/etc/ssh/sshd_config`  
-> By default we enabled it in the preparing tasks
-
-Then open in your browser:
-
-```bash
-http://localhost:8080
-```
-
----
-
 # Credits
 
 - [EasyTier](https://github.com/EasyTier/EasyTier)
 - [Xray](https://github.com/XTLS/Xray-core)
-- [3x-UI](https://github.com/MHSanaei/3x-ui)
