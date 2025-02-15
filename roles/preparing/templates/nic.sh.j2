@@ -7,3 +7,21 @@ ethtool -K {{ ansible_default_ipv4.interface }} gso {{ 'on' if gso else 'off' }}
 ethtool -K {{ ansible_default_ipv4.interface }} gro {{ 'on' if gro else 'off' }}
 ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }} tx-usecs {{ tx_usecs }}
 ethtool -K {{ ansible_default_ipv4.interface }} tx off rx off
+
+{% if dscp %}
+tc filter del dev {{ ansible_default_ipv4.interface }}
+tc qdisc del dev {{ ansible_default_ipv4.interface }} clsact
+tc qdisc add dev {{ ansible_default_ipv4.interface }} clsact
+
+{% if firewall_config.tcp_port_access is defined %}
+{% for port in firewall_config.tcp_port_access %}
+tc filter add dev {{ ansible_default_ipv4.interface }} egress protocol ip prio 1 u32 match ip sport {{ port }} 0xffff action pedit munge ip tos set 0x28 pipe action csum iph
+{% endfor %}
+{% endif %}
+
+{% if firewall_config.udp_port_access is defined %}
+{% for port in firewall_config.udp_port_access %}
+tc filter add dev {{ ansible_default_ipv4.interface }} egress protocol ip prio 1 u32 match ip sport {{ port }} 0xffff action pedit munge ip tos set 0x80 pipe action csum iph
+{% endfor %}
+{% endif %}
+{% endif %}
