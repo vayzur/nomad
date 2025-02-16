@@ -7,8 +7,12 @@
     mode: 0644
     owner: root
     group: root
-  notify:
-    - Reload systemd
+
+- name: Reload systemd-resolved service
+  systemd:
+    name: systemd-resolved
+    state: restarted
+  ignore_errors: true
 
 - name: Configure resolv.conf
   template:
