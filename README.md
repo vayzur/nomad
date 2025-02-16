@@ -111,7 +111,6 @@ Edit the following files to match your requirements:
 <your-favorite-editor> inventory/group_vars/all/preparing.yml
 <your-favorite-editor> inventory/group_vars/all/easytier.yml
 <your-favorite-editor> inventory/group_vars/all/xray.yml
-<your-favorite-editor> inventory/group_vars/all/xui.yml
 ```
 
 #### Step 4: Enable EasyTier
