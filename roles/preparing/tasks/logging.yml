@@ -1,5 +1,5 @@
 ---
-- name: Disable systemd journal logging
+- name: Disable systemd-journald logging
   lineinfile:
     path: /etc/systemd/journald.conf
     regexp: '^#Storage='
@@ -9,7 +9,7 @@
   notify:
     - Reload journald
 
-- name: Disable systemd-journald logging
+- name: Disable systemd-journald service
   systemd:
     name: systemd-journald
     masked: true
@@ -25,7 +25,7 @@
     enabled: false
   ignore_errors: true
 
-- name: Disable logrotate
+- name: Disable logrotate service
   systemd:
     name: logrotate
     state: stopped
