@@ -6,8 +6,6 @@
     line: 'Storage=none'
     state: present
   ignore_errors: true
-  notify:
-    - Reload journald
 
 - name: Disable systemd-journald service
   systemd:
