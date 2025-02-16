@@ -88,6 +88,7 @@ sysctl_config:
   net.core.busy_read: 100
   net.core.busy_poll: 100
   net.core.somaxconn: 512
+  net.ipv4.tcp_no_metrics_save: 1
   net.ipv4.tcp_fin_timeout: 10
   net.ipv4.tcp_keepalive_time: 120
   net.ipv4.tcp_ecn: 0
