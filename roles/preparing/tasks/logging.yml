@@ -9,10 +9,19 @@
   notify:
     - Reload journald
 
+- name: Disable systemd-journald logging
+  systemd:
+    name: systemd-journald
+    masked: true
+    enabled: false
+    state: stopped
+  ignore_errors: true
+
 - name: Disable rsyslog service
   systemd:
     name: rsyslog
     state: stopped
+    masked: true
     enabled: false
   ignore_errors: true
 
@@ -20,6 +29,7 @@
   systemd:
     name: logrotate
     state: stopped
+    masked: true
     enabled: false
   ignore_errors: true
 
@@ -27,6 +37,7 @@
   systemd:
     name: auditd
     state: stopped
+    masked: true
     enabled: false
   ignore_errors: true
 
@@ -35,4 +46,3 @@
     path: /etc/cron.daily/logrotate
     state: absent
   ignore_errors: true
-
