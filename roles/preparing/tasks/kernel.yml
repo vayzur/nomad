@@ -8,9 +8,8 @@
 - name: Update GRUB configuration
   command: update-grub
 
-- name: Reboot the system
+- name: Reboot the server
   reboot:
-    test_command: uname -r
     reboot_timeout: 600
-    pre_reboot_delay: 5
+    pre_reboot_delay: 0
     post_reboot_delay: 30
