@@ -87,6 +87,9 @@ tx_usecs: 0
 sysctl_config:
   net.core.busy_read: 100
   net.core.busy_poll: 100
+  net.core.dev_weight: 256
+  net.core.dev_weight_rx_bias: 64
+  net.core.dev_weight_tx_bias: 64
   net.core.somaxconn: 512
   net.ipv4.tcp_no_metrics_save: 1
   net.ipv4.tcp_fin_timeout: 10
