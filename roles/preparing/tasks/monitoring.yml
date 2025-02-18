@@ -1,0 +1,21 @@
+---
+- name: Install prometheus node exporter
+  apt:
+    update_cache: true
+    name: prometheus-node-exporter
+    state: present
+
+- name: Change node exporter port
+  lineinfile:
+    path: /etc/default/prometheus-node-exporter
+    regexp: '^ARGS='
+    line: 'ARGS="--web.listen-address={{ node_exporter_listen_address }}"'
+    state: present
+  ignore_errors: true
+
+- name: Enable and start node exporter service
+  systemd:
+    name: prometheus-node-exporter
+    enabled: true
+    state: restarted
+  ignore_errors: true

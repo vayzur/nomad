@@ -10,6 +10,10 @@ packages:
 - tcpdump
 - ethtool
 
+## monitoring (prometheus)
+monitoring: true
+node_exporter_listen_address: ":10100"
+
 ## sshd configuration
 sshd_config:
   Port: "{{ ansible_port }}"
