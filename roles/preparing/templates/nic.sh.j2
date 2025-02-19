@@ -28,4 +28,4 @@ tc filter add dev {{ ansible_default_ipv4.interface }} egress protocol ip prio 1
 {% endif %}
 {% endif %}
 
-echo {{ sysctl_config['net.core.busy_poll'] }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/napi_defer_hard_irqs
+echo {{ napi_defer }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/napi_defer_hard_irqs

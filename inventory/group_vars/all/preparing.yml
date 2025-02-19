@@ -95,12 +95,15 @@ tx_usecs: 0
 rx_frames: 1
 tx_frames: 1
 
+## NAPI defer hard IRQ
+napi_defer: 1
+
 ## sysctl configuration variables
 sysctl_config:
   net.core.busy_read: 100
   net.core.busy_poll: 100
-  net.core.netdev_budget: 128
-  net.core.netdev_budget_usecs: 3000
+  net.core.netdev_budget: 64
+  net.core.netdev_budget_usecs: 256
   net.core.dev_weight: 512
   net.core.dev_weight_rx_bias: 64
   net.core.dev_weight_tx_bias: 64
