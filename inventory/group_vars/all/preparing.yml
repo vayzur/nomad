@@ -83,18 +83,32 @@ tso: false   # TCP Segmentation Offload
 gso: false   # Generic Segmentation Offload
 gro: false   # Generic Receive Offload
 
-## RX/TX queue polling interval
+## Adaptive RX/TX
+adaptive_rx: false
+adaptive_tx: false
+
+## RX/TX polling interval
 rx_usecs: 0
 tx_usecs: 0
+
+## RX/TX queue length
+rx_frames: 1
+tx_frames: 1
 
 ## sysctl configuration variables
 sysctl_config:
   net.core.busy_read: 100
   net.core.busy_poll: 100
-  net.core.dev_weight: 256
+  net.core.netdev_budget: 128
+  net.core.netdev_budget_usecs: 3000
+  net.core.dev_weight: 512
   net.core.dev_weight_rx_bias: 64
   net.core.dev_weight_tx_bias: 64
+  net.core.flow_limit_table_len: 8192
+  net.ipv4.ip_early_demux: 1
+  net.core.netdev_tstamp_prequeue: 0
   net.core.somaxconn: 512
+  net.ipv4.tcp_dma_copybreak: 2048
   net.ipv4.tcp_no_metrics_save: 1
   net.ipv4.tcp_fin_timeout: 10
   net.ipv4.tcp_keepalive_time: 120
@@ -117,12 +131,12 @@ sysctl_config:
   net.ipv4.tcp_wmem: "4096 16384 262144"
   net.ipv4.tcp_low_latency: 1
   net.ipv4.tcp_fastopen: 3
-  net.core.rmem_default: 65536
-  net.core.wmem_default: 65536
+  net.core.rmem_default: 32768
+  net.core.wmem_default: 32768
   net.core.rmem_max: 262144
   net.core.wmem_max: 262144
   net.core.optmem_max: 32768
-  net.core.netdev_max_backlog: 1024
+  net.core.netdev_max_backlog: 512
   net.unix.max_dgram_qlen: 512
   net.ipv4.udp_rmem_min: 16384
   net.ipv4.udp_wmem_min: 16384
