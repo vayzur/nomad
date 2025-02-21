@@ -3,10 +3,3 @@
 {% for key, value in sysctl_config.items() %}
 {{ key }} = {{ value }}
 {% endfor %}
-{% set vcpu_count = ansible_processor_vcpus | int %}
-{% if vcpu_count > 1 %}
-{% set rps_mask = (2 ** vcpu_count) - 1 %}
-net.core.rps_sock_flow_entries = 32768
-net.core.rps_default_mask = {{ rps_mask }}
-net.core.flow_limit_cpu_bitmap = {{ rps_mask }}
-{% endif %}

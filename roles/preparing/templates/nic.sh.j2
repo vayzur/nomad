@@ -5,10 +5,10 @@ tc qdisc replace dev {{ ansible_default_ipv4.interface }} root fq_codel target {
 ethtool -K {{ ansible_default_ipv4.interface }} tso {{ 'on' if tso else 'off' }}
 ethtool -K {{ ansible_default_ipv4.interface }} gso {{ 'on' if gso else 'off' }}
 ethtool -K {{ ansible_default_ipv4.interface }} gro {{ 'on' if gro else 'off' }}
+ethtool -K {{ ansible_default_ipv4.interface }} lro {{ 'on' if lro else 'off' }}
 ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }} tx-usecs {{ tx_usecs }}
-ethtool -K {{ ansible_default_ipv4.interface }} tx off rx off
-ethtool -C eth0 rx-frames {{ rx_frames }} tx-frames {{ tx_frames }}
-ethtool -C eth0 adaptive-rx {{ 'on' if adaptive_rx else 'off' }} adaptive-tx {{ 'on' if adaptive_tx else 'off' }}
+ethtool -C {{ ansible_default_ipv4.interface }} rx-frames {{ rx_frames }} tx-frames {{ tx_frames }}
+ethtool -C {{ ansible_default_ipv4.interface }} adaptive-rx {{ 'on' if adaptive_rx else 'off' }} adaptive-tx {{ 'on' if adaptive_tx else 'off' }}
 
 {% if dscp %}
 tc filter del dev {{ ansible_default_ipv4.interface }}
@@ -29,3 +29,15 @@ tc filter add dev {{ ansible_default_ipv4.interface }} egress protocol ip prio 1
 {% endif %}
 
 echo {{ napi_defer }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/napi_defer_hard_irqs
+
+{% if ansible_processor_vcpus | int > 2 %}
+echo "fe" > /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/rx-*/rps_cpus
+
+VCPU_COUNT=$(nproc)
+QUEUE_COUNT=$(ls /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/ | grep -c rx-)
+FLOW_ENTRIES=$(( $VCPU_COUNT * 1024 ))
+FLOW_PER_QUEUE=$(( $FLOW_ENTRIES / $QUEUE_COUNT ))
+
+sysctl -w net.core.rps_sock_flow_entries="$FLOW_ENTRIES"
+echo "$FLOW_PER_QUEUE" > /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/rx-*/rps_flow_cnt
+{% endif %}
