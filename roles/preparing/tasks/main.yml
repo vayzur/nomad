@@ -6,6 +6,7 @@
 - name: Configure Monitoring
   import_tasks: monitoring.yml
   tags: monitoring
+  when: monitoring
 
 - name: Configure logging
   import_tasks: logging.yml
