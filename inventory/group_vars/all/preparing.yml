@@ -79,14 +79,20 @@ fq_codel_quantum: 256
 ## https://www.kernel.org/doc/Documentation/networking/segmentation-offloads.txt
 ## https://en.wikipedia.org/wiki/TCP_offload_engine
 ##
-tso: false   # TCP Segmentation Offload
-gso: false   # Generic Segmentation Offload
-gro: false   # Generic Receive Offload
-lro: false   # Large Receive Offload
+tso: off   # TCP Segmentation Offload
+gso: off   # Generic Segmentation Offload
+gro: off   # Generic Receive Offload
+lro: off   # Large Receive Offload
+
+## Ethernet flow control
+## https://en.wikipedia.org/wiki/Ethernet_flow_control
+autoneg: off
+rx: off
+tx: off
 
 ## Adaptive RX/TX
-adaptive_rx: false
-adaptive_tx: false
+adaptive_rx: off
+adaptive_tx: off
 
 ## RX/TX polling interval
 rx_usecs: 0
