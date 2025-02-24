@@ -66,22 +66,16 @@
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'external-network'
 
-- name: Enable EasyTier service
-  systemd:
-    name: easytier
-    state: started
-    daemon_reload: true
-    enabled: true
-
-- name: Restart EasyTier service
+- name: Enable and start EasyTier service
   systemd:
     name: easytier
     state: restarted
     daemon_reload: true
+    enabled: true
 
 - name: Wait for EasyTier interface to be available
   pause:
-    seconds: 2
+    seconds: 1
 
 - name: Make EasyTier TUN script
   template:
