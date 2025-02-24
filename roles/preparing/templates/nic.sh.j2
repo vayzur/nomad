@@ -1,16 +1,22 @@
 #!/bin/bash
 
-tc qdisc replace dev {{ ansible_default_ipv4.interface }} root fq_codel target {{ fq_codel_target }} interval {{ fq_codel_interval }} noecn limit {{ fq_codel_limit }} flows {{ fq_codel_flows }} quantum {{ fq_codel_quantum }}
+{% if qdisc == 'fq_codel' %}
+tc qdisc replace dev {{ ansible_default_ipv4.interface }} root {{ _fq_codel }}
+{% elif qdisc == 'pfifo' %}
+tc qdisc replace dev {{ ansible_default_ipv4.interface }} root {{ _pfifo }}
+{% else %}
+tc qdisc replace dev {{ ansible_default_ipv4.interface }} root noqueue
+{% endif %}
 
-ethtool -K {{ ansible_default_ipv4.interface }} tso {{ 'on' if tso else 'off' }}
-ethtool -K {{ ansible_default_ipv4.interface }} gso {{ 'on' if gso else 'off' }}
-ethtool -K {{ ansible_default_ipv4.interface }} gro {{ 'on' if gro else 'off' }}
-ethtool -K {{ ansible_default_ipv4.interface }} lro {{ 'on' if lro else 'off' }}
+ethtool -K {{ ansible_default_ipv4.interface }} tso {{ tso }}
+ethtool -K {{ ansible_default_ipv4.interface }} gso {{ gso }}
+ethtool -K {{ ansible_default_ipv4.interface }} gro {{ gro }}
+ethtool -K {{ ansible_default_ipv4.interface }} lro {{ lro }}
 ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }} tx-usecs {{ tx_usecs }}
 ethtool -C {{ ansible_default_ipv4.interface }} rx-frames {{ rx_frames }} tx-frames {{ tx_frames }}
-ethtool -C {{ ansible_default_ipv4.interface }} adaptive-rx {{ 'on' if adaptive_rx else 'off' }} adaptive-tx {{ 'on' if adaptive_tx else 'off' }}
-ethtool -A {{ ansible_default_ipv4.interface }} autoneg {{ 'on' if autoneg else 'off' }}
-ethtool -A {{ ansible_default_ipv4.interface }} rx {{ 'on' if rx else 'off' }} tx {{ 'on' if tx else 'off' }}
+ethtool -C {{ ansible_default_ipv4.interface }} adaptive-rx {{ adaptive_rx }} adaptive-tx {{ adaptive_tx }}
+ethtool -A {{ ansible_default_ipv4.interface }} autoneg {{ autoneg }}
+ethtool -A {{ ansible_default_ipv4.interface }} rx {{ rx }} tx {{ tx }}
 
 {% if dscp %}
 tc filter del dev {{ ansible_default_ipv4.interface }}
