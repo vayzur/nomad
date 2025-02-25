@@ -3,20 +3,6 @@
   hostname:
     name: "{{ inventory_hostname }}"
 
-- name: Make timeout configuration file
-  template:
-    src: timeout.j2
-    dest: /etc/profile.d/timeout-settings.sh
-
-- name: Copy ssh banner file
-  copy:
-    src: ssh_banner
-    dest: /etc/issue
-    owner: root
-    group: root
-    mode: 0644
-  notify: Restart ssh
-
 - name: Make sshd configuration file
   template:
     src: sshd_config.j2
