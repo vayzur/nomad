@@ -110,7 +110,7 @@ sysctl_config:
   net.core.busy_poll: 250
   net.core.netdev_budget: 600
   net.core.netdev_budget_usecs: 400
-  net.core.dev_weight: 128
+  net.core.dev_weight: 64
   net.core.dev_weight_rx_bias: 1
   net.core.dev_weight_tx_bias: 1
   net.core.flow_limit_table_len: 4096
