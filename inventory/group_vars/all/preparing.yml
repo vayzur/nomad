@@ -46,18 +46,13 @@ firewall_config:
 ## https://en.wikipedia.org/wiki/Differentiated_services
 dscp: true
 
-## session timeout setting (seconds)
-timeout_time: 600
-
 ## resolv.conf name servers
-dns_v4: 1.1.1.1
-dns_v4_fallback: 1.0.0.1
+dns: 1.1.1.1
+dns_fallback: 1.0.0.1
 dns_v6: 2606:4700:4700::1111
 dns_v6_fallback: 2606:4700:4700::1001
 
-## DNS variables for systemd-resolved
-dns: 1.1.1.1
-fallback_dns: 1.0.0.1
+## systemd-resolved configuration
 dnssec: allow-downgrade
 dns_over_tls: opportunistic
 
