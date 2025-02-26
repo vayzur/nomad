@@ -36,6 +36,8 @@ tc filter add dev {{ ansible_default_ipv4.interface }} egress protocol ip prio 1
 
 echo {{ napi_defer }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/napi_defer_hard_irqs
 
+for pid in $(ps -e | grep ksoftirqd | awk '{print \$1}'); do chrt -r -p 99 \$pid; done
+
 {% if ansible_processor_vcpus | int > 2 %}
 echo "fe" > /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/rx-*/rps_cpus
 VCPU_COUNT=$(nproc)
