@@ -104,10 +104,10 @@ napi_defer: 1
 sysctl_config:
   net.core.default_qdisc: noqueue
   net.core.somaxconn: 4096
-  net.core.netdev_max_backlog: 10000
+  net.core.netdev_max_backlog: 50000
   net.unix.max_dgram_qlen: 4096
-  net.core.busy_read: 250
-  net.core.busy_poll: 250
+  net.core.busy_read: 1000
+  net.core.busy_poll: 1000
   net.core.netdev_budget: 600
   net.core.netdev_budget_usecs: 400
   net.core.dev_weight: 64
@@ -122,7 +122,7 @@ sysctl_config:
   net.core.wmem_max: 2097152
   net.core.optmem_max: 65536
   net.ipv4.tcp_no_metrics_save: 1
-  net.ipv4.tcp_fin_timeout: 10
+  net.ipv4.tcp_fin_timeout: 1
   net.ipv4.tcp_keepalive_time: 120
   net.ipv4.tcp_ecn: 0
   net.ipv4.tcp_sack: 0
@@ -130,17 +130,18 @@ sysctl_config:
   net.ipv4.tcp_timestamps: 0
   net.ipv4.tcp_keepalive_intvl: 20
   net.ipv4.tcp_keepalive_probes: 3
-  net.ipv4.tcp_max_orphans: 2048
+  net.ipv4.tcp_max_orphans: 524288
   net.ipv4.tcp_retries2: 3
   net.ipv4.tcp_synack_retries: 2
   net.ipv4.tcp_window_scaling: 1
   net.ipv4.tcp_slow_start_after_idle: 1
-  net.ipv4.tcp_max_tw_buckets: 2048
+  net.ipv4.tcp_max_tw_buckets: 262144
   net.ipv4.tcp_syncookies: 1
   net.ipv4.tcp_tw_reuse: 1
   net.ipv4.tcp_max_syn_backlog: 4096
   net.ipv4.tcp_rmem: "4096 87380 1048576"
   net.ipv4.tcp_wmem: "4096 16384 1048576"
+  net.ipv4.tcp_limit_output_bytes: 131072
   net.ipv4.tcp_low_latency: 1
   net.ipv4.tcp_fastopen: 3
   net.ipv4.tcp_congestion_control: cubic
@@ -161,8 +162,5 @@ sysctl_config:
   vm.dirty_ratio: 5
   vm.dirty_background_ratio: 5
   vm.compaction_proactiveness: 0
-  net.netfilter.nf_conntrack_max: 262144
-  net.netfilter.nf_conntrack_tcp_timeout_established: 900
-  net.netfilter.nf_conntrack_tcp_timeout_close_wait: 10
-  net.netfilter.nf_conntrack_tcp_timeout_syn_recv: 30
   kernel.printk: "3 4 1 3"
+  kernel.randomize_va_space: 0
