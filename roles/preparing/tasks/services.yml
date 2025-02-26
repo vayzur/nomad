@@ -1,0 +1,45 @@
+---
+- name: Disable and stop individual services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop:
+    - chrony
+    - ntp
+    - exim4
+    - apparmor
+    - dbus
+    - systemd-resolved
+    - systemd-timesyncd
+    - systemd-logind
+    - getty@tty1.service
+    - acpid
+    - acpid.path
+    - acpid.socket
+    - cloud-config
+    - cloud-final
+    - cloud-init-local
+    - cloud-init
+    - cloud-init-hotplugd.socket
+    - cron
+    - e2scrub_reap
+    - e2scrub_all.timer
+    - open-iscsi
+    - iscsid.socket
+    - qemu-guest-agent
+    - ssh-keygen
+    - systemd-pstore
+    - tuned
+    - apt-daily.timer
+    - apt-daily-upgrade.timer
+    - dpkg-db-backup.timer
+    - fstrim.timer
+    - remote-fs.target
+  ignore_errors: true
+
+- name: Mask getty.target to prevent reactivation
+  systemd:
+    name: getty.target
+    masked: true
+  ignore_errors: true

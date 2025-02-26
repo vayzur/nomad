@@ -3,7 +3,7 @@
   import_tasks: packages.yml
   tags: packages
 
-- name: Configure Monitoring
+- name: Configure monitoring
   import_tasks: monitoring.yml
   tags: monitoring
   when: monitoring
@@ -42,6 +42,10 @@
   import_tasks: iptables.yml
   tags: iptables
   when: firewall == 'iptables'
+
+- name: Disable and stop unnecessary services
+  import_tasks: services.yml
+  tags: services
 
 - name: Apply sysctl settings
   import_tasks: sysctl.yml
