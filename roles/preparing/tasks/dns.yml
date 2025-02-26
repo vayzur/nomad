@@ -1,19 +1,4 @@
 ---
-- name: Configure systemd resolved.conf
-  template:
-    src: resolved.conf.j2
-    dest: /etc/systemd/resolved.conf
-    backup: true
-    mode: 0644
-    owner: root
-    group: root
-
-- name: Reload systemd-resolved service
-  systemd:
-    name: systemd-resolved
-    state: restarted
-  ignore_errors: true
-
 - name: Configure resolv.conf
   template:
     src: resolv.conf.j2
