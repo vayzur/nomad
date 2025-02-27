@@ -160,5 +160,11 @@ sysctl_config:
   vm.dirty_ratio: 5
   vm.dirty_background_ratio: 5
   vm.compaction_proactiveness: 0
-  kernel.printk: "3 4 1 3"
+  kernel.printk: "0 4 1 3"
   kernel.randomize_va_space: 0
+  kernel.numa_balancing: 0
+  kernel.watchdog_thresh: 30
+  kernel.sched_rt_period_us: 1000000
+  kernel.sched_rt_runtime_us: 950000
+  kernel.perf_event_max_sample_rate: 100
+  kernel.core_pattern: "/dev/null"
