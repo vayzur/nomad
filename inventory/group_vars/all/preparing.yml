@@ -93,8 +93,10 @@ tx_usecs: 0
 rx_frames: 1
 tx_frames: 1
 
-## NAPI defer hard IRQ
-napi_defer: 1
+## NAPI
+napi_defer_hard_irqs: 1
+gro_flush_timeout: 1
+threaded_napi: 1
 
 ## sysctl configuration variables
 sysctl_config:

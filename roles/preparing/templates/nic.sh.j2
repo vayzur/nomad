@@ -34,7 +34,9 @@ tc filter add dev {{ ansible_default_ipv4.interface }} egress protocol ip prio 1
 {% endif %}
 {% endif %}
 
-echo {{ napi_defer }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/napi_defer_hard_irqs
+echo {{ napi_defer_hard_irqs }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/napi_defer_hard_irqs
+echo {{ gro_flush_timeout }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/gro_flush_timeout
+echo {{ threaded_napi }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/threaded
 
 for pid in $(ps -e | grep ksoftirqd | awk '{print \$1}'); do chrt -r -p 99 \$pid; done
 
