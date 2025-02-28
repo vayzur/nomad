@@ -132,7 +132,7 @@ sysctl_config:
   net.ipv4.tcp_retries2: 3
   net.ipv4.tcp_synack_retries: 2
   net.ipv4.tcp_window_scaling: 1
-  net.ipv4.tcp_slow_start_after_idle: 1
+  net.ipv4.tcp_slow_start_after_idle: 0
   net.ipv4.tcp_max_tw_buckets: 262144
   net.ipv4.tcp_syncookies: 1
   net.ipv4.tcp_tw_reuse: 1
