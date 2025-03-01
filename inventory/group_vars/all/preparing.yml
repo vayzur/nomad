@@ -153,7 +153,7 @@ sysctl_config:
   net.ipv6.conf.all.forwarding: 1
   net.ipv4.conf.default.rp_filter: 0
   net.ipv4.conf.all.rp_filter: 0
-  net.ipv4.icmp_echo_ignore_all: 1
+  net.ipv4.icmp_echo_ignore_all: 0
   fs.file-max: 2097152
   vm.max_map_count: 262144
   vm.swappiness: 0
