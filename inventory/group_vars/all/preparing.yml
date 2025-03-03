@@ -42,9 +42,11 @@ firewall_config:
     - "{{ hostvars['external-network'].ansible_host }}/32"
     - "{{ hostvars['internal-network'].ansible_host }}/32"
 
-## packet DSCP configuration
-## https://en.wikipedia.org/wiki/Differentiated_services
-dscp: true
+## ToS configuration
+## https://en.wikipedia.org/wiki/Type_of_service
+tos: false
+tcp_tos: "0x00"
+udp_tos: "0x00"
 
 ## resolv.conf name servers
 dns: 1.1.1.1
@@ -59,10 +61,10 @@ limit_nproc_hard: 10000
 limit_nproc_soft: 10000
 
 ## qdisc configuration
-_fq_codel: "fq_codel target 50us interval 500us noecn limit 2048 flows 1024 quantum 1514"
-_pfifo: "pfifo limit 2048"
+_fq_codel: "fq_codel target 1000us interval 5000us noecn limit 10240 flows 1024 quantum 300"
+_txqueuelen: 10240
 
-## supported qdisc: noqueue, fq_codel, pfifo
+## supported qdisc: noqueue, fq_codel
 qdisc: noqueue
 
 ## NIC configuration
