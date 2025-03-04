@@ -144,7 +144,7 @@ sysctl_config:
   net.ipv4.tcp_limit_output_bytes: 131072
   net.ipv4.tcp_low_latency: 1
   net.ipv4.tcp_fastopen: 3
-  net.ipv4.tcp_congestion_control: bbr
+  net.ipv4.tcp_congestion_control: cubic
   net.ipv4.udp_rmem_min: 1048576
   net.ipv4.udp_wmem_min: 1048576
   net.ipv4.udp_l3mdev_accept: 1
