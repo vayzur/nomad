@@ -4,8 +4,9 @@
 tc qdisc replace dev {{ ansible_default_ipv4.interface }} root {{ _fq_codel }}
 {% else %}
 tc qdisc replace dev {{ ansible_default_ipv4.interface }} root noqueue
-ip link set {{ ansible_default_ipv4.interface }} txqueuelen {{ _txqueuelen }}
 {% endif %}
+
+ip link set {{ ansible_default_ipv4.interface }} txqueuelen {{ _txqueuelen }}
 
 ethtool -K {{ ansible_default_ipv4.interface }} tso {{ tso }}
 ethtool -K {{ ansible_default_ipv4.interface }} gso {{ gso }}
