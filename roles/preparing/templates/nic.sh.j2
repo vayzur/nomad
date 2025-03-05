@@ -12,11 +12,15 @@ ethtool -K {{ ansible_default_ipv4.interface }} tso {{ tso }}
 ethtool -K {{ ansible_default_ipv4.interface }} gso {{ gso }}
 ethtool -K {{ ansible_default_ipv4.interface }} gro {{ gro }}
 ethtool -K {{ ansible_default_ipv4.interface }} lro {{ lro }}
-ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }} tx-usecs {{ tx_usecs }}
-ethtool -C {{ ansible_default_ipv4.interface }} rx-frames {{ rx_frames }} tx-frames {{ tx_frames }}
-ethtool -C {{ ansible_default_ipv4.interface }} adaptive-rx {{ adaptive_rx }} adaptive-tx {{ adaptive_tx }}
+ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }}
+ethtool -C {{ ansible_default_ipv4.interface }} tx-usecs {{ tx_usecs }}
+ethtool -C {{ ansible_default_ipv4.interface }} rx-frames {{ rx_frames }}
+ethtool -C {{ ansible_default_ipv4.interface }} tx-frames {{ tx_frames }}
+ethtool -C {{ ansible_default_ipv4.interface }} adaptive-rx {{ adaptive_rx }}
+ethtool -C {{ ansible_default_ipv4.interface }} adaptive-tx {{ adaptive_tx }}
 ethtool -A {{ ansible_default_ipv4.interface }} autoneg {{ autoneg }}
-ethtool -A {{ ansible_default_ipv4.interface }} rx {{ rx }} tx {{ tx }}
+ethtool -A {{ ansible_default_ipv4.interface }} rx {{ rx }}
+ethtool -A {{ ansible_default_ipv4.interface }} tx {{ tx }}
 
 {% if tos %}
 tc filter del dev {{ ansible_default_ipv4.interface }}
@@ -40,7 +44,7 @@ echo {{ threaded_napi }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/t
 
 for pid in $(ps -e | grep ksoftirqd | awk '{print \$1}'); do chrt -r -p 99 \$pid; done
 
-{% if ansible_processor_vcpus | int > 2 %}
+{% if ansible_processor_vcpus|int > 2 %}
 echo "fe" > /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/rx-*/rps_cpus
 VCPU_COUNT=$(nproc)
 QUEUE_COUNT=$(ls /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/ | grep -c rx-)
