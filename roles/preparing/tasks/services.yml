@@ -5,13 +5,10 @@
     state: stopped
     enabled: false
   loop:
-    - chrony
-    - ntp
     - exim4
     - apparmor
     - dbus
     - systemd-resolved
-    - systemd-timesyncd
     - systemd-logind
     - getty@tty1.service
     - acpid
