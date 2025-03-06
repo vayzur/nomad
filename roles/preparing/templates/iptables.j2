@@ -1,3 +1,10 @@
+*raw
+:PREROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A PREROUTING -i {{ ansible_default_ipv4.interface }} -p arp -s {{ ansible_default_ipv4.gateway }} -j ACCEPT
+-A PREROUTING -i {{ ansible_default_ipv4.interface }} -p arp -j DROP
+COMMIT
+
 {% if inventory_hostname == 'internal-network' %}
 *nat
 :PREROUTING ACCEPT [0:0]
@@ -10,6 +17,7 @@
 -A PREROUTING -j DNAT --to-destination {{ ip6gre_external_network_private_ipv4 }}
 -A POSTROUTING -j MASQUERADE
 {% endif %}
+COMMIT
 {% endif %}
 
 *mangle
