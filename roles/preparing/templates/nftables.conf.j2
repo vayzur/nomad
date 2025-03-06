@@ -6,10 +6,8 @@ flush ruleset
 table netdev filter {
     chain ingress {
         type filter hook ingress device {{ ansible_default_ipv4.interface }} priority filter; policy accept;
-        ether type arp {
-            arp saddr ip {{ ansible_default_ipv4.gateway }} accept
-            drop
-        }
+        ether type arp arp saddr ip {{ ansible_default_ipv4.gateway }} accept
+        ether type arp drop
     }
 }
 
