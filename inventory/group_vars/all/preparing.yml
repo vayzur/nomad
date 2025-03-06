@@ -187,7 +187,7 @@ sysctl_config:
   vm.compaction_proactiveness: 0
   vm.vfs_cache_pressure: 1
   vm.min_free_kbytes: 131072
-  vm.overcommit_memory: 2
+  vm.overcommit_memory: 1
   kernel.printk: "0 4 1 3"
   kernel.randomize_va_space: 0
   kernel.numa_balancing: 0
