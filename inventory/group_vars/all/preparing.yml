@@ -24,7 +24,7 @@ sshd_config:
   AllowGroups: root
 
 ## firewall system
-## supported: nftables, iptables, none
+## supported: nftables, none
 firewall: none
 
 ## firewall configuration

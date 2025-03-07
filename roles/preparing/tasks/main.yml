@@ -38,11 +38,6 @@
   tags: nftables
   when: firewall == 'nftables'
 
-- name: Configure iptables
-  import_tasks: iptables.yml
-  tags: iptables
-  when: firewall == 'iptables'
-
 - name: Disable and stop unnecessary services
   import_tasks: services.yml
   tags: services
