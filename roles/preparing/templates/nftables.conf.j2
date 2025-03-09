@@ -69,6 +69,7 @@ table inet filter {
         iifname @NETWORK_ADAPTERS accept
         tcp dport @TCP_PORTS accept
         udp dport @UDP_PORTS accept
+        icmp type echo-request limit rate 5/second accept
     }
 
     chain forward {
