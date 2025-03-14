@@ -10,6 +10,12 @@ packages:
 - tcpdump
 - ethtool
 
+## samurai kernel
+## not stable for all platforms!!!
+samurai: false
+samurai_version: 0.0.7
+samurai_kernel_version: 6.1.131
+
 ## monitoring (prometheus)
 monitoring: false
 node_exporter_listen_address: ":10100"
@@ -104,7 +110,7 @@ threaded_napi: 1
 sysctl_config:
   net.core.default_qdisc: noqueue
   net.core.somaxconn: 4096
-  net.core.netdev_max_backlog: 1000
+  net.core.netdev_max_backlog: 50000
   net.unix.max_dgram_qlen: 256
   net.core.busy_read: 50
   net.core.busy_poll: 50
@@ -142,12 +148,13 @@ sysctl_config:
   net.ipv4.tcp_max_tw_buckets: 262144
   net.ipv4.tcp_syncookies: 1
   net.ipv4.tcp_tw_reuse: 1
-  net.ipv4.tcp_max_syn_backlog: 128
+  net.ipv4.tcp_max_syn_backlog: 4096
   net.ipv4.tcp_rmem: "4096 87380 1048576"
   net.ipv4.tcp_wmem: "4096 16384 1048576"
   net.ipv4.tcp_limit_output_bytes: 131072
   net.ipv4.tcp_notsent_lowat: 2048
   net.ipv4.tcp_low_latency: 1
+  net.ipv4.tcp_autocorking: 0
   net.ipv4.tcp_fastopen: 3
   net.ipv4.tcp_congestion_control: cubic
   net.ipv4.udp_rmem_min: 1048576
@@ -188,9 +195,12 @@ sysctl_config:
   vm.vfs_cache_pressure: 1
   vm.min_free_kbytes: 131072
   vm.overcommit_memory: 1
+  vm.stat_interval: 10
   kernel.printk: "0 4 1 3"
   kernel.randomize_va_space: 0
   kernel.numa_balancing: 0
+  kernel.watchdog: 0
+  kernel.nmi_watchdog: 0
   kernel.watchdog_thresh: 30
   kernel.sched_rt_period_us: 1000000
   kernel.sched_rt_runtime_us: 950000
