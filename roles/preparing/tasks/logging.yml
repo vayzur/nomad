@@ -7,14 +7,6 @@
     state: present
   ignore_errors: true
 
-- name: Disable systemd-journald service
-  systemd:
-    name: systemd-journald
-    masked: true
-    enabled: false
-    state: stopped
-  ignore_errors: true
-
 - name: Disable rsyslog service
   systemd:
     name: rsyslog
