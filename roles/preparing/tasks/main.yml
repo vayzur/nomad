@@ -46,6 +46,11 @@
   import_tasks: sysctl.yml
   tags: sysctl
 
-- name: Configure Kernel
+- name: Samurai kernel
+  import_tasks: samurai.yml
+  tags: samurai
+  when: samurai
+
+- name: Configure kernel
   import_tasks: kernel.yml
   tags: kernel

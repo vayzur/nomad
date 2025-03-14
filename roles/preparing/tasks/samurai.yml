@@ -1,0 +1,17 @@
+---
+- name: Download samurai kernel
+  get_url:
+    url: "https://github.com/0xAFz/samurai/releases/download/v{{ samurai_version }}/samurai-{{ samurai_kernel_version }}-amd64.deb"
+    dest: "/tmp/samurai.deb"
+
+- name: Download samurai kernel headers
+  get_url:
+    url: "https://github.com/0xAFz/samurai/releases/download/v{{ samurai_version }}/samurai-headers-{{ samurai_kernel_version }}-amd64.deb"
+    dest: "/tmp/samurai-headers.deb"
+
+- name: Install samurai kernel
+  apt:
+    deb: "{{ item }}"
+  loop:
+    - "/tmp/samurai.deb"
+    - "/tmp/samurai-headers.deb"
