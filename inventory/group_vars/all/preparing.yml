@@ -200,7 +200,6 @@ sysctl_config:
   kernel.randomize_va_space: 0
   kernel.numa_balancing: 0
   kernel.watchdog: 0
-  kernel.nmi_watchdog: 0
   kernel.watchdog_thresh: 30
   kernel.sched_rt_period_us: 1000000
   kernel.sched_rt_runtime_us: 950000
