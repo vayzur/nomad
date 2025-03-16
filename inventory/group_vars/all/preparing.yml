@@ -115,7 +115,7 @@ sysctl_config:
   net.core.busy_read: 50
   net.core.busy_poll: 50
   net.core.netdev_budget: 600
-  net.core.netdev_budget_usecs: 500
+  net.core.netdev_budget_usecs: 2000
   net.core.dev_weight: 64
   net.core.dev_weight_rx_bias: 1
   net.core.dev_weight_tx_bias: 1
@@ -187,12 +187,12 @@ sysctl_config:
   fs.file-max: 8388608
   vm.max_map_count: 1048576
   vm.swappiness: 0
-  vm.dirty_ratio: 95
-  vm.dirty_background_ratio: 90
-  vm.dirty_expire_centisecs: 120000
-  vm.dirty_writeback_centisecs: 0
-  vm.compaction_proactiveness: 0
-  vm.vfs_cache_pressure: 1
+  vm.dirty_ratio: 10
+  vm.dirty_background_ratio: 5
+  vm.dirty_expire_centisecs: 1000
+  vm.dirty_writeback_centisecs: 300
+  vm.compaction_proactiveness: 50
+  vm.vfs_cache_pressure: 200
   vm.min_free_kbytes: 131072
   vm.overcommit_memory: 1
   vm.stat_interval: 10
