@@ -13,7 +13,7 @@ packages:
 ## samurai kernel
 ## not stable for all platforms!!!
 samurai: false
-samurai_version: 0.0.9
+samurai_version: 0.1.0
 samurai_kernel_version: 6.1.131
 
 ## monitoring (prometheus)
