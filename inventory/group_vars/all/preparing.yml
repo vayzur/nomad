@@ -110,6 +110,12 @@ threaded_napi: 1
 sysctl_config:
   net.core.default_qdisc: noqueue
   net.core.somaxconn: 4096
+  net.core.high_order_alloc_disable: 0
+  net.core.mem_pcpu_rsv: 256
+  net.core.message_burst: 5
+  net.core.message_cost: 10
+  net.core.skb_defer_max: 64
+  net.core.max_skb_frags: 17
   net.core.netdev_max_backlog: 50000
   net.unix.max_dgram_qlen: 256
   net.core.busy_read: 50
@@ -173,6 +179,8 @@ sysctl_config:
   net.ipv4.conf.all.accept_source_route: 0
   net.ipv4.conf.all.accept_redirects: 0
   net.ipv4.icmp_echo_ignore_all: 0
+  net.ipv4.icmp_ratelimit: 100
+  net.ipv4.icmp_ignore_bogus_error_responses: 1
   net.ipv4.ipfrag_high_thresh: 2097152
   net.ipv4.ipfrag_low_thresh: 1572864
   net.ipv4.ipfrag_time: 5
@@ -187,6 +195,12 @@ sysctl_config:
   fs.file-max: 8388608
   vm.max_map_count: 1048576
   vm.swappiness: 0
+  vm.extfrag_threshold: 750
+  vm.min_slab_ratio: 10
+  vm.min_unmapped_ratio: 2
+  vm.watermark_boost_factor: 50
+  vm.watermark_scale_factor: 30
+  vm.zone_reclaim_mode: 1
   vm.dirty_ratio: 10
   vm.dirty_background_ratio: 5
   vm.dirty_expire_centisecs: 1000
