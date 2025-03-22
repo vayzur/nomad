@@ -5,7 +5,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0755'
+    mode: 0755
   loop:
     - "{{ xray_dir }}"
     - /etc/systemd/system/xray@.service.d
@@ -16,7 +16,7 @@
   get_url:
     url: "https://github.com/XTLS/Xray-core/releases/download/{{ xray_version }}/Xray-linux-64.zip"
     dest: "/tmp/Xray-linux-64.zip"
-    mode: '0755'
+    mode: 0755
 
 - name: Extract Xray binary
   unarchive:
@@ -35,7 +35,7 @@
     dest: /etc/systemd/system/xray.service
     owner: root
     group: root
-    mode: '0644'
+    mode: 0644
 
 - name: Copy Xray default config
   copy:
@@ -43,7 +43,7 @@
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
-    mode: '0744'
+    mode: 0744
 
 - name: Enable Xray service
   systemd:
@@ -72,7 +72,7 @@
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
-    mode: "0644"
+    mode: 0644
   when: client_config_file.stat.exists and inventory_hostname == 'internal-network'
 
 - name: Copy Xray custom config to external network
@@ -81,7 +81,7 @@
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
-    mode: "0644"
+    mode: 0644
   when: server_config_file.stat.exists and inventory_hostname == 'external-network'
 
 - name: Restart Xray service
