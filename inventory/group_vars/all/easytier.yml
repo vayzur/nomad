@@ -9,8 +9,8 @@ easytier_port: 4097
 easytier_protocol: udp
 
 ## Static IP configuration
-easytier_internal_network_private_ipv4: 10.44.44.1
-easytier_external_network_private_ipv4: 10.44.44.2
+easytier_client_ipv4: 10.44.44.1
+easytier_server_ipv4: 10.44.44.2
 
 ## Generate a random secret: `openssl rand -hex 6``
 easytier_secret: 5f67777d658f

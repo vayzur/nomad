@@ -1,11 +1,11 @@
 ---
-- name: Create EasyTier directory
+- name: Make EasyTier directory
   file:
     path: "{{ easytier_dir }}"
     state: directory
     owner: root
     group: root
-    mode: '0755'
+    mode: 0755
 
 - name: Set EasyTier download URL
   set_fact:
@@ -16,7 +16,7 @@
   get_url:
     url: "{{ easytier_url }}"
     dest: "{{ easytier_temp_dir }}.zip"
-    mode: '0755'
+    mode: 0755
 
 - name: Extract EasyTier binaries
   unarchive:
@@ -28,14 +28,14 @@
   copy:
     src: "{{ easytier_temp_dir }}/easytier-core"
     dest: "{{ easytier_dir }}/easytier-core"
-    mode: '0755'
+    mode: 0755
     remote_src: true
 
 - name: Move easytier-cli binary to {{ easytier_dir }}
   copy:
     src: "{{ easytier_temp_dir }}/easytier-cli"
     dest: "{{ easytier_dir }}/easytier-cli"
-    mode: '0755'
+    mode: 0755
     remote_src: true
 
 - name: Delete EasyTier downloaded zip file
@@ -54,13 +54,13 @@
   delegate_to: localhost
   when: enable_easytier and inventory_hostname == 'internal-network' or inventory_hostname == 'external-network'
 
-- name: Setup EasyTier service for internal network
+- name: Make EasyTier service for internal network
   template:
     src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'internal-network'
 
-- name: Setup EasyTier service for external network
+- name: Make EasyTier service for external network
   template:
     src: "{{ 'client.service.j2' if easytier_reverse else 'server.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
