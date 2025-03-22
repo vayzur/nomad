@@ -1,0 +1,57 @@
+---
+- name: Make Hysteria directory
+  file:
+    path: "{{ hysteria_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Set Hysteria download URL
+  set_fact:
+    hysteria_url: "https://github.com/apernet/hysteria/releases/download/app/{{ hysteria_version }}/hysteria-linux-amd64"
+
+- name: Download Hysteria binary
+  get_url:
+    url: "{{ hysteria_url }}"
+    dest: "{{ hysteria_dir }}/hysteria"
+    mode: 0755
+    force: true
+
+- name: Make Hysteria client config
+  template:
+    src: client.yaml.j2
+    dest: "{{ hysteria_dir }}/config.yaml"
+  when: inventory_hostname == 'internal-network'
+
+- name: Make Hysteria server config
+  template:
+    src: server.yaml.j2
+    dest: "{{ hysteria_dir }}/config.yaml"
+  when: inventory_hostname == 'external-network'
+
+- name: Make Hysteria client systemd service
+  template:
+    src: client.service.j2
+    dest: "/etc/systemd/system/hysteria.service"
+  when: inventory_hostname == 'internal-network'
+
+- name: Make Hysteria server systemd service
+  template:
+    src: server.service.j2
+    dest: "/etc/systemd/system/hysteria.service"
+  when: inventory_hostname == 'external-network'
+
+- name: Generate Hysteria SSL certificates
+  command: > 
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 
+    -keyout {{ hysteria_dir }}/priv.key -out {{ hysteria_dir }}/pub.crt 
+    -subj "/CN=*.{{ hysteria_sni }}"
+  when: inventory_hostname == 'external-network'
+
+- name: Enable and start Hysteria service
+  systemd:
+    name: hysteria
+    state: restarted
+    daemon_reload: true
+    enabled: true

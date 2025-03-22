@@ -10,6 +10,9 @@ config_dir: /opt/nomad
 ## Set to true to setup the EasyTier tunnel
 enable_easytier: false
 
+## Set to true to install the Hysteria2 tunnel (Only X86_64)
+enable_hysteria: false
+
 ## Set to true to setup the SIT (6to4) tunnel
 enable_sit: false
 

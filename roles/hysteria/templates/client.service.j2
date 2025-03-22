@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Hysteria Service
+After=network.target
+
+[Service]
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=99
+LimitNOFILE=1048576
+Type=simple
+ExecStart={{ hysteria_dir }}/hysteria client -c {{ hysteria_dir }}/config.yaml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

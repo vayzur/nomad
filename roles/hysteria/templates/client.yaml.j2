@@ -1,0 +1,33 @@
+server: {{ hostvars['external-network'].ansible_host }}:{{ hysteria_port }}
+auth: {{ hysteria_password }}
+tls:
+  sni: {{ hysteria_sni }}
+  insecure: true
+transport:
+  type: udp
+quic:
+  initStreamReceiveWindow: 8388608 
+  maxStreamReceiveWindow: 8388608 
+  initConnReceiveWindow: 20971520 
+  maxConnReceiveWindow: 20971520 
+  maxIdleTimeout: {{ hysteria_maxIdleTimeout }}
+  keepAlivePeriod: {{ hysteria_keepAlivePeriod }}
+  disablePathMTUDiscovery: false 
+fastOpen: true
+tcpForwarding:
+{% for item in hysteria_tcpForwarding %}
+  - listen: {{ item }}
+    remote: {{ hostvars['external-network'].ansible_host }}:{{ hysteria_port }}
+{% endfor %}
+udpForwarding:
+{% for item in hysteria_udpForwarding %}
+  - listen: {{ item }}
+    remote: {{ hostvars['external-network'].ansible_host }}:{{ hysteria_port }}
+    timeout: {{ hysteria_udp_timeout }}
+{% endfor %}
+{% if hysteria_fec %}
+fec:
+  mode: rs
+  send_window: {{ hysteria_send_window }}
+  receive_window: {{ hysteria_receive_window }}
+{% endif %}

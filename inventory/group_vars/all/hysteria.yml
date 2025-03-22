@@ -1,0 +1,25 @@
+---
+hysteria_version: v2.6.1
+
+hysteria_dir: "{{ config_dir }}/hysteria"
+
+hysteria_port: 5090
+
+## Generate a random secret: `openssl rand -hex 6``
+hysteria_password: adfe1301de73048d
+
+hysteria_tcpForwarding:
+  - 0.0.0.0:9200
+  - 0.0.0.0:9201
+
+hysteria_udpForwarding:
+  - 0.0.0.0:9300
+  - 0.0.0.0:9301
+
+hysteria_fec: false
+hysteria_send_window: 128
+hysteria_receive_window: 512
+hysteria_sni: example.com
+hysteria_maxIdleTimeout: 30s
+hysteria_keepAlivePeriod: 10s
+hysteria_udp_timeout: 20s
