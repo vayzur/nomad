@@ -19,7 +19,6 @@
     - cloud-init-local
     - cloud-init
     - cloud-init-hotplugd.socket
-    - cron
     - e2scrub_reap
     - e2scrub_all.timer
     - open-iscsi
