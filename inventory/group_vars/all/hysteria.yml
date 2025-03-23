@@ -10,15 +10,10 @@ hysteria_password: adfe1301de73048d
 
 hysteria_tcpForwarding:
   - 0.0.0.0:9200
-  - 0.0.0.0:9201
 
 hysteria_udpForwarding:
-  - 0.0.0.0:9300
-  - 0.0.0.0:9301
+  - 0.0.0.0:9200
 
-hysteria_fec: false
-hysteria_send_window: 128
-hysteria_receive_window: 512
 hysteria_sni: example.com
 hysteria_maxIdleTimeout: 30s
 hysteria_keepAlivePeriod: 10s

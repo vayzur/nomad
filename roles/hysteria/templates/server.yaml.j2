@@ -6,9 +6,3 @@ auth:
   type: password
   password: {{ hysteria_password }}
 speedTest: true
-{% if hysteria_fec %}
-fec:
-  mode: rs
-  send_window: {{ hysteria_send_window }}
-  receive_window: {{ hysteria_receive_window }}
-{% endif %}

@@ -9,7 +9,7 @@ CPUSchedulingPolicy=rr
 CPUSchedulingPriority=99
 LimitNOFILE=1048576
 Type=simple
-ExecStart={{ hysteria_dir }}/hysteria server -c {{ hysteria_dir }}/config.yml
+ExecStart={{ hysteria_dir }}/hysteria server -c {{ hysteria_dir }}/config.yaml
 Restart=always
 RestartSec=5
 
