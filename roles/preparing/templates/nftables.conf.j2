@@ -4,10 +4,19 @@
 flush ruleset
 
 table netdev filter {
+    set HOST_ADDRS {
+        type ipv4_addr;
+        elements = { {{ ansible_default_ipv4.address }} }
+    }
+
+    set GATEWAYS {
+        type ipv4_addr;
+        elements = { {{ ansible_default_ipv4.gateway }} }
+    }
+
     chain ingress {
         type filter hook ingress device {{ ansible_default_ipv4.interface }} priority filter; policy accept;
-        ether type arp arp daddr ip != {{ ansible_default_ipv4.address }} drop
-        ether type arp arp saddr ip != {{ ansible_default_ipv4.gateway }} drop
+        arp daddr ip != @HOST_ADDRS arp saddr ip != @GATEWAYS drop
     }
 }
 
