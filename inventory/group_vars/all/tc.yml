@@ -1,0 +1,13 @@
+---
+## ToS configuration
+## https://en.wikipedia.org/wiki/Type_of_service
+tos: false
+tcp_tos: "0x00"
+udp_tos: "0x00"
+
+## qdisc configuration
+_fq_codel: "fq_codel target 1000us interval 5000us noecn limit 10240 flows 1024 quantum 300"
+_txqueuelen: 1000
+
+## supported qdisc: noqueue, fq_codel
+qdisc: noqueue
