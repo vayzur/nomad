@@ -20,27 +20,6 @@ table netdev filter {
     }
 }
 
-{% if inventory_hostname == 'internal-network' %}
-table ip nat {
-  chain prerouting {
-    type nat hook prerouting priority dstnat;
-{% if enable_ip6gre and ip6gre_nat %}
-    tcp dport {{ sshd_config.Port | default('22') }} dnat to {{ hostvars['internal-network'].ansible_host }}
-    dnat to {{ ip6gre_external_network_private_ipv4 }}
-{% endif %}
-
-  }
-
-  chain postrouting {
-    type nat hook postrouting priority srcnat;
-{% if enable_ip6gre and ip6gre_nat %}
-    masquerade
-{% endif %}
-
-  }
-}
-{% endif %}
-
 table inet filter {
     set TRUSTED_IPS {
         type ipv4_addr

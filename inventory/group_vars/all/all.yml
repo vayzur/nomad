@@ -16,8 +16,5 @@ enable_hysteria: false
 ## Set to true to setup the SIT (6to4) tunnel
 enable_sit: false
 
-## Set to true to setup the IP6GRE tunnel
-enable_ip6gre: false
-
 ## Set to true to install the Xray core (Only X86_64)
 enable_xray: false
