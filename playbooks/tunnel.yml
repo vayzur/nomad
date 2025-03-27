@@ -6,4 +6,3 @@
     - { role: ../roles/easytier, tags: easytier, when: enable_easytier }
     - { role: ../roles/hysteria, tags: hysteria, when: enable_hysteria }
     - { role: ../roles/sit, tags: sit, when: enable_sit }
-    - { role: ../roles/ip6gre, tags: ip6gre, when: enable_ip6gre }
