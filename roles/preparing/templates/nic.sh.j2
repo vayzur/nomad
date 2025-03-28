@@ -42,7 +42,8 @@ echo {{ napi_defer_hard_irqs }} > /sys/class/net/{{ ansible_default_ipv4.interfa
 echo {{ gro_flush_timeout }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/gro_flush_timeout
 echo {{ threaded_napi }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/threaded
 
-for pid in $(ps -e | grep ksoftirqd | awk '{print \$1}'); do chrt -r -p 99 \$pid; done
+for pid in $(ps -e | grep ksoftirqd | awk '{print $1}'); do chrt -r -p 99 $pid; done
+for pid in $(ps -e | grep napi | awk '{print $1}'); do chrt -r -p 99 $pid; done
 
 {% if ansible_processor_vcpus|int > 2 %}
 echo "fe" > /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/rx-*/rps_cpus
