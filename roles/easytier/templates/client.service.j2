@@ -5,10 +5,21 @@ Description=EasyTier Service
 After=network.target
 
 [Service]
-ExecStart={{ easytier_dir }}/easytier-core -i {{ easytier_client_ipv4 }} --peers {{ easytier_protocol }}://{{ peer_host }}:{{ easytier_port }} --hostname easytier --network-secret {{ easytier_secret }} --default-protocol {{ easytier_protocol }} --dev-name easytier {% if easytier_multithread %}--multi-thread{% endif %} {% if not easytier_encryption %}--disable-encryption{% endif %} {% if not easytier_ipv6 %}--disable-ipv6{% endif %}
-
+CPUQuota=80%
+MemoryMax=512M
+MemoryAccounting=true
+MemorySwappiness=0
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=99
+IOSchedulingClass=realtime
+IOSchedulingPriority=0
+LimitRTPRIO=80
+LimitRTTIME=1000000
+LimitNPROC=10000
+LimitNOFILE=1000000
 Restart=on-failure
 RestartSec=5s
+ExecStart={{ easytier_dir }}/easytier-core -i {{ easytier_client_ipv4 }} --peers {{ easytier_protocol }}://{{ peer_host }}:{{ easytier_port }} --hostname easytier --network-secret {{ easytier_secret }} --default-protocol {{ easytier_protocol }} --dev-name easytier {% if easytier_multithread %}--multi-thread{% endif %} {% if not easytier_encryption %}--disable-encryption{% endif %} {% if not easytier_ipv6 %}--disable-ipv6{% endif %}
 
 [Install]
 WantedBy=multi-user.target
