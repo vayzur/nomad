@@ -1,4 +1,4 @@
-listen: ":{{ hysteria_port }}"
+listen: {{ hysteria_listen_addr }}:{{ hysteria_port }}
 tls: 
   cert: {{ hysteria_dir }}/pub.crt
   key: {{ hysteria_dir }}/priv.key

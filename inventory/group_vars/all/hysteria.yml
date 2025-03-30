@@ -3,6 +3,7 @@ hysteria_version: v2.6.1
 
 hysteria_dir: "{{ config_dir }}/hysteria"
 
+hysteria_listen_addr: 0.0.0.0
 hysteria_port: 443
 
 ## Generate a random secret: `openssl rand -hex 6``
