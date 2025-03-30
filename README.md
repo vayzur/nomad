@@ -20,7 +20,6 @@ Here’s a quick list of what Nomad can do for you:
 - **Tunneling between 2 servers:**
   - EasyTier
   - SIT (6to4)
-  - Hysteria2
 - **Xray Core**
 
 Alright, let’s roll and get started with Nomad! 🛠️
@@ -53,11 +52,11 @@ firewall_config:
   network_adapter_access:
     - lo
   tcp_port_access:
-    - 8084
-    - 8082
+    - 80
+    - 443
   udp_port_access:
-    - 8084
     - 8082
+    - 8084
   trusted_range:
     - 10.44.44.0/24
     - "{{ hostvars['external-network'].ansible_host }}/32"
@@ -227,4 +226,3 @@ ss -tulpn
 
 - [EasyTier](https://github.com/EasyTier/EasyTier)
 - [Xray](https://github.com/XTLS/Xray-core)
-- [Hysteria](https://github.com/apernet/hysteria)
