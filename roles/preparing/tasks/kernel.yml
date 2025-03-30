@@ -4,7 +4,7 @@
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=.*'
     replace: |
-      GRUB_CMDLINE_LINUX_DEFAULT="loglevel=0 printk.devkmsg=off quiet audit=0 mitigations=off {% if ansible_processor_vcpus|int > 1 %}nohz_full=1-{{ ansible_processor_vcpus - 1 }} rcu_nocbs=1-{{ ansible_processor_vcpus - 1 }} irqaffinity=0-{{ ansible_processor_vcpus - 1 }}{% endif %} nosoftlockup nokprobes nokaslr perf_event_paranoid=3 transparent_hugepage=never threadirqs highres=on rcupdate.rcu_expedited=1 skew_tick=1"
+      GRUB_CMDLINE_LINUX_DEFAULT="loglevel=0 printk.devkmsg=off quiet audit=0 mitigations=off {% if ansible_processor_vcpus|int > 1 %}nohz_full=1-{{ ansible_processor_vcpus - 1 }} rcu_nocbs=1-{{ ansible_processor_vcpus - 1 }} irqaffinity=0-{{ ansible_processor_vcpus - 1 }}{% endif %} nosoftlockup nokprobes nokaslr perf_event_paranoid=3 transparent_hugepage=never threadirqs highres=on rcupdate.rcu_expedited=1"
 
 - name: Update GRUB configuration
   command: update-grub
