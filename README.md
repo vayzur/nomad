@@ -66,7 +66,6 @@ firewall_config:
 After editing, run the following command to update the firewall rules:
 
 ```bash
-# if using nftables
 ansible-playbook -i inventory/hosts.yml vpn.yml --tags nftables
 ```
 
