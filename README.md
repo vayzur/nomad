@@ -9,7 +9,6 @@ Hey there, welcome to the **Nomad Documentation**! 🌟 Nomad is like your best 
 Here’s a quick list of what Nomad can do for you:
 
 - **Server Setup:** Automates the configuration of two servers—one inside the network (internal) and one outside (external).
-- **OS Hardening:** Implements solid security practices to keep your operating system safe and sound.
 - **SSH Hardening:** Locks down SSH settings for better security.
 - **Firewall Configuration:** Sets up firewall rules to protect servers and secure network traffic.
 - **Xray Core:** Installs and configures the Xray core for advanced VPN capabilities.
@@ -21,7 +20,7 @@ Here’s a quick list of what Nomad can do for you:
 - **Tunneling between 2 servers:**
   - EasyTier
   - SIT (6to4)
-  - IP6GRE
+  - Hysteria2
 - **Xray Core**
 
 Alright, let’s roll and get started with Nomad! 🛠️
@@ -46,7 +45,7 @@ This one-liner will update the SSH configuration to use port `3122` and restart 
 
 ## Firewall Configuration
 
-By default, the firewall blocks all traffic except the ports and IP ranges you specify in `inventory/group_vars/all/preparing.yml`. Wanna open or close a port? Easy, just edit the `firewall_config` section like this:
+By default, the firewall blocks all traffic except the ports and IP ranges you specify in `inventory/group_vars/all/firewall.yml`. Wanna open or close a port? Easy, just edit the `firewall_config` section like this:
 
 ```yml
 # firewall configuration
@@ -70,9 +69,6 @@ After editing, run the following command to update the firewall rules:
 ```bash
 # if using nftables
 ansible-playbook -i inventory/hosts.yml vpn.yml --tags nftables
-
-# if using iptables
-ansible-playbook -i inventory/hosts.yml vpn.yml --tags iptables
 ```
 
 ---
@@ -105,12 +101,7 @@ all:
 Edit the following files to match your requirements:
 
 ```bash
-<your-favorite-editor> inventory/group_vars/all/all.yml
-<your-favorite-editor> inventory/group_vars/all/ip6gre.yml
-<your-favorite-editor> inventory/group_vars/all/sit.yml
-<your-favorite-editor> inventory/group_vars/all/preparing.yml
-<your-favorite-editor> inventory/group_vars/all/easytier.yml
-<your-favorite-editor> inventory/group_vars/all/xray.yml
+<your-favorite-editor> inventory/group_vars/all/*.yml
 ```
 
 #### Step 4: Enable EasyTier
@@ -236,3 +227,4 @@ ss -tulpn
 
 - [EasyTier](https://github.com/EasyTier/EasyTier)
 - [Xray](https://github.com/XTLS/Xray-core)
+- [Hysteria](https://github.com/apernet/hysteria)
