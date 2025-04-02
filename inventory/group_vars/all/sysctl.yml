@@ -32,6 +32,7 @@ sysctl_config:
   net.ipv4.tcp_ecn: 0
   net.ipv4.tcp_ecn_fallback: 0
   net.ipv4.tcp_sack: 0
+  net.ipv4.tcp_fack: 0
   net.ipv4.tcp_dsack: 0
   net.ipv4.tcp_mtu_probing: 0
   net.ipv4.tcp_timestamps: 0
