@@ -1,13 +1,14 @@
 ---
-- name: Configure resolv.conf
+- name: Make resolv.conf
   template:
     src: resolv.conf.j2
     dest: /etc/resolv.conf
     mode: 0644
     owner: root
     group: root
+    attr: +i
 
-- name: Copy hosts file
+- name: Make hosts file
   template:
     src: hosts.j2
     dest: /etc/hosts

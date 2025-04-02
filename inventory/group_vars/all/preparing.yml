@@ -36,6 +36,9 @@ dns_fallback: 1.0.0.1
 dns_v6: 2606:4700:4700::1111
 dns_v6_fallback: 2606:4700:4700::1001
 
+## enable IPv6 name servers
+enable_ipv6_dns: false
+
 ## limits
 limit_nofile_hard: 1000000
 limit_nofile_soft: 1000000
