@@ -17,8 +17,8 @@
   tags: limits
 
 - name: Configure sshd
-  import_tasks: hardening.yml
-  tags: hardening
+  import_tasks: sshd.yml
+  tags: sshd
 
 - name: Confiugre DNS
   import_tasks: dns.yml
