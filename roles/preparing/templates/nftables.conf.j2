@@ -16,7 +16,8 @@ table netdev filter {
 
     chain ingress {
         type filter hook ingress device {{ ansible_default_ipv4.interface }} priority filter; policy accept;
-        arp daddr ip != @HOST_ADDRS arp saddr ip != @GATEWAYS drop
+        arp daddr ip != @HOST_ADDRS drop
+        arp saddr ip != @GATEWAYS drop
     }
 }
 
