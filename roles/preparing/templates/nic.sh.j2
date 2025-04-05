@@ -12,12 +12,26 @@ ethtool -K {{ ansible_default_ipv4.interface }} tso {{ tso }}
 ethtool -K {{ ansible_default_ipv4.interface }} gso {{ gso }}
 ethtool -K {{ ansible_default_ipv4.interface }} gro {{ gro }}
 ethtool -K {{ ansible_default_ipv4.interface }} lro {{ lro }}
+ethtool -K {{ ansible_default_ipv4.interface }} rx-gro-hw {{ rx_gro_hw }}
+ethtool -K {{ ansible_default_ipv4.interface }} rx-gro-list	{{ rx_gro_list }}
+ethtool -K {{ ansible_default_ipv4.interface }} tx-gso-robust {{ tx_gso_robust }}
+ethtool -K {{ ansible_default_ipv4.interface }} rx {{ rx_checksumming }}
+ethtool -K {{ ansible_default_ipv4.interface }} tx {{ tx_checksumming }}
+ethtool -K {{ ansible_default_ipv4.interface }} tx-nocache-copy {{ tx_nocache_copy }}
+ethtool -K {{ ansible_default_ipv4.interface }} rx-udp-gro-forwarding {{ rx_udp_gro_forwarding }}
+ethtool -K {{ ansible_default_ipv4.interface }} receive-hashing {{ receive_hashing }}
+ethtool -K {{ ansible_default_ipv4.interface }} highdma {{ highdma }}
+ethtool -K {{ ansible_default_ipv4.interface }} scatter-gather {{ scatter_gather }}
+ethtool -K {{ ansible_default_ipv4.interface }} tx-udp_tnl-segmentation {{ tx_udp_tnl_segmentation }}
+ethtool -K {{ ansible_default_ipv4.interface }} tx-udp_tnl-csum-segmentation {{ tx_udp_tnl_csum_segmentation }}
+
 ethtool -C {{ ansible_default_ipv4.interface }} rx-usecs {{ rx_usecs }}
 ethtool -C {{ ansible_default_ipv4.interface }} tx-usecs {{ tx_usecs }}
 ethtool -C {{ ansible_default_ipv4.interface }} rx-frames {{ rx_frames }}
 ethtool -C {{ ansible_default_ipv4.interface }} tx-frames {{ tx_frames }}
 ethtool -C {{ ansible_default_ipv4.interface }} adaptive-rx {{ adaptive_rx }}
 ethtool -C {{ ansible_default_ipv4.interface }} adaptive-tx {{ adaptive_tx }}
+
 ethtool -A {{ ansible_default_ipv4.interface }} autoneg {{ autoneg }}
 ethtool -A {{ ansible_default_ipv4.interface }} rx {{ rx }}
 ethtool -A {{ ansible_default_ipv4.interface }} tx {{ tx }}
@@ -45,7 +59,7 @@ echo {{ threaded_napi }} > /sys/class/net/{{ ansible_default_ipv4.interface }}/t
 for pid in $(ps -e | grep ksoftirqd | awk '{print $1}'); do chrt -r -p 97 $pid; done
 for pid in $(ps -e | grep napi | awk '{print $1}'); do chrt -r -p 98 $pid; done
 
-{% if ansible_processor_vcpus|int > 2 %}
+{% if rps and ansible_processor_vcpus|int > 2 %}
 echo "fe" > /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/rx-*/rps_cpus
 VCPU_COUNT=$(nproc)
 QUEUE_COUNT=$(ls /sys/class/net/{{ ansible_default_ipv4.interface }}/queues/ | grep -c rx-)
