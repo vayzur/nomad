@@ -7,16 +7,11 @@ firewall_config:
   network_adapter_access:
     - lo
   tcp_port_access:
-    - 80
-    - 443
-    - 2087
-    - 2083
-    - 2096
+    - 8082
+    - 8084
   udp_port_access:
-    - 443
-    - 2087
-    - 2083
-    - 2096
+    - 8082
+    - 8084
   trusted_range:
     - 10.44.44.0/24
     - "{{ hostvars['external-network'].ansible_host }}/32"
