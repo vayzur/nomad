@@ -1,9 +1,6 @@
 ---
-- name: Run preparing tasks
-  import_playbook: preparing.yml
+- import_playbook: preparing.yml
 
-- name: Run tunnel tasks
-  import_playbook: tunnel.yml
+- import_playbook: tunnel.yml
 
-- name: Run Xray tasks
-  import_playbook: xray.yml
+- import_playbook: xray.yml

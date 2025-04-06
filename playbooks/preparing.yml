@@ -1,6 +1,7 @@
 ---
-- name: Apply optimizations and hardening
+- name: Configure preparing
   hosts: all
+  strategy: free
   become: true
   roles:
     - { role: ../roles/preparing, tags: preparing }

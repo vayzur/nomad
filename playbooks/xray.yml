@@ -1,6 +1,7 @@
 ---
-- name: Install Xray core
+- name: Configure Xray
   hosts: all
+  strategy: free
   become: true
   roles:
     - { role: ../roles/xray, tags: xray, when: enable_xray }

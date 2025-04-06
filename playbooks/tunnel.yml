@@ -1,5 +1,5 @@
 ---
-- name: Setup tunnels
+- name: Configure tunnels
   hosts: internal-network,external-network
   become: true
   roles:
