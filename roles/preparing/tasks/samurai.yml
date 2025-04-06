@@ -7,4 +7,3 @@
 - name: Install samurai kernel
   apt:
     deb: /tmp/samurai.deb
-

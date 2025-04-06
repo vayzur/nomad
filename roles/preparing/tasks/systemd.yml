@@ -5,8 +5,6 @@
     regexp: '^#Storage='
     line: 'Storage=none'
     state: present
-  async: 25
-  poll: 0
   ignore_errors: true
 
 - name: Disable and stop unnecessary services
@@ -26,7 +24,6 @@
     )
 
     for svc in "${SERVICES[@]}"; do
-      echo "Disabling and stopping: $svc"
       systemctl stop "$svc" 2>/dev/null || true
       systemctl disable "$svc" 2>/dev/null || true
       systemctl mask "$svc" 2>/dev/null || true

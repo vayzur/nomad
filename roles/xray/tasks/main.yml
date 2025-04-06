@@ -16,7 +16,7 @@
   get_url:
     url: "https://github.com/XTLS/Xray-core/releases/download/{{ xray_version }}/Xray-linux-64.zip"
     dest: "/tmp/Xray-linux-64.zip"
-    mode: 0755
+    mode: 0644
 
 - name: Extract Xray binary
   unarchive:
@@ -28,6 +28,8 @@
   file:
     path: "/tmp/Xray-linux-64.zip"
     state: absent
+  async: 25
+  poll: 0
 
 - name: Create Xray systemd service
   template:
@@ -43,7 +45,7 @@
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
-    mode: 0744
+    mode: 0644
 
 - name: Enable Xray service
   systemd:
@@ -51,6 +53,7 @@
     state: started
     daemon_reload: true
     enabled: true
+  ignore_errors: true
 
 - name: Check if internal.json exists
   become: false
@@ -88,3 +91,4 @@
   systemd:
     name: xray
     state: restarted
+  ignore_errors: true
