@@ -8,11 +8,11 @@
   tags: monitoring
   when: monitoring
 
-- name: Configure logging
-  import_tasks: logging.yml
-  tags: logging
+- name: Configure systemd services
+  import_tasks: systemd.yml
+  tags: systemd
 
-- name: Change limits.conf
+- name: Configure limits
   import_tasks: limits.yml
   tags: limits
 
@@ -37,10 +37,6 @@
   import_tasks: nftables.yml
   tags: nftables
   when: firewall == 'nftables'
-
-- name: Disable and stop unnecessary services
-  import_tasks: services.yml
-  tags: services
 
 - name: Apply sysctl settings
   import_tasks: sysctl.yml
