@@ -1,5 +1,5 @@
 ---
-- name: Apply sysctl settings
+- name: Configure sysctl settings
   template:
     src: sysctl.conf.j2
     dest: /etc/sysctl.conf

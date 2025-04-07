@@ -38,11 +38,11 @@
   tags: firewall
   when: firewall == 'nftables'
 
-- name: Apply sysctl settings
+- name: Configure sysctl settings
   import_tasks: sysctl.yml
   tags: sysctl
 
-- name: Samurai kernel
+- name: Install samurai kernel
   import_tasks: samurai.yml
   tags: samurai
   when: samurai
