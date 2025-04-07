@@ -4,5 +4,3 @@
     name: "{{ packages }}"
     state: present
     update_cache: true
-  async: 180
-  poll: 5

@@ -29,6 +29,6 @@
     enabled: true
     state: started
     daemon_reload: true
-  async: 60
+  async: 15
   poll: 0
   ignore_errors: true

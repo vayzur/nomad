@@ -1,5 +1,5 @@
 ---
-- name: Disable systemd-journald logging
+- name: Disable journald 
   lineinfile:
     path: /etc/systemd/journald.conf
     regexp: '^#Storage='
@@ -30,6 +30,6 @@
     done
   args:
     executable: /bin/bash
-  async: 600
+  async: 120
   poll: 0
   ignore_errors: true
