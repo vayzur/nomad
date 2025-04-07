@@ -3,8 +3,8 @@ Description=Configure Network Interface Settings
 After=network.target
 
 [Service]
-ExecStart=/bin/bash {{ config_dir }}/nic.sh
 Type=oneshot
+ExecStart=/bin/bash {{ config_dir }}/nic.sh
 
 [Install]
 WantedBy=multi-user.target
