@@ -21,10 +21,10 @@ sysctl_config:
   net.core.flow_limit_table_len: 4096
   net.core.flow_limit_cpu_bitmap: 0
   net.core.netdev_tstamp_prequeue: 0
-  net.core.rmem_default: 262144
-  net.core.wmem_default: 262144
-  net.core.rmem_max: 1048576
-  net.core.wmem_max: 1048576
+  net.core.rmem_default: 8388608
+  net.core.wmem_default: 8388608
+  net.core.rmem_max: 33554432
+  net.core.wmem_max: 33554432
   net.core.optmem_max: 65536
   net.ipv4.tcp_no_metrics_save: 1
   net.ipv4.tcp_fin_timeout: 1
@@ -50,8 +50,8 @@ sysctl_config:
   net.ipv4.tcp_syncookies: 1
   net.ipv4.tcp_tw_reuse: 1
   net.ipv4.tcp_max_syn_backlog: 4096
-  net.ipv4.tcp_rmem: "4096 87380 1048576"
-  net.ipv4.tcp_wmem: "4096 87380 1048576"
+  net.ipv4.tcp_rmem: "4096 87380 2097152"
+  net.ipv4.tcp_wmem: "4096 87380 2097152"
   net.ipv4.tcp_limit_output_bytes: 131072
   net.ipv4.tcp_notsent_lowat: 2048
   net.ipv4.tcp_autocorking: 0
@@ -59,9 +59,9 @@ sysctl_config:
   net.ipv4.tcp_congestion_control: cubic
   net.ipv4.tcp_thin_linear_timeouts: 0
   net.ipv4.tcp_early_retrans: 3
-  net.ipv4.udp_rmem_min: 16384
-  net.ipv4.udp_wmem_min: 16384
-  net.ipv4.udp_mem: "262144 524288 1048576"
+  net.ipv4.udp_rmem_min: 8388608
+  net.ipv4.udp_wmem_min: 8388608
+  net.ipv4.udp_mem: "524288 1048576 2097152"
   net.ipv4.udp_l3mdev_accept: 1
   net.ipv4.ip_default_ttl: 64
   net.ipv4.ip_early_demux: 1
