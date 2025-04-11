@@ -14,8 +14,8 @@ packages:
 ## samurai kernel (amd64)
 ## not stable for all platforms!
 samurai: false
-samurai_version: 0.3.3
-samurai_kernel_version: 6.1.132
+samurai_version: 0.3.5
+samurai_kernel_version: 6.1.134
 
 ## monitoring (prometheus)
 monitoring: false
