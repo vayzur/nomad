@@ -1,6 +1,6 @@
 ---
 - name: Configure tunnels
-  hosts: internal-network,external-network
+  hosts: wormhole,stargate
   become: true
   roles:
     - { role: ../roles/easytier, tags: easytier, when: enable_easytier }

@@ -14,5 +14,5 @@ firewall_config:
     - 8084
   trusted_range:
     - 10.44.44.0/24
-    - "{{ hostvars['external-network'].ansible_host }}/32"
-    - "{{ hostvars['internal-network'].ansible_host }}/32"
+    - "{{ hostvars['wormhole'].ansible_host }}/32"
+    - "{{ hostvars['stargate'].ansible_host }}/32"

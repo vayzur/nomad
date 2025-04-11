@@ -1,10 +1,10 @@
 all:
   hosts:
-    internal-network:
+    wormhole:
       ansible_host: 1.1.1.1
-      ansible_port: 3122
+      ansible_port: 3022
       ansible_user: root
-    external-network:
+    stargate:
       ansible_host: 1.1.1.2
-      ansible_port: 3122
+      ansible_port: 3022
       ansible_user: root

@@ -54,21 +54,21 @@
 
 - name: Determine peer host based on reverse flag
   set_fact:
-    peer_host: "{{ hostvars['internal-network'].ansible_host if easytier_reverse else hostvars['external-network'].ansible_host }}"
+    peer_host: "{{ hostvars['wormhole'].ansible_host if easytier_reverse else hostvars['stargate'].ansible_host }}"
   delegate_to: localhost
-  when: enable_easytier and inventory_hostname == 'internal-network' or inventory_hostname == 'external-network'
+  when: enable_easytier and inventory_hostname == 'wormhole' or inventory_hostname == 'stargate'
 
-- name: Make EasyTier service for internal network
+- name: Make EasyTier service for wormhole
   template:
     src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
-  when: inventory_hostname == 'internal-network'
+  when: inventory_hostname == 'wormhole'
 
-- name: Make EasyTier service for external network
+- name: Make EasyTier service for stargate
   template:
     src: "{{ 'client.service.j2' if easytier_reverse else 'server.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
-  when: inventory_hostname == 'external-network'
+  when: inventory_hostname == 'stargate'
 
 - name: Enable and start EasyTier service
   systemd:
