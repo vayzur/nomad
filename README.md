@@ -1,14 +1,13 @@
 # Nomad
 
-Hey there, welcome to the **Nomad Documentation**! 🌟 Nomad is like your best buddy for setting up a secure and low-latency VPN server. But that’s not all—you can also use it in a bunch of other creative ways. Let’s dive in together and see what makes Nomad awesome! 🚀
+Nomad is like your best buddy for setting up a secure and low-latency VPN server. But that’s not all—you can also use it in a bunch of other creative ways. Let’s dive in together and see what makes Nomad awesome! 🚀
 
 ---
 
 ### Key Features:
 
 Here’s a quick list of what Nomad can do for you:
-
-- **Server Setup:** Automates the configuration of two servers—one inside the network (internal) and one outside (external).
+- **Kernel and Network Stack:** Optimize kernel and network stack for low latency.
 - **SSH Hardening:** Locks down SSH settings for better security.
 - **Firewall Configuration:** Sets up firewall rules to protect servers and secure network traffic.
 - **Xray Core:** Installs and configures the Xray core for advanced VPN capabilities.
@@ -32,10 +31,10 @@ We recommend changing the default SSH port for better security when setting up y
 To change the SSH port, connect to your server and run the following command:  
 
 ```bash
-sed -i 's/#Port 22/Port 3122/g' /etc/ssh/sshd_config && systemctl restart sshd
+sed -i 's/#Port 22/Port 3022/g' /etc/ssh/sshd_config && systemctl restart sshd
 ```  
 
-This one-liner will update the SSH configuration to use port `3122` and restart the SSH service to apply the changes.  
+This one-liner will update the SSH configuration to use port `3022` and restart the SSH service to apply the changes.  
 
 > [!NOTE]
 > Make sure to update your firewall rules to allow the new SSH port before running this command, so you don't accidentally lock yourself out.  
@@ -59,8 +58,8 @@ firewall_config:
     - 8084
   trusted_range:
     - 10.44.44.0/24
-    - "{{ hostvars['external-network'].ansible_host }}/32"
-    - "{{ hostvars['internal-network'].ansible_host }}/32"
+    - "{{ hostvars['wormhole'].ansible_host }}/32"
+    - "{{ hostvars['stargate'].ansible_host }}/32"
 ```
 
 After editing, run the following command to update the firewall rules:
@@ -84,11 +83,11 @@ Tell Ansible where to work by creating the `hosts.yml` file:
 ```yml
 all:
   hosts:
-    internal-network:
+    wormhole:
       ansible_host: <your-internal-server-ip>
       ansible_port: 3122
       ansible_user: root
-    external-network:
+    stargate:
       ansible_host: <your-external-server-ip>
       ansible_port: 3122
       ansible_user: root
@@ -143,7 +142,7 @@ You’re ready! Execute this command:
 ansible-playbook -i inventory/hosts.yml vpn.yml
 ```
 
-Nomad will handle OS hardening, kernel optimization, and firewall configuration. Errors? No worries, read the error message and rerun the command. 😂
+Nomad will handle SSH hardening, kernel optimization, and firewall configuration. Errors? No worries, read the error message and rerun the command.
 
 Verify the setup:
 
@@ -174,7 +173,7 @@ all:
   hosts:
     vpn:
       ansible_host: <server-ip>
-      ansible_port: 3122
+      ansible_port: 3022
       ansible_user: root
 ```
 
@@ -196,11 +195,11 @@ enable_xray: true
 2. Use the default config or replace it with your custom Xray config:
 
 > [!WARNING]
-> The name of config files for internal-network must be: `internal.json` for external-network: `external.json`
+> The name of config files for internal server must be: `wormhole.json` for external server: `stargate.json`
 > For one server only use `default.json`
 ```bash
-cp /path/internal.json roles/xray/files/internal.json
-cp /path/external.json roles/xray/files/external.json
+cp /path/internal.json roles/xray/files/wormhole.json
+cp /path/external.json roles/xray/files/stargate.json
 ```
 
 Run the playbook:
