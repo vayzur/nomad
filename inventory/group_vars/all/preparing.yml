@@ -19,7 +19,7 @@ samurai_kernel_version: 6.1.134
 
 ## monitoring (prometheus)
 monitoring: false
-node_exporter_listen_address: ":9100"
+node_exporter_addr: ":9100"
 
 ## sshd configuration
 sshd_config:

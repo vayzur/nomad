@@ -9,7 +9,7 @@
   lineinfile:
     path: /etc/default/prometheus-node-exporter
     regexp: '^ARGS='
-    line: 'ARGS="--web.listen-address={{ node_exporter_listen_address }}"'
+    line: 'ARGS="--web.listen-address={{ node_exporter_addr }}"'
     state: present
   ignore_errors: true
 
