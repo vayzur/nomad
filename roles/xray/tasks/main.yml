@@ -47,48 +47,42 @@
     group: root
     mode: 0644
 
-- name: Enable Xray service
+- name: Check if wormhole.json exists
+  become: false
+  stat:
+    path: "{{ role_path }}/files/wormhole.json"
+  register: wormhole_config
+  delegate_to: localhost
+
+- name: Check if stargate.json exists
+  become: false
+  stat:
+    path: "{{ role_path }}/files/stargate.json"
+  register: stargate_config
+  delegate_to: localhost
+
+- name: Copy Xray custom config to wormhole
+  copy:
+    src: files/wormhole.json
+    dest: "{{ xray_dir }}/config.json"
+    owner: root
+    group: root
+    mode: 0644
+  when: wormhole_config.stat.exists and inventory_hostname == 'wormhole'
+
+- name: Copy Xray custom config to stargate
+  copy:
+    src: files/stargate.json
+    dest: "{{ xray_dir }}/config.json"
+    owner: root
+    group: root
+    mode: 0644
+  when: stargate_config.stat.exists and inventory_hostname == 'stargate'
+
+- name: Enable and start Xray service
   systemd:
     name: xray
     state: started
     daemon_reload: true
     enabled: true
-  ignore_errors: true
-
-- name: Check if internal.json exists
-  become: false
-  stat:
-    path: "{{ role_path }}/files/internal.json"
-  register: client_config_file
-  delegate_to: localhost
-
-- name: Check if external.json exists
-  become: false
-  stat:
-    path: "{{ role_path }}/files/external.json"
-  register: server_config_file
-  delegate_to: localhost
-
-- name: Copy Xray custom config to internal network
-  copy:
-    src: files/internal.json
-    dest: "{{ xray_dir }}/config.json"
-    owner: root
-    group: root
-    mode: 0644
-  when: client_config_file.stat.exists and inventory_hostname == 'internal-network'
-
-- name: Copy Xray custom config to external network
-  copy:
-    src: files/external.json
-    dest: "{{ xray_dir }}/config.json"
-    owner: root
-    group: root
-    mode: 0644
-  when: server_config_file.stat.exists and inventory_hostname == 'external-network'
-
-- name: Restart Xray service
-  systemd:
-    name: xray
-    state: restarted
   ignore_errors: true

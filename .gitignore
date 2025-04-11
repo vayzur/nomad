@@ -2,5 +2,5 @@
 hosts.yml
 .venv/
 .venv
-external.json
-internal.json
+stargate.json
+wormhole.json
