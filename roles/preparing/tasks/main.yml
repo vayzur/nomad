@@ -3,14 +3,18 @@
   import_tasks: packages.yml
   tags: packages
 
-- name: Configure monitoring
-  import_tasks: monitoring.yml
-  tags: monitoring
-  when: monitoring
+- name: Confiugre DNS
+  import_tasks: dns.yml
+  tags: dns
 
 - name: Configure systemd services
   import_tasks: systemd.yml
   tags: systemd
+
+- name: Configure monitoring
+  import_tasks: monitoring.yml
+  tags: monitoring
+  when: monitoring
 
 - name: Configure limits
   import_tasks: limits.yml
@@ -19,10 +23,6 @@
 - name: Configure sshd
   import_tasks: sshd.yml
   tags: sshd
-
-- name: Confiugre DNS
-  import_tasks: dns.yml
-  tags: dns
 
 - name: Configure network interfaces
   import_tasks: nic.yml
