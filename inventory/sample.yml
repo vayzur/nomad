@@ -1,10 +1,21 @@
 all:
+  vars:
+    ansible_port: 3022
+    ansible_user: root
+
   hosts:
-    wormhole:
+    node1:
       ansible_host: 1.1.1.1
-      ansible_port: 3022
-      ansible_user: root
-    stargate:
+    node2:
       ansible_host: 1.1.1.2
-      ansible_port: 3022
-      ansible_user: root
+    node3:
+      ansible_host: 1.1.1.3
+
+  children:
+    wormhole:
+      hosts:
+        node1:
+        node3:
+    stargate:
+      hosts:
+        node2:
