@@ -4,4 +4,4 @@
   strategy: free
   become: true
   roles:
-    - { role: ../roles/xray, tags: xray, when: enable_xray }
+    - { role: ../roles/xray, tags: xray }

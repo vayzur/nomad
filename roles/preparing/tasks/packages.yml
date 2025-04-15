@@ -1,6 +1,0 @@
----
-- name: Install basic tools
-  apt:
-    name: "{{ packages }}"
-    state: present
-    update_cache: true

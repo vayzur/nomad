@@ -1,0 +1,6 @@
+---
+- name: Configure EasyTier
+  hosts: wormhole,stargate
+  become: true
+  roles:
+    - { role: easytier, tags: easytier }

@@ -1,0 +1,14 @@
+---
+- name: Restart xray
+  systemd:
+    name: xray
+    state: restarted
+  ignore_errors: true
+
+- name: Enable xray
+  systemd:
+    name: xray
+    state: started
+    daemon_reload: true
+    enabled: true
+  ignore_errors: true

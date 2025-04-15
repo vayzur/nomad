@@ -1,0 +1,6 @@
+---
+- name: Configure SIT
+  hosts: wormhole,stargate
+  become: true
+  roles:
+    - { role: sit, tags: sit, when: enable_sit }

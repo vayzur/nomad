@@ -1,8 +1,0 @@
-# {{ ansible_managed }}
-
-nameserver {{ dns }}
-nameserver {{ dns_fallback }}
-{% if enable_ipv6_dns %}
-nameserver {{ dns_v6 }}
-nameserver {{ dns_v6_fallback }}
-{% endif %}

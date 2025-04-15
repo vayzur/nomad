@@ -1,9 +1,0 @@
----
-- name: Download samurai
-  get_url:
-    url: "https://github.com/0xAFz/samurai/releases/download/v{{ samurai_version }}/samurai-{{ samurai_kernel_version }}-amd64.deb"
-    dest: "/tmp/samurai.deb"
-
-- name: Install samurai
-  apt:
-    deb: /tmp/samurai.deb

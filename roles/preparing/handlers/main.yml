@@ -1,7 +1,0 @@
-- name: Restart ssh
-  systemd:
-    name: ssh
-    state: restarted
-
-- name: Reload sysctl
-  command: sysctl -e -p

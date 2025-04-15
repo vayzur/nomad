@@ -1,7 +1,6 @@
 ---
-- name: Configure tunnels
-  hosts: wormhole,stargate
-  become: true
-  roles:
-    - { role: ../roles/easytier, tags: easytier, when: enable_easytier }
-    - { role: ../roles/sit, tags: sit, when: enable_sit }
+- import_playbook: easytier.yml
+
+- import_playbook: sit.yml
+
+- import_playbook: xray.yml
