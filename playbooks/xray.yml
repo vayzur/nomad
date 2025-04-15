@@ -4,4 +4,4 @@
   strategy: free
   become: true
   roles:
-    - { role: ../roles/xray, tags: xray }
+    - { role: xray, tags: xray }
