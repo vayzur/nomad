@@ -1,17 +1,8 @@
 # Nomad
 
-Nomad is like your best buddy for setting up a secure and low-latency VPN server. But that’s not all—you can also use it in a bunch of other creative ways. Let’s dive in together and see what makes Nomad awesome! 🚀
+Nomad is a lightweight automation tool focused solely on **P2P Tunnel Setup**. It simplifies and automates the process of establishing peer-to-peer VPN tunnels, ensuring a seamless and low-latency connection between remote endpoints.
 
----
-
-### Key Features:
-
-Here’s a quick list of what Nomad can do for you:
-- **Kernel and Network Stack:** Optimize kernel and network stack for low latency.
-- **SSH Hardening:** Locks down SSH settings for better security.
-- **Firewall Configuration:** Sets up firewall rules to protect servers and secure network traffic.
-- **Xray Core:** Installs and configures the Xray core for advanced VPN capabilities.
-- **Tunnel Configuration:** Sets up a VPN tunnel using supported methods to optimize performance.
+**Note**: All preparation tasks (such as kernel tuning, network setup, and sysctl optimizations) have been moved to the [Katana](https://github.com/zerolat/katana) project for better modularity and maintainability.
 
 ---
 
@@ -20,53 +11,6 @@ Here’s a quick list of what Nomad can do for you:
   - EasyTier
   - SIT (6to4)
 - **Xray Core**
-
-Alright, let’s roll and get started with Nomad! 🛠️
-
----
-
-### SSH Port Configuration  
-We recommend changing the default SSH port for better security when setting up your servers.  
-
-To change the SSH port, connect to your server and run the following command:  
-
-```bash
-sed -i 's/#Port 22/Port 3022/g' /etc/ssh/sshd_config && systemctl restart sshd
-```  
-
-This one-liner will update the SSH configuration to use port `3022` and restart the SSH service to apply the changes.  
-
-> [!NOTE]
-> Make sure to update your firewall rules to allow the new SSH port before running this command, so you don't accidentally lock yourself out.  
-
----
-
-## Firewall Configuration
-
-By default, the firewall blocks all traffic except the ports and IP ranges you specify in `inventory/group_vars/all/firewall.yml`. Wanna open or close a port? Easy, just edit the `firewall_config` section like this:
-
-```yml
-# firewall configuration
-firewall_config:
-  network_adapter_access:
-    - lo
-  tcp_port_access:
-    - 80
-    - 443
-  udp_port_access:
-    - 8082
-    - 8084
-  trusted_range:
-    - 10.44.44.0/24
-    - "{{ hostvars['wormhole'].ansible_host }}/32"
-    - "{{ hostvars['stargate'].ansible_host }}/32"
-```
-
-After editing, run the following command to update the firewall rules:
-
-```bash
-ansible-playbook -i inventory/hosts.yml vpn.yml --tags nftables
-```
 
 ---
 
@@ -139,7 +83,7 @@ Replace the default secret with your custom one in `easytier.yml`.
 You’re ready! Execute this command:
 
 ```bash
-ansible-playbook -i inventory/hosts.yml vpn.yml
+ansible-playbook -i inventory/hosts.yml easytier.yml
 ```
 
 Nomad will handle SSH hardening, kernel optimization, and firewall configuration. Errors? No worries, read the error message and rerun the command.
@@ -205,7 +149,7 @@ cp /path/external.json roles/xray/files/stargate.json
 Run the playbook:
 
 ```bash
-ansible-playbook -i inventory/hosts.yml vpn.yml
+ansible-playbook -i inventory/hosts.yml xray.yml
 ```
 
 Verify:
