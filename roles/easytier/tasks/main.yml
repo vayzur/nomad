@@ -68,7 +68,7 @@
 - name: Enable easytier
   systemd:
     name: easytier
-    state: start
+    state: started
     daemon_reload: true
     enabled: true
   ignore_errors: true
