@@ -58,16 +58,20 @@
     src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'wormhole'
-  notify:
-    - Enable easytier
 
 - name: Make EasyTier service for stargate
   template:
     src: "{{ 'client.service.j2' if easytier_reverse else 'server.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'stargate'
-  notify:
-    - Enable easytier
+
+- name: Enable easytier
+  systemd:
+    name: easytier
+    state: start
+    daemon_reload: true
+    enabled: true
+  ignore_errors: true
 
 - name: Make EasyTier TUN setup script
   template:

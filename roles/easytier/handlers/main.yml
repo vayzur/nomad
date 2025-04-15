@@ -1,16 +1,9 @@
 ---
-- name: Enable easytier
+- name: Enable easytier-tun
   systemd:
-    name: easytier
-    state: start
+    name: easytier-tun
+    state: started
     daemon_reload: true
     enabled: true
   ignore_errors: true
 
-- name: Enable easytier-tun
-  systemd:
-    name: easytier-tun
-    state: restarted
-    daemon_reload: true
-    enabled: true
-  ignore_errors: true
