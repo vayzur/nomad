@@ -52,7 +52,6 @@
   set_fact:
     peer_host: "{{ hostvars['wormhole'].ansible_host if easytier_reverse else hostvars['stargate'].ansible_host }}"
   delegate_to: localhost
-  when: enable_easytier and inventory_hostname == 'wormhole' or inventory_hostname == 'stargate'
 
 - name: Make EasyTier service for wormhole
   template:
