@@ -1,0 +1,6 @@
+---
+- name: Common tasks
+  hosts: all
+  become: true
+  roles:
+    - { role: packages, tags: packages }

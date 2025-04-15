@@ -1,4 +1,6 @@
 ---
+- import_playbook: common.yml
+
 - import_playbook: easytier.yml
 
 - import_playbook: sit.yml
