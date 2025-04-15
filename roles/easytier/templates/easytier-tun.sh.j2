@@ -1,4 +1,4 @@
 #!/bin/bash
 
 tc qdisc replace dev easytier root noqueue
-ip link set easytier txqueuelen {{ _txqueuelen }}
+ip link set easytier txqueuelen {{ easytier_txqueuelen }}

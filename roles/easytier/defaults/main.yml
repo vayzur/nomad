@@ -22,3 +22,6 @@ easytier_multithread: true
 easytier_ipv6: false
 
 easytier_reverse: true
+
+easytier_txqueuelen: 1000
+
