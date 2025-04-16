@@ -65,7 +65,7 @@
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'stargate'
 
-- name: Enable easytier
+- name: Enable EasyTier service
   systemd:
     name: easytier
     state: started
