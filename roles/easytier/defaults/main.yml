@@ -1,4 +1,6 @@
 ---
+enable_easytier: true
+
 easytier_version: v2.1.2
 
 easytier_dir: "/opt/nomad/easytier"
@@ -6,7 +8,7 @@ easytier_dir: "/opt/nomad/easytier"
 easytier_port: 4097 
 
 ## Supported protocols: udp, tcp, ws, wss
-easytier_protocol: udp
+easytier_protocol: tcp
 
 ## Static IP configuration
 easytier_client_ipv4: 10.44.44.1

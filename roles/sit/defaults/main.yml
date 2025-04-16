@@ -1,4 +1,6 @@
 ---
+enable_sit: false
+
 sit_local_ipv6: fd00:1::1
 sit_remote_ipv6: fd00:2::1
 sit_netmask: /64
