@@ -26,15 +26,15 @@ Tell Ansible where to work by creating the `hosts.yml` file:
 
 ```yml
 all:
+  vars:
+    ansible_port: 3022
+    ansible_user: root
+
   hosts:
     wormhole:
-      ansible_host: <your-internal-server-ip>
-      ansible_port: 3122
-      ansible_user: root
+      ansible_host: <your_internal_server_ip>
     stargate:
-      ansible_host: <your-external-server-ip>
-      ansible_port: 3122
-      ansible_user: root
+      ansible_host: <your_external_server_ip>
 ```
 
 #### Step 3: Update the Config Files
@@ -56,7 +56,6 @@ enable_easytier: true
 
 By default tunneling method is reversed in `easytier.yml`
 ```yml
-## Tunneling
 easytier_reverse: true
 ```
 
@@ -83,10 +82,8 @@ Replace the default secret with your custom one in `easytier.yml`.
 You’re ready! Execute this command:
 
 ```bash
-ansible-playbook -i inventory/hosts.yml easytier.yml
+ansible-playbook -i inventory/hosts.yml tunnel.yml
 ```
-
-Nomad will handle SSH hardening, kernel optimization, and firewall configuration. Errors? No worries, read the error message and rerun the command.
 
 Verify the setup:
 
@@ -108,25 +105,10 @@ Expected output:
 
 ---
 
-## Without Tunneling Inventory
-
-If you’re skipping tunneling, use a single server:
-
-```yml
-all:
-  hosts:
-    vpn:
-      ansible_host: <server-ip>
-      ansible_port: 3022
-      ansible_user: root
-```
-
----
-
 ## Xray Core
 
 > [!WARNING]
-> Xray is supported only on x86\_64 or amd64 architectures.&#x20;
+> Xray is supported only on x86\_64 architectures.&#x20;
 
 For installing Xray Core:
 
@@ -139,8 +121,7 @@ enable_xray: true
 2. Use the default config or replace it with your custom Xray config:
 
 > [!WARNING]
-> The name of config files for internal server must be: `wormhole.json` for external server: `stargate.json`
-> For one server only use `default.json`
+> Config file for internal server must be: `wormhole.json` for external server: `stargate.json`
 ```bash
 cp /path/internal.json roles/xray/files/wormhole.json
 cp /path/external.json roles/xray/files/stargate.json
