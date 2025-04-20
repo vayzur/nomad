@@ -1,5 +1,5 @@
 ---
-- name: Create Xray directories
+- name: Make Xray directories
   file:
     path: "{{ item }}"
     state: directory
@@ -12,7 +12,7 @@
     - /etc/systemd/system/xray.service.d
     - /var/log/xray
 
-- name: Download Xray Linux X86_64|amd64 binary
+- name: Download Xray binary
   get_url:
     url: "https://github.com/XTLS/Xray-core/releases/download/{{ xray_version }}/Xray-linux-64.zip"
     dest: "/tmp/Xray-linux-64.zip"
@@ -23,29 +23,6 @@
     src: "/tmp/Xray-linux-64.zip"
     dest: "{{ xray_dir }}"
     remote_src: true
-
-- name: Delete Xray downloaded zip file
-  file:
-    path: "/tmp/Xray-linux-64.zip"
-    state: absent
-
-- name: Create Xray systemd service
-  template:
-    src: xray.service.j2
-    dest: /etc/systemd/system/xray.service
-    owner: root
-    group: root
-    mode: 0644
-
-- name: Copy Xray default config
-  copy:
-    src: files/default.json
-    dest: "{{ xray_dir }}/config.json"
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - Enable xray
 
 - name: Check if wormhole.json exists
   become: false
@@ -61,24 +38,45 @@
   register: stargate_config
   delegate_to: localhost
 
+- name: Define source file for wormhole
+  set_fact:
+    wormhole_src: "{{ 'files/wormhole.json' if wormhole_config.stat.exists else 'files/default.json' }}"
+  when: inventory_hostname == 'wormhole'
+
+- name: Define source file for stargate
+  set_fact:
+    stargate_src: "{{ 'files/stargate.json' if stargate_config.stat.exists else 'files/default.json' }}"
+  when: inventory_hostname == 'stargate'
+
 - name: Copy Xray custom config to wormhole
   copy:
-    src: files/wormhole.json
+    src: "{{ wormhole_src }}"
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
     mode: 0644
-  when: wormhole_config.stat.exists and inventory_hostname == 'wormhole'
-  notify:
-    - Restart xray
+  when: inventory_hostname == 'wormhole'
 
 - name: Copy Xray custom config to stargate
   copy:
-    src: files/stargate.json
+    src: "{{ stargate_src }}"
     dest: "{{ xray_dir }}/config.json"
     owner: root
     group: root
     mode: 0644
-  when: stargate_config.stat.exists and inventory_hostname == 'stargate'
+  when: inventory_hostname == 'stargate'
+
+- name: Make Xray systemd service
+  template:
+    src: xray.service.j2
+    dest: /etc/systemd/system/xray.service
+    owner: root
+    group: root
+    mode: 0644
   notify:
-    - Restart xray
+    - Enable xray
+
+- name: Remove Xray downloaded zip file
+  file:
+    path: "/tmp/Xray-linux-64.zip"
+    state: absent
