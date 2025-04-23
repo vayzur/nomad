@@ -8,7 +8,7 @@ easytier_dir: "/opt/nomad/easytier"
 easytier_port: 4097 
 
 ## Supported protocols: udp, tcp, ws, wss
-easytier_protocol: tcp
+easytier_protocol: udp
 
 ## Static IP configuration
 easytier_client_ipv4: 10.44.44.1
