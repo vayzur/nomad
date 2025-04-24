@@ -1,4 +1,11 @@
 #!/bin/bash
 
+{% if easytier_qdisc == 'fq_codel' %}
+tc qdisc replace dev easytier root target {{ easytier_fq_codel_target }} interval {{ easytier_fq_codel_interval }} limit {{ easytier_fq_codel_limit }} noecn quantum {{ easytier_fq_codel_quantum }}
+tc qdisc replace dev easytier root {{ easytier_fq_codel_flows }}
+{% else %}
 tc qdisc replace dev easytier root noqueue
+{% endif %}
+
 ip link set easytier txqueuelen {{ easytier_txqueuelen }}
+

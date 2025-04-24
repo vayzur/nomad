@@ -25,5 +25,14 @@ easytier_ipv6: false
 
 easytier_reverse: true
 
+## Supported qdisc: fq_codel, noqueue
+easytier_qdisc: noqueue
+
+easytier_fq_codel_target: 1000us
+easytier_fq_codel_interval: 2000us
+easytier_fq_codel_limit: 2048
+easytier_fq_codel_flows: 1024
+easytier_fq_codel_quantum: 300
+
 easytier_txqueuelen: 1000
 
