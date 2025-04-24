@@ -2,8 +2,6 @@
 
 Nomad is a lightweight automation tool focused solely on **P2P Tunnel Setup**. It simplifies and automates the process of establishing peer-to-peer VPN tunnels, ensuring a seamless and low-latency connection between remote endpoints.
 
-**Note**: All preparation tasks (such as kernel tuning, network setup, and sysctl optimizations) have been moved to the [Katana](https://github.com/zerolat/katana) project for better modularity and maintainability.
-
 ---
 
 ### Supported Methods:
