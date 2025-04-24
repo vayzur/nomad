@@ -1,9 +1,12 @@
+# {{ ansible_managed }}
+
 [Unit]
 Description=Configure EasyTier Interface Settings
-After=network.target
+After=easytier.service
 
 [Service]
 Type=oneshot
+RemainAfterExit=true
 ExecStart=/bin/bash {{ easytier_dir }}/easytier-tun.sh
 Restart=on-failure
 RestartSec=1s
