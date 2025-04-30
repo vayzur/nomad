@@ -42,27 +42,35 @@
   set_fact:
     peer_host: "{{ hostvars['wormhole'].ansible_host if easytier_reverse else hostvars['stargate'].ansible_host }}"
   delegate_to: localhost
+  tags:
+    - easytier-service
 
 - name: Make EasyTier service for wormhole
   template:
     src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'wormhole'
+  tags:
+    - easytier-service
 
 - name: Make EasyTier service for stargate
   template:
     src: "{{ 'client.service.j2' if easytier_reverse else 'server.service.j2' }}"
     dest: "/etc/systemd/system/easytier.service"
   when: inventory_hostname == 'stargate'
+  tags:
+    - easytier-service
 
 - name: Enable EasyTier service
   systemd:
     name: easytier
-    state: started
+    state: restarted
     daemon_reload: true
     enabled: true
   changed_when: true
   ignore_errors: true
+  tags:
+    - easytier-service
 
 - name: Make EasyTier TUN setup script
   template:
@@ -71,6 +79,8 @@
     mode: 0744
     owner: root
     group: root
+  tags:
+    - easytier-service
 
 - name: Make EasyTier TUN setup service
   template:
@@ -80,8 +90,19 @@
     owner: root
     group: root
   changed_when: true
-  notify:
-    - Enable easytier-tun
+  tags:
+    - easytier-service
+
+- name: Enable easytier-tun
+  systemd:
+    name: easytier-tun
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  changed_when: true
+  ignore_errors: true
+  tags:
+    - easytier-service
 
 - name: Delete EasyTier extracted directory
   file:
