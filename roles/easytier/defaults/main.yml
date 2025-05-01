@@ -1,7 +1,7 @@
 ---
 enable_easytier: true
 
-easytier_version: v2.1.2
+easytier_version: v2.2.4
 
 easytier_dir: "/opt/nomad/easytier"
 
