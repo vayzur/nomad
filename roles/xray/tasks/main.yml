@@ -30,6 +30,8 @@
     path: "{{ role_path }}/files/wormhole.json"
   register: wormhole_config
   delegate_to: localhost
+  tags:
+    - xray-service
 
 - name: Check if stargate.json exists
   become: false
@@ -37,16 +39,22 @@
     path: "{{ role_path }}/files/stargate.json"
   register: stargate_config
   delegate_to: localhost
+  tags:
+    - xray-service
 
 - name: Define source file for wormhole
   set_fact:
     wormhole_src: "{{ 'files/wormhole.json' if wormhole_config.stat.exists else 'files/default.json' }}"
   when: inventory_hostname == 'wormhole'
+  tags:
+    - xray-service
 
 - name: Define source file for stargate
   set_fact:
     stargate_src: "{{ 'files/stargate.json' if stargate_config.stat.exists else 'files/default.json' }}"
   when: inventory_hostname == 'stargate'
+  tags:
+    - xray-service
 
 - name: Copy Xray custom config to wormhole
   copy:
@@ -56,6 +64,8 @@
     group: root
     mode: 0644
   when: inventory_hostname == 'wormhole'
+  tags:
+    - xray-service
 
 - name: Copy Xray custom config to stargate
   copy:
@@ -65,6 +75,8 @@
     group: root
     mode: 0644
   when: inventory_hostname == 'stargate'
+  tags:
+    - xray-service
 
 - name: Make Xray systemd service
   template:
@@ -73,8 +85,11 @@
     owner: root
     group: root
     mode: 0644
+  changed_when: true
   notify:
     - Enable xray
+  tags:
+    - xray-service
 
 - name: Remove Xray downloaded zip file
   file:
