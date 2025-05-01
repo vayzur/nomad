@@ -8,7 +8,7 @@
 - name: Enable xray
   systemd:
     name: xray
-    state: started
+    state: restarted
     daemon_reload: true
     enabled: true
   ignore_errors: true
