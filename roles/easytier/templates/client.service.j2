@@ -1,24 +1,43 @@
 # {{ ansible_managed }}
-
 [Unit]
 Description=EasyTier Service
-After=network.target
+After=network.target nss-lookup.target
 
 [Service]
+# Process type configuration
 Type=simple
-CPUQuota=infinity
+
+# Disable all resource accounting
+CPUAccounting=no
 MemoryAccounting=no
+IOAccounting=no
+IPAccounting=no
 TasksAccounting=no
-MemoryMax=infinity
+
+# Remove resource limits
+CPUQuota=
+MemoryMax=
+
+# Real-time scheduling settings
 CPUSchedulingPolicy=fifo
 CPUSchedulingPriority=98
 IOSchedulingClass=realtime
 IOSchedulingPriority=0
+
+# Process resource limits
 LimitRTPRIO=99
 LimitRTTIME=infinity
 LimitNPROC=infinity
 LimitNOFILE=infinity
-NoNewPrivileges=false
+LimitMEMLOCK=infinity
+
+# Performance optimizations
+OOMScoreAdjust=-1000
+Slice=-.slice
+TimeoutStartSec=3s
+TimeoutStopSec=3s
+
+# Service execution
 Restart=on-failure
 RestartSec=5s
 ExecStart={{ easytier_dir }}/easytier-core -i {{ easytier_client_ipv4 }} --peers {{ easytier_protocol }}://{{ peer_host }}:{{ easytier_port }} --hostname easytier --network-secret {{ easytier_secret }} --default-protocol {{ easytier_protocol }} --dev-name easytier {% if easytier_multithread %}--multi-thread{% endif %} {% if not easytier_encryption %}--disable-encryption{% endif %} {% if not easytier_ipv6 %}--disable-ipv6{% endif %}
