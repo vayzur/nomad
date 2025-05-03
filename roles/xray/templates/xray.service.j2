@@ -1,27 +1,49 @@
 # {{ ansible_managed }}
-
 [Unit]
 Description=Xray Service
 Documentation=https://github.com/xtls
 After=network.target nss-lookup.target
 
 [Service]
+# Process type configuration
 Type=simple
-CPUQuota=infinity
+
+# Disable all resource accounting
+CPUAccounting=no
 MemoryAccounting=no
+IOAccounting=no
+IPAccounting=no
 TasksAccounting=no
-MemoryMax=infinity
+
+# Remove resource limits
+CPUQuota=
+MemoryMax=
+
+# Real-time scheduling settings
 CPUSchedulingPolicy=fifo
 CPUSchedulingPriority=98
 IOSchedulingClass=realtime
 IOSchedulingPriority=0
+
+# Process resource limits
 LimitRTPRIO=99
 LimitRTTIME=infinity
 LimitNPROC=infinity
 LimitNOFILE=infinity
+LimitMEMLOCK=infinity
+
+# Security settings
 NoNewPrivileges=false
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+
+# Performance optimizations
+OOMScoreAdjust=-1000
+Slice=-.slice
+TimeoutStartSec=1s
+TimeoutStopSec=1s
+
+# Service execution
 ExecStart={{ xray_dir }}/xray run -config {{ xray_dir }}/config.json
 Restart=on-failure
 RestartSec=5s
