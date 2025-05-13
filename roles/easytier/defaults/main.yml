@@ -34,5 +34,4 @@ easytier_fq_codel_limit: 2048
 easytier_fq_codel_flows: 1024
 easytier_fq_codel_quantum: 300
 
-easytier_txqueuelen: 1000
-
+easytier_txqueuelen: 256
