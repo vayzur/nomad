@@ -45,6 +45,13 @@
   tags:
     - easytier-service
 
+- name: Generate taskset CPU mask for easytier service
+  set_fact:
+    cpu_mask: >-
+      {% if ansible_processor_vcpus|int == 1 %}0{% elif ansible_processor_vcpus|int == 2 %}0,1{% else %}1-{{ ansible_processor_vcpus | int - 1 }}{% endif %}
+  tags:
+    - easytier-service
+
 - name: Make EasyTier service for wormhole
   template:
     src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"

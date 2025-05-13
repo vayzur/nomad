@@ -40,7 +40,7 @@ TimeoutStopSec=3s
 # Service execution
 Restart=on-failure
 RestartSec=5s
-ExecStart={{ easytier_dir }}/easytier-core -i {{ easytier_client_ipv4 }} --peers {{ easytier_protocol }}://{{ peer_host }}:{{ easytier_port }} --hostname easytier --network-secret {{ easytier_secret }} --default-protocol {{ easytier_protocol }} --dev-name easytier {% if easytier_multithread %}--multi-thread{% endif %} {% if not easytier_encryption %}--disable-encryption{% endif %} {% if not easytier_ipv6 %}--disable-ipv6{% endif %}
+ExecStart=taskset -c {{ cpu_mask }} {{ easytier_dir }}/easytier-core -i {{ easytier_client_ipv4 }} --peers {{ easytier_protocol }}://{{ peer_host }}:{{ easytier_port }} --hostname easytier --network-secret {{ easytier_secret }} --default-protocol {{ easytier_protocol }} --dev-name easytier {% if easytier_multithread %}--multi-thread{% endif %} {% if not easytier_encryption %}--disable-encryption{% endif %} {% if not easytier_ipv6 %}--disable-ipv6{% endif %}
 
 [Install]
 WantedBy=multi-user.target
