@@ -44,7 +44,7 @@ TimeoutStartSec=1s
 TimeoutStopSec=1s
 
 # Service execution
-ExecStart={{ xray_dir }}/xray run -config {{ xray_dir }}/config.json
+ExecStart=taskset -c {{ cpu_mask }} {{ xray_dir }}/xray run -config {{ xray_dir }}/config.json
 Restart=on-failure
 RestartSec=5s
 
