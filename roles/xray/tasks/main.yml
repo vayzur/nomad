@@ -81,7 +81,7 @@
 - name: Generate taskset CPU mask for xray service
   set_fact:
     cpu_mask: >-
-      {% if ansible_processor_vcpus|int == 1 %}0{% elif ansible_processor_vcpus|int == 2 %}0,1{% else %}1-{{ ansible_processor_vcpus | int - 1 }}{% endif %}
+      {% if ansible_processor_vcpus|int == 1 %}0{% elif ansible_processor_vcpus|int == 2 %}1{% else %}1-{{ ansible_processor_vcpus | int - 1 }}{% endif %}
   tags:
     - xray-service
 
