@@ -1,7 +1,7 @@
 ---
 enable_easytier: true
 
-easytier_version: v2.2.4
+easytier_version: v2.3.0
 
 easytier_dir: "/opt/nomad/easytier"
 
@@ -34,4 +34,4 @@ easytier_fq_codel_limit: 2048
 easytier_fq_codel_flows: 1024
 easytier_fq_codel_quantum: 300
 
-easytier_txqueuelen: 256
+easytier_txqueuelen: 1000

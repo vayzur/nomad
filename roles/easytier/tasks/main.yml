@@ -30,6 +30,7 @@
     dest: "{{ easytier_dir }}/easytier-core"
     mode: 0755
     remote_src: true
+  changed_when: true
 
 - name: Move easytier-cli to {{ easytier_dir }}
   copy:

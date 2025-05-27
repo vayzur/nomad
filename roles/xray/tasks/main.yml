@@ -23,6 +23,7 @@
     src: "/tmp/Xray-linux-64.zip"
     dest: "{{ xray_dir }}"
     remote_src: true
+  changed_when: true
 
 - name: Check if wormhole.json exists
   become: false
