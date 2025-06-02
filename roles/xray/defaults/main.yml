@@ -1,5 +1,5 @@
 ---
-enable_xray: true
+enable_xray: false
 
 xray_version: v25.5.16
 
