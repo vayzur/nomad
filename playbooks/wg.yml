@@ -1,0 +1,7 @@
+---
+- name: Configure WireGuard
+  hosts: all
+  strategy: free
+  become: true
+  roles:
+    - { role: wg, tags: wg, when: enable_wg }
