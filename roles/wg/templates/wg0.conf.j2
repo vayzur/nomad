@@ -1,0 +1,18 @@
+[Interface]
+PrivateKey = {{ wg_private_key }}
+Address = {{ wg_gateway }}
+ListenPort = {{ wg_port }}
+MTU = {{ wg_mtu }}
+PostUp = nft add rule ip nat postrouting ip saddr {{ wg_subnet }} masquerade
+PostUp = nft add rule inet filter forward ct state established,related accept
+PostUp = nft add rule inet filter input udp dport {{ wg_port }} accept
+PostUp = nft add rule inet filter forward ip saddr {{ wg_subnet }} accept
+PostDown = nft delete ip rule nat postrouting ip saddr {{ wg_subnet }} masquerade
+PostDown = nft delete inet rule filter forward ct state established,related accept
+PostDown = nft delete inet rule filter input udp dport {{ wg_port }} accept
+PostDown = nft delete inet rule filter forward ip saddr {{ wg_subnet }} accept
+
+[Peer]
+PublicKey = ZcRwKf2dHV0qEusPXwcP5mrMiwydUf99qXIYO4OCbCM=
+PresharedKey = 5MUbM9SrAbnsb2s+/Afb06zuhwMAYyyDsHOE/A8EeOo=
+AllowedIPs = 10.4.24.2/32

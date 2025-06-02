@@ -1,0 +1,10 @@
+---
+- name: Configure Forwarder
+  import_tasks: forwarder.yml
+  when: inventory_hostname == 'wormhole'
+  tags: forwarder
+
+- name: Configure WireGuard
+  import_tasks: server.yml
+  when: inventory_hostname == 'stargate'
+  tags: wg

@@ -1,0 +1,11 @@
+---
+- name: Make Forwarder service
+  template:
+    src: forward.service.j2
+    dest: /etc/systemd/system/forward.service
+    mode: 0644
+    owner: root
+    group: root
+  changed_when: true
+  notify:
+    - Enable Forwarder

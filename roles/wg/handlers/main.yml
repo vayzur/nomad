@@ -1,0 +1,16 @@
+---
+- name: Enable WireGuard
+  systemd:
+    name: wg-quick@wg0
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  ignore_errors: true
+
+- name: Enable Forwarder
+  systemd:
+    name: forward
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  ignore_errors: true

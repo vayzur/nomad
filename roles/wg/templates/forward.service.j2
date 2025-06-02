@@ -1,0 +1,17 @@
+[Unit]
+Description=Configure Forwarder
+After=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=nft add rule ip nat prerouting tcp dport {{ wg_port }} dnat to {{ wg_forward_ip }}
+ExecStart=nft add rule ip nat prerouting udp dport {{ wg_port }} dnat to {{ wg_forward_ip }}
+ExecStart=nft add rule ip nat postrouting ip daddr {{ wg_forward_ip }}/32 masquerade
+ExecStop=nft delete rule ip nat prerouting tcp dport {{ wg_port }} dnat to {{ wg_forward_ip }}
+ExecStop=nft delete rule ip nat prerouting udp dport {{ wg_port }} dnat to {{ wg_forward_ip }}
+ExecStop=nft delete rule ip nat postrouting ip daddr {{ wg_forward_ip }}/32 masquerade
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
