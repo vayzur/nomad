@@ -1,0 +1,35 @@
+---
+- name: Set BoringTun download URL
+  set_fact:
+    btun_url: "https://github.com/0xAFz/btun/releases/download/{{ btun_version }}/boringtun-linux-amd64"
+
+- name: Download BoringTun binary
+  get_url:
+    url: "{{ btun_url }}"
+    dest: /opt/btun
+    mode: 0755
+
+- name: Blacklist wireguard-linux module
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/disable-wireguard-linux.conf
+    content: |
+      blacklist wireguard
+
+- name: Make BoringTun service directory
+  file:
+    path: /etc/systemd/system/wg-quick@wg0.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Make BoringTun service override
+  template:
+    src: btun.override.j2
+    dest: /etc/systemd/system/wg-quick@wg0.service.d/override.conf
+    mode: 0644
+    owner: root
+    group: root
+  changed_when: true
+  notify:
+    - Enable WireGuard
