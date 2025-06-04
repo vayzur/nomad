@@ -23,3 +23,11 @@
   changed_when: true
   notify:
     - Enable WireGuard
+
+- name: Install BoringTun
+  import_tasks: btun.yml
+  when: wg_mode == 'btun'
+
+- name: Install WireGuard-go
+  import_tasks: go.yml
+  when: wg_mode == 'go'
