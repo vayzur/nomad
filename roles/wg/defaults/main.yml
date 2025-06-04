@@ -1,6 +1,9 @@
 ---
 enable_wg: true
 
+## Supported: linux, go, btun
+wg_mode: linux
+
 wg_pkgs:
   - wireguard
   - wireguard-tools
@@ -14,3 +17,5 @@ wg_mtu: 1280
 wg_forward_ip: 10.44.44.1
 
 wg_private_key: "gFnuFqXT4oX7tOhzQsrBrobXE2mXaRrJkseeuHjI1HE="
+
+btun_version: 0.0.1
