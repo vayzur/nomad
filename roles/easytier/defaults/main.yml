@@ -1,5 +1,5 @@
 ---
-enable_easytier: true
+enable_easytier: false
 
 easytier_version: v2.3.0
 
