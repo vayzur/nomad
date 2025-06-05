@@ -1,10 +1,58 @@
 ---
-- name: Configure Forwarder
-  import_tasks: forwarder.yml
-  when: inventory_hostname == 'wormhole'
-  tags: forwarder
+- name: Check WireGuard module blacklist
+  stat:
+    path: /etc/modprobe.d/disable-wireguard-linux.conf
+  register: wg_blacklist
 
-- name: Configure WireGuard
-  import_tasks: server.yml
-  when: inventory_hostname == 'stargate'
-  tags: wg
+- name: Remove WireGuard module from blacklist
+  file:
+    path: /etc/disable-wireguard-linux.conf
+    state: absent
+  when: wg_mode == 'linux' and wg_module and wg_blacklist.stat.exists
+
+- name: Reboot the system
+  reboot:
+    reboot_timeout: 1200
+  when: wg_mode == 'linux' and wg_module and wg_blacklist.stat.exists
+
+- name: Install WireGuard
+  apt:
+    name: "{{ wg_pkgs }}"
+    state: present
+    update_cache: true
+
+- name: Make WireGuard directory
+  file:
+    path: "{{ wg_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Make WireGuard setup script
+  template:
+    src: wgnf.sh.j2
+    dest: /opt/wgnf.sh
+    mode: 0755
+    owner: root
+    group: root
+  changed_when: true
+
+- name: Make WireGuard conf
+  template:
+    src: wg0.conf.j2
+    dest: "{{ wg_dir }}/wg0.conf"
+    mode: 0644
+    owner: root
+    group: root
+  changed_when: true
+  notify:
+    - Enable WireGuard
+
+- name: Install BoringTun
+  import_tasks: btun.yml
+  when: wg_mode == 'btun'
+
+- name: Install WireGuard-go
+  import_tasks: go.yml
+  when: wg_mode == 'go'
