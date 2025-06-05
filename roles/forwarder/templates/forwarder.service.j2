@@ -1,0 +1,20 @@
+[Unit]
+Description=Configure Forwarder
+After=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=nft -f /etc/nftables.conf
+ExecStart=nft add rule ip nat prerouting tcp dport {{ dst_port }} dnat to {{ dst_ip }}
+ExecStart=nft add rule ip nat prerouting udp dport {{ dst_port }} dnat to {{ dst_ip }}
+ExecStart=nft add rule inet filter forward ip daddr {{ dst_ip }}/32 accept
+ExecStart=nft add rule ip nat postrouting ip daddr {{ dst_ip }}/32 masquerade
+ExecStop=nft delete rule ip nat prerouting tcp dport {{ dst_port }} dnat to {{ dst_ip }}
+ExecStop=nft delete rule ip nat prerouting udp dport {{ dst_port }} dnat to {{ dst_ip }}
+ExecStop=nft delete rule inet filter forward ip daddr {{ dst_ip }}/32 accept
+ExecStop=nft delete rule ip nat postrouting ip daddr {{ dst_ip }}/32 masquerade
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

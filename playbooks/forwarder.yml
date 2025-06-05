@@ -1,0 +1,7 @@
+---
+- name: Configure Forwarder
+  hosts: all
+  strategy: free
+  become: true
+  roles:
+    - { role: forwarder, tags: forwarder, when: enable_forwarder }
