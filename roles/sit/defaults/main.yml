@@ -7,4 +7,4 @@ sit_netmask: /64
 
 sit_dev: sit01
 sit_mtu: 1480
-sit_ttl: 255
+sit_ttl: 64
