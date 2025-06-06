@@ -1,0 +1,22 @@
+ipv4 = "{{easytier_server_ipv4}}/24"
+dhcp = false
+listeners = ["{{easytier_protocol}}://0.0.0.0:{{easytier_port}}"]
+peer = []
+rpc_portal = "0.0.0.0:0"
+
+[network_identity]
+network_name = "easytier"
+network_secret = "{{easytier_secret}}"
+
+{% if easytier_wg %}
+[vpn_portal_config]
+client_cidr = "{{easytier_wg_subnet}}"
+wireguard_listen = "0.0.0.0:{{easytier_wg_port}}"
+{% endif %}
+
+[flags]
+dev_name = "easytier"
+enable_encryption = {{ 'true' if easytier_encryption else 'false' }}
+multi_thread = {{ 'true' if easytier_multithread else 'false' }}
+enable_ipv6 = {{ 'true' if easytier_ipv6 else 'false' }}
+no_tun = {{ 'true' if not easytier_tun else 'false' }}
