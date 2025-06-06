@@ -45,6 +45,7 @@
   delegate_to: localhost
   tags:
     - easytier-service
+    - easytier-config
 
 - name: Generate taskset CPU mask for easytier service
   set_fact:
@@ -53,19 +54,31 @@
   tags:
     - easytier-service
 
-- name: Make EasyTier service for wormhole
+- name: Make EasyTier config for wormhole
   template:
-    src: "{{ 'server.service.j2' if easytier_reverse else 'client.service.j2' }}"
-    dest: "/etc/systemd/system/easytier.service"
+    src: "{{ 'server.toml.j2' if easytier_reverse else 'client.toml.j2' }}"
+    dest: "{{ easytier_dir }}/config.toml"
   when: inventory_hostname == 'wormhole'
+  changed_when: true
   tags:
     - easytier-service
+    - easytier-config
 
-- name: Make EasyTier service for stargate
+- name: Make EasyTier config for stargate
   template:
-    src: "{{ 'client.service.j2' if easytier_reverse else 'server.service.j2' }}"
-    dest: "/etc/systemd/system/easytier.service"
+    src: "{{ 'client.toml.j2' if easytier_reverse else 'server.toml.j2' }}"
+    dest: "{{ easytier_dir }}/config.toml"
   when: inventory_hostname == 'stargate'
+  changed_when: true
+  tags:
+    - easytier-service
+    - easytier-config
+
+- name: Make EasyTier service
+  template:
+    src: easytier.service.j2
+    dest: "/etc/systemd/system/easytier.service"
+  changed_when: true
   tags:
     - easytier-service
 
@@ -79,6 +92,7 @@
   ignore_errors: true
   tags:
     - easytier-service
+    - easytier-config
 
 - name: Make EasyTier TUN setup script
   template:
