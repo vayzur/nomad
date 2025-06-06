@@ -2,5 +2,5 @@
 hosts.yml
 .venv/
 .venv
-stargate.json
-wormhole.json
+roles/xray/files
+!roles/xray/files/default.json
