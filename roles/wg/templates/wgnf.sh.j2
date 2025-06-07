@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ACTION="$1"
+
+nft list tables >/dev/null 2>&1 || exit 0
+
+set -e
+
+case "$ACTION" in
+  up)
+    nft add rule ip nat postrouting ip saddr {{ wg_subnet }} masquerade || true
+    nft add rule inet filter input udp dport {{ wg_port }} accept || true
+    nft add rule inet filter forward ip saddr {{ wg_subnet }} accept || true
+    ;;
+  down)
+    nft delete rule ip nat postrouting ip saddr {{ wg_subnet }} masquerade || true
+    nft delete rule inet filter input udp dport {{ wg_port }} accept || true
+    nft delete rule inet filter forward ip saddr {{ wg_subnet }} accept || true
+    ;;
+  *)
+    echo "Usage: $0 up|down"
+    exit 1
+    ;;
+esac
