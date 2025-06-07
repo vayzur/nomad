@@ -1,0 +1,31 @@
+---
+- name: Install WireGuard-go
+  apt:
+    name: wireguard-go
+    state: present
+    update_cache: true
+
+- name: Blacklist wireguard-linux module
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/disable-wireguard-linux.conf
+    content: |
+      blacklist wireguard
+
+- name: Make wireguard-go service directory
+  file:
+    path: /etc/systemd/system/wg-quick@wg0.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Make wireguard-go service override
+  template:
+    src: wg-go.override.j2
+    dest: /etc/systemd/system/wg-quick@wg0.service.d/override.conf
+    mode: 0644
+    owner: root
+    group: root
+  changed_when: true
+  notify:
+    - Enable WireGuard
