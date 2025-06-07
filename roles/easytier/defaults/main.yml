@@ -1,5 +1,5 @@
 ---
-enable_easytier: true
+enable_easytier: false
 
 easytier_version: v2.3.0
 
@@ -27,7 +27,3 @@ easytier_tun: true
 easytier_reverse: true
 
 easytier_txqlen: 256
-
-easytier_wg: false
-easytier_wg_port: 4003
-easytier_wg_subnet: 10.25.45.0/24
