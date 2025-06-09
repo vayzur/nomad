@@ -1,3 +1,33 @@
 [Service]
+# Disable all resource accounting
+CPUAccounting=no
+MemoryAccounting=no
+IOAccounting=no
+IPAccounting=no
+TasksAccounting=no
+
+# Remove resource limits
+CPUQuota=
+MemoryMax=
+
+# Real-time scheduling settings
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=98
+IOSchedulingClass=realtime
+IOSchedulingPriority=0
+
+# Process resource limits
+LimitRTPRIO=99
+LimitRTTIME=infinity
+LimitNPROC=infinity
+LimitNOFILE=infinity
+LimitMEMLOCK=infinity
+
+# Performance optimizations
+OOMScoreAdjust=-1000
+Slice=-.slice
+TimeoutStartSec=3s
+TimeoutStopSec=3s
+
 Environment="WG_SUDO=1"
 Environment="WG_QUICK_USERSPACE_IMPLEMENTATION=/opt/btun"
