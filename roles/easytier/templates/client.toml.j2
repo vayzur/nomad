@@ -2,19 +2,12 @@ ipv4 = "{{easytier_client_ipv4}}/24"
 dhcp = false
 listeners = []
 rpc_portal = "0.0.0.0:0"
-
 [network_identity]
 network_name = "easytier"
 network_secret = "{{easytier_secret}}"
 
 [[peer]]
 uri = "{{ easytier_protocol }}://{{ peer_host }}:{{ easytier_port }}"
-
-{% if easytier_wg %}
-[vpn_portal_config]
-client_cidr = "{{easytier_wg_subnet}}"
-wireguard_listen = "0.0.0.0:{{easytier_wg_port}}"
-{% endif %}
 
 [flags]
 dev_name = "easytier"

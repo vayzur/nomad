@@ -8,12 +8,6 @@ rpc_portal = "0.0.0.0:0"
 network_name = "easytier"
 network_secret = "{{easytier_secret}}"
 
-{% if easytier_wg %}
-[vpn_portal_config]
-client_cidr = "{{easytier_wg_subnet}}"
-wireguard_listen = "0.0.0.0:{{easytier_wg_port}}"
-{% endif %}
-
 [flags]
 dev_name = "easytier"
 enable_encryption = {{ 'true' if easytier_encryption else 'false' }}
