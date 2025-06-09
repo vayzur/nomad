@@ -3,14 +3,8 @@ PrivateKey = {{ wg_private_key }}
 Address = {{ wg_gateway }}
 ListenPort = {{ wg_port }}
 MTU = {{ wg_mtu }}
-PostUp = nft add rule ip nat postrouting ip saddr {{ wg_subnet }} masquerade
-PostUp = nft add rule inet filter forward ct state established,related accept
-PostUp = nft add rule inet filter input udp dport {{ wg_port }} accept
-PostUp = nft add rule inet filter forward ip saddr {{ wg_subnet }} accept
-PostDown = nft delete ip rule nat postrouting ip saddr {{ wg_subnet }} masquerade
-PostDown = nft delete inet rule filter forward ct state established,related accept
-PostDown = nft delete inet rule filter input udp dport {{ wg_port }} accept
-PostDown = nft delete inet rule filter forward ip saddr {{ wg_subnet }} accept
+PostUp = /opt/wgnf.sh up
+PostDown = /opt/wgnf.sh down
 
 [Peer]
 PublicKey = ZcRwKf2dHV0qEusPXwcP5mrMiwydUf99qXIYO4OCbCM=
