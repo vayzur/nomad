@@ -1,5 +1,5 @@
 ---
-enable_wg: true
+enable_wg: false
 
 wg_module: false
 
