@@ -5,10 +5,14 @@ easytier_version: v2.3.0
 
 easytier_dir: "/opt/nomad/easytier"
 
+easytier_reverse: true
+
 easytier_port: 4097
 
 ## udp, tcp, ws, wss
-easytier_protocol: udp
+easytier_protocol: tcp
+
+easytier_mtu: 1280
 
 easytier_client_ipv4: 10.44.44.1
 easytier_server_ipv4: 10.44.44.2
@@ -23,7 +27,5 @@ easytier_multithread: true
 easytier_ipv6: false
 
 easytier_tun: true
-
-easytier_reverse: true
 
 easytier_txqlen: 256
