@@ -1,6 +1,6 @@
 ---
-enable_xray: true
+enable_xray: false
 
-xray_version: v25.5.16
+xray_version: v25.6.8
 
 xray_dir: "/opt/nomad/xray"
