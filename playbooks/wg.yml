@@ -1,7 +1,7 @@
 ---
 - name: Configure WireGuard
-  hosts: all
+  hosts: stargate
   strategy: free
   become: true
   roles:
-    - { role: wg, tags: wg, when: enable_wg }
+    - { role: wg, tags: wg }

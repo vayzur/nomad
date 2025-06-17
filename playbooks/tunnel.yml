@@ -2,9 +2,16 @@
 - import_playbook: common.yml
 
 - import_playbook: wg.yml
+  when: enable_wg
+
+- import_playbook: forwarder.yml
+  when: enable_forwarder
 
 - import_playbook: sit.yml
+  when: enable_sit
 
 - import_playbook: easytier.yml
+  when: enable_easytier
 
 - import_playbook: xray.yml
+  when: enable_xray

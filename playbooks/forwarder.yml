@@ -1,7 +1,7 @@
 ---
 - name: Configure Forwarder
-  hosts: all
+  hosts: wormhole
   strategy: free
   become: true
   roles:
-    - { role: forwarder, tags: forwarder, when: enable_forwarder }
+    - { role: forwarder, tags: forwarder }
