@@ -16,6 +16,12 @@ Nomad is a lightweight automation tool focused solely on **P2P Tunnel Setup**. I
 
 ---
 
+### Supported Distros:
+- **Debian 12**
+- **Ubuntu 22/24**
+
+---
+
 ## Tunneling
 
 ### EasyTier
