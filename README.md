@@ -8,7 +8,11 @@ Nomad is a lightweight automation tool focused solely on **P2P Tunnel Setup**. I
 - **Tunneling between 2 servers:**
   - EasyTier
   - SIT (6to4)
+  - Port Forwarding (NAT)
 - **Xray Core**
+- **WireGuard-linux**
+- **WireGuard-btun (Cloudflare BoringTun)**
+- **WireGuard-go**
 
 ---
 
