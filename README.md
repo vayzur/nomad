@@ -44,7 +44,7 @@ all:
 Edit the following files to match your requirements:
 
 ```bash
-<your-favorite-editor> inventory/group_vars/all/*.yml
+<your-favorite-editor> inventory/group_vars/all/all.yml
 ```
 
 #### Step 4: Enable EasyTier
@@ -132,7 +132,7 @@ cp /path/external.json roles/xray/files/stargate.json
 Run the playbook:
 
 ```bash
-ansible-playbook -i inventory/hosts.yml xray.yml
+ansible-playbook -i inventory/hosts.yml playbooks/xray.yml
 ```
 
 Verify:
